@@ -7,9 +7,15 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -38,6 +44,7 @@ public class ActivityMain extends AppCompatActivity {
 
     };
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +52,24 @@ public class ActivityMain extends AppCompatActivity {
 
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        menu_left = (ImageView) findViewById(R.id.toolbar_menu_start);
+
+        menu_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(ActivityMain.this, v);
+                popup.getMenuInflater().inflate(R.menu.menu_right, popup.getMenu());
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        return true;
+                    }
+                });
+
+                popup.show(); //showing popup menu
+            }
+        });
+
 
         drawerLayout = (DrawerLayout) findViewById(R.id.draw_nav);
         fragNavEnd = (FragNavEnd) getSupportFragmentManager().findFragmentById(R.id.frag_nav_end);
@@ -58,8 +83,6 @@ public class ActivityMain extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
         setupIconTabView();
-
-
 
 
     }
@@ -121,6 +144,41 @@ public class ActivityMain extends AppCompatActivity {
         viewPager.setAdapter(adapterViewPager);
         adapterViewPager.notifyDataSetChanged();
 
+    }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_right, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+
+        switch (item.getItemId()) {
+            case R.id.setting:
+
+                Toast.makeText(ActivityMain.this, "setting", Toast.LENGTH_SHORT).show();
+
+
+                break;
+            case R.id.aboutMe:
+
+                Toast.makeText(ActivityMain.this, "aboutMe", Toast.LENGTH_SHORT).show();
+
+                break;
+            case R.id.another_app:
+
+                Toast.makeText(ActivityMain.this, "another_app", Toast.LENGTH_SHORT).show();
+
+                break;
+        }
+
+        return true;
     }
 }

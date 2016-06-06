@@ -14,7 +14,7 @@ public class G extends Application {
     public static LayoutInflater inflater;
     public static final Handler HANDLER = new Handler();
 
-    public static final String URL_IRANI = "http://192.168.1.35/musicbazan/irani.php";
+    public static final String URL_IRANI = "http://192.168.1.38/musicbazan/irani.php";
 
     @Override
     public void onCreate() {

@@ -17,4 +17,10 @@
     <string name="nSinger">خاننده:</string>
     <string name="nAlbum">آلبوم:</string>
 
+    <!--menu-->
+
+    <string name="menu_setting">تنظیمات</string>
+    <string name="menu_About_me">در باره ما</string>
+    <string name="menu_another_app">سایر برنامه ها</string>
+
 </resources>
