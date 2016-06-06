@@ -1,0 +1,21 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="book.course.molareza.ir.mp3player.FragTab1">
+
+   <android.support.v7.widget.RecyclerView
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:id="@+id/rcvContentFrag1"
+       android:background="@color/main_rcv_background"/>
+
+   <ProgressBar
+       style="?android:attr/progressBarStyleHorizontal"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:id="@+id/prgFrag1"
+       android:layout_centerVertical="true"
+       android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

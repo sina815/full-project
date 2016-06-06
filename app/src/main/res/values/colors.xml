@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#22252b</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!--Toolbar-->
+    <color name="toolbar_background">#22252b</color>
+    <color name="toolbar_text_title">#69ff5e</color>
+    <color name="toolbar_border_bottom">#2a2f36</color>
+
+    <!--TabLayout-->
+    <color name="tab_background">#22252b</color>
+    <color name="tab_text_title">#69ff5e</color>
+    <color name="tab_text_select">#ffffff</color>
+
+    <!--NAVIGATION-->
+    <color name="nav_background">#22252b</color>
+    <color name="nav_transparent">#00000000</color>
+
+    <!--Main-->
+    <color name="main_rcv_background">#363a43</color>
+
+    <!--cardView-->
+    <color name="cardView_background">#15171b</color>
+    <color name="cardView_text_color_nSinger">#33ffc2</color>
+    <color name="cardView_text_color_nAlbum">#fff15a</color>
+    <color name="cardView_border">#ff502d</color>
+    <color name="cardView_like">#00ff95</color>
+    <color name="cardView_visit">#ffed24</color>
+    <color name="cardView_share">#ff551d</color>
+
+
+</resources>
