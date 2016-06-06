@@ -1,6 +1,7 @@
-package book.course.molareza.ir.mp3player;
+package book.course.molareza.ir.mp3player.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -17,6 +18,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import book.course.molareza.ir.mp3player.R;
+import book.course.molareza.ir.mp3player.adapter.AdapterViewPager;
+import book.course.molareza.ir.mp3player.fragment.FragNavEnd;
+import book.course.molareza.ir.mp3player.fragment.FragTab1;
+import book.course.molareza.ir.mp3player.fragment.FragTab2;
+import book.course.molareza.ir.mp3player.fragment.FragTab3;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ActivityMain extends AppCompatActivity {
@@ -26,7 +33,7 @@ public class ActivityMain extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private FragNavEnd fragNavEnd;
 
-    private ImageView menu_right, menu_left;
+    private ImageView menu_right, menu_left, imgSearch;
 
     private LinearLayout layoutRoot;
 
@@ -54,7 +61,6 @@ public class ActivityMain extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         menu_left = (ImageView) findViewById(R.id.toolbar_menu_start);
-
         menu_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,6 +73,16 @@ public class ActivityMain extends AppCompatActivity {
                 });
 
                 popup.show(); //showing popup menu
+            }
+        });
+
+
+        imgSearch = (ImageView) findViewById(R.id.imgSearch);
+        imgSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ActivityMain.this, ActivitySearch.class);
+                startActivity(intent);
             }
         });
 

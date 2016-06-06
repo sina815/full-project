@@ -71,7 +71,7 @@
 
     <fragment
         android:id="@+id/frag_nav_end"
-        android:name="book.course.molareza.ir.mp3player.FragNavEnd"
+        android:name="book.course.molareza.ir.mp3player.fragment.FragNavEnd"
         android:layout_width="200dp"
         android:layout_height="match_parent"
         android:layout_gravity="end"

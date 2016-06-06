@@ -1,4 +1,4 @@
-package book.course.molareza.ir.mp3player;
+package book.course.molareza.ir.mp3player.fragment;
 
 
 import android.os.Bundle;
@@ -13,31 +13,32 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import book.course.molareza.ir.mp3player.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragNavStart extends Fragment {
+public class FragNavEnd extends Fragment {
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
 
-    public FragNavStart() {
+    public FragNavEnd() {
         // Required empty public constructor
     }
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.frag_nav_start, container, false);
+        View view = inflater.inflate(R.layout.frag_nav_end, container, false);
 
         return view;
     }
 
-    public void setup(DrawerLayout draw, Toolbar toolbar, final ImageView menu_left, final LinearLayout layoutRoot) {
+    public void setup(DrawerLayout draw, Toolbar toolbar, ImageView menu_right, final LinearLayout layoutRoot) {
 
         drawerLayout = draw;
 
@@ -46,42 +47,38 @@ public class FragNavStart extends Fragment {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
+
             }
 
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
+
             }
 
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
                 super.onDrawerSlide(drawerView, slideOffset);
 
-                int withDrawer = drawerView.getWidth();
-                float pad = slideOffset * withDrawer;
-                layoutRoot.setPadding((int) pad, 0, 0, 0);
 
             }
-
         };
+
 
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
 
-        menu_left.setOnClickListener(new View.OnClickListener() {
+        menu_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 drawerLayout.post(new Runnable() {
                     @Override
                     public void run() {
 
-                        drawerLayout.openDrawer(GravityCompat.START);
+                        drawerLayout.openDrawer(GravityCompat.END);
                     }
                 });
             }
         });
-
-        drawerLayout.setScrimColor(getResources().getColor(R.color.nav_transparent));
-
 
     }
 }

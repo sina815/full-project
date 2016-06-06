@@ -1,4 +1,4 @@
-package book.course.molareza.ir.mp3player;
+package book.course.molareza.ir.mp3player.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

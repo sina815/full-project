@@ -1,4 +1,4 @@
-package book.course.molareza.ir.mp3player;
+package book.course.molareza.ir.mp3player.adapter;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
+
+import book.course.molareza.ir.mp3player.R;
+import book.course.molareza.ir.mp3player.struct.StructMusic;
 
 
 public class AdapterMusic extends RecyclerView.Adapter<AdapterMusic.ViewHolder> {

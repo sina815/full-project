@@ -1,5 +1,5 @@
 
-package book.course.molareza.ir.mp3player;
+package book.course.molareza.ir.mp3player.struct;
 
 
 import android.graphics.Bitmap;

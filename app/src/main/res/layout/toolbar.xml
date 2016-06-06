@@ -30,7 +30,8 @@
             android:src="@mipmap/ic_magnify"
             android:layout_gravity="center"
             android:tint="@color/toolbar_text_title"
-            android:paddingStart="15dp"/>
+            android:paddingStart="15dp"
+            android:id="@+id/imgSearch" />
 
         <TextView
             android:layout_width="0dp"

@@ -1,4 +1,4 @@
-package book.course.molareza.ir.mp3player;
+package book.course.molareza.ir.mp3player.fragment;
 
 
 import android.graphics.Bitmap;
@@ -28,6 +28,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import book.course.molareza.ir.mp3player.G;
+import book.course.molareza.ir.mp3player.R;
+import book.course.molareza.ir.mp3player.struct.StructMusic;
+import book.course.molareza.ir.mp3player.adapter.AdapterMusic;
 
 public class FragTab1 extends Fragment {
 

@@ -1,9 +1,12 @@
-package book.course.molareza.ir.mp3player;
+package book.course.molareza.ir.mp3player.activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.WindowManager;
+
+import book.course.molareza.ir.mp3player.G;
+import book.course.molareza.ir.mp3player.R;
 
 public class Splash extends AppCompatActivity {
 

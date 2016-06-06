@@ -16,7 +16,7 @@
 
     <!--NAVIGATION-->
     <color name="nav_background">#22252b</color>
-    <color name="nav_transparent">#00000000</color>
+    <color name="nav_drawer_text">#ff551d</color>
 
     <!--Main-->
     <color name="main_rcv_background">#363a43</color>
@@ -29,6 +29,7 @@
     <color name="cardView_like">#00ff95</color>
     <color name="cardView_visit">#ffed24</color>
     <color name="cardView_share">#ff551d</color>
+
 
 
 </resources>
