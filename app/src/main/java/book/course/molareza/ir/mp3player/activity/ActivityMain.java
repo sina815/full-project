@@ -18,12 +18,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import book.course.molareza.ir.mp3player.G;
 import book.course.molareza.ir.mp3player.R;
 import book.course.molareza.ir.mp3player.adapter.AdapterViewPager;
 import book.course.molareza.ir.mp3player.fragment.FragNavEnd;
 import book.course.molareza.ir.mp3player.fragment.FragTab1;
 import book.course.molareza.ir.mp3player.fragment.FragTab2;
 import book.course.molareza.ir.mp3player.fragment.FragTab3;
+import book.course.molareza.ir.mp3player.fragment.FragTab4;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ActivityMain extends AppCompatActivity {
@@ -51,6 +53,13 @@ public class ActivityMain extends AppCompatActivity {
 
     };
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        G.currentActivity = this;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,8 +164,7 @@ public class ActivityMain extends AppCompatActivity {
         adapterViewPager.addToList(new FragTab1(), getResources().getString(R.string.iran_music));
         adapterViewPager.addToList(new FragTab2(), getResources().getString(R.string.abroad_music));
         adapterViewPager.addToList(new FragTab3(), getResources().getString(R.string.clip_music));
-        adapterViewPager.addToList(new FragTab3(), getResources().getString(R.string.news_music));
-
+        adapterViewPager.addToList(new FragTab4(), getResources().getString(R.string.news_music));
         viewPager.setAdapter(adapterViewPager);
         adapterViewPager.notifyDataSetChanged();
 

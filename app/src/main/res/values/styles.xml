@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
         <item name="android:windowAnimationStyle">@style/MyWindowAnimation</item>
     </style>
 
@@ -17,10 +18,19 @@
         <item name="android:activityCloseExitAnimation">@anim/slide_out_left</item>
     </style>
 
-    <style name="MyToolbar" parent="Theme.AppCompat">
-        <item name="android:textColorPrimary">@color/toolbar_text_title</item>
-        <item name="android:colorBackground">@color/cardView_share</item>
+    <style name="ExpandedAppBar" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textStyle">bold</item>
     </style>
+
+    <style name="CollapsedAppBar" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/cardView_share</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+
 
 
 </resources>

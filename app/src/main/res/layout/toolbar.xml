@@ -4,7 +4,6 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/toolbar_background"
-    android:theme="@style/MyToolbar"
     app:contentInsetLeft="0dp"
     app:contentInsetStart="0dp"
     android:padding="5dp">
