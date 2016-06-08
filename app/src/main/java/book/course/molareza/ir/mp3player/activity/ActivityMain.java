@@ -1,5 +1,6 @@
 package book.course.molareza.ir.mp3player.activity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
@@ -14,8 +15,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import book.course.molareza.ir.mp3player.G;
@@ -77,6 +80,24 @@ public class ActivityMain extends AppCompatActivity {
                 popup.getMenuInflater().inflate(R.menu.menu_right, popup.getMenu());
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
+
+                        switch (item.getItemId()) {
+                            case R.id.setting:
+
+                                Intent intent = new Intent(G.currentActivity, ActivitySetting.class);
+                                startActivity(intent);
+
+                                break;
+
+                            case R.id.aboutMe:
+
+                                String title = getResources().getString(R.string.app_name);
+                                String message = getResources().getString(R.string.message_dialog);
+                                dialogAboutMe(title, message);
+
+                                break;
+                        }
+
                         return true;
                     }
                 });
@@ -112,6 +133,7 @@ public class ActivityMain extends AppCompatActivity {
 
     }
 
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -129,6 +151,7 @@ public class ActivityMain extends AppCompatActivity {
         tabLayout.getTabAt(1).getIcon().setColorFilter(getResources().getColor(R.color.tab_text_title), PorterDuff.Mode.SRC_IN);
         tabLayout.getTabAt(2).getIcon().setColorFilter(getResources().getColor(R.color.tab_text_title), PorterDuff.Mode.SRC_IN);
         tabLayout.getTabAt(3).getIcon().setColorFilter(getResources().getColor(R.color.tab_text_title), PorterDuff.Mode.SRC_IN);
+
 
         int position = tabLayout.getSelectedTabPosition();
         tabLayout.getTabAt(position).getIcon().setColorFilter(getResources().getColor(R.color.tab_text_select), PorterDuff.Mode.SRC_IN);
@@ -205,4 +228,32 @@ public class ActivityMain extends AppCompatActivity {
 
         return true;
     }
+
+    private void dialogAboutMe(String title, String message) {
+
+        final Dialog dialog = new Dialog(ActivityMain.this);
+
+        dialog.setContentView(R.layout.alert_dialog);
+
+        TextView txtTitleDialog = (TextView) dialog.findViewById(R.id.txtTitleDialog);
+        txtTitleDialog.setText(title);
+
+        TextView txtMessageDialog = (TextView) dialog.findViewById(R.id.txtMessageDialog);
+        txtMessageDialog.setText(message);
+
+        Button btnCloseDialog = (Button) dialog.findViewById(R.id.btnCloseDialog);
+        btnCloseDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog.dismiss();
+            }
+        });
+
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+
+        dialog.show();
+    }
+
 }
+

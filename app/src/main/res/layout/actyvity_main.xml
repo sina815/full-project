@@ -48,7 +48,7 @@
                 android:paddingTop="5dp"
                 app:tabGravity="fill"
                 app:tabIndicatorColor="@color/tab_text_title"
-                app:tabIndicatorHeight="4dp"
+                app:tabIndicatorHeight="3dp"
                 app:tabMode="fixed"
                 app:tabSelectedTextColor="@color/tab_text_select"
                 app:tabTextColor="@color/tab_text_title" />
@@ -67,7 +67,7 @@
     <fragment
         android:id="@+id/frag_nav_end"
         android:name="book.course.molareza.ir.mp3player.fragment.FragNavEnd"
-        android:layout_width="200dp"
+        android:layout_width="280dp"
         android:layout_height="match_parent"
         android:layout_gravity="end"
         app:layout="@layout/frag_nav_end"

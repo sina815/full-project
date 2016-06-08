@@ -23,4 +23,12 @@
     <string name="menu_About_me">در باره ما</string>
     <string name="menu_another_app">سایر برنامه ها</string>
 
+    <!--SETTING-->
+
+    <string name="screen_light">تنظیم روشنایی صفحه</string>
+    <string name="screen_light_on">از این پس در زمان استفاده برنامه صفحه نمایش روشن باقی می ماند</string>
+    <string name="screen_light_off">برای جلوگیری از مصرف باتری روشن ماندن صفحه به صورت اتومات تنضیم می شود</string>
+
+    <string name="message_dialog">این برنامه توسط گروه برنامه نویسی کاردان اپ ساخته شده است</string>
+
 </resources>
