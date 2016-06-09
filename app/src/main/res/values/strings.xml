@@ -29,6 +29,13 @@
     <string name="screen_light_on">از این پس در زمان استفاده برنامه صفحه نمایش روشن باقی می ماند</string>
     <string name="screen_light_off">برای جلوگیری از مصرف باتری روشن ماندن صفحه به صورت اتومات تنضیم می شود</string>
 
-    <string name="message_dialog">این برنامه توسط گروه برنامه نویسی کاردان اپ ساخته شده است</string>
+    <string name="dialog_title_aboutMe">درباره ما</string>
+    <string name="dialog_message_aboutMe">این برنامه توسط گروه برنامه نویسی کاردان اپ ساخته شده است</string>
+    <string name="dialog_title_another_app">سایز برنامه های ما</string>
+    <string name="dialog_message_another_app">برای دیدن سایر برنامه های ما می توانید لز لینک زیر استفاده کنید</string>
+
+    <string name="search">جستوجو</string>
+    <string name="search_hint">نام خواننده را وارد کنید</string>
+    <string name="search_by">جستجو بر اساس</string>
 
 </resources>

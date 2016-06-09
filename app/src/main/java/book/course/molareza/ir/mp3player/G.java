@@ -16,10 +16,11 @@ public class G extends Application {
     public static final Handler HANDLER = new Handler();
     public static Activity currentActivity;
 
-    public static final String URL_IRANI = "http://192.168.1.38/musicbazan/irani.php";
-    public static final String URL_KHAREJI = "http://192.168.1.38/musicbazan/khareji.php";
-    public static final String URL_Clip = "http://192.168.1.38/musicbazan/clip.php";
-    public static final String URL_NEWS = "http://192.168.1.38/musicbazan/news.php";
+    public static final String URL_IRANI = "http://192.168.1.34/musicbazan/irani.php";
+    public static final String URL_KHAREJI = "http://192.168.1.34/musicbazan/khareji.php";
+    public static final String URL_Clip = "http://192.168.1.34/musicbazan/clip.php";
+    public static final String URL_NEWS = "http://192.168.1.34/musicbazan/news.php";
+    public static final String URL_SEARCH = "http://192.168.1.34/musicbazan/search.php";
 
     @Override
     public void onCreate() {

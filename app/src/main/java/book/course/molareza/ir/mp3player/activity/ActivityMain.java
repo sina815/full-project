@@ -89,13 +89,23 @@ public class ActivityMain extends AppCompatActivity {
 
                                 break;
 
-                            case R.id.aboutMe:
+                            case R.id.aboutMe: {
 
-                                String title = getResources().getString(R.string.app_name);
-                                String message = getResources().getString(R.string.message_dialog);
+                                String title = getResources().getString(R.string.dialog_title_aboutMe);
+                                String message = getResources().getString(R.string.dialog_message_aboutMe);
                                 dialogAboutMe(title, message);
+                            }
 
-                                break;
+                            break;
+
+                            case R.id.another_app: {
+
+                                String title = getResources().getString(R.string.dialog_title_another_app);
+                                String message = getResources().getString(R.string.dialog_message_another_app);
+                                dialogAboutMe(title, message);
+                            }
+
+                            break;
                         }
 
                         return true;
