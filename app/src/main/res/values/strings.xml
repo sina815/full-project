@@ -19,17 +19,21 @@
 
     <!--menu-->
 
-    <string name="menu_irani">موزیک ایرانی</string>
+    <string name="menu_irani">تنظیمات</string>
     <string name="menu_About_me">در باره ما</string>
     <string name="menu_another_app">سایر برنامه ها</string>
-    <string name="menu_new_irani">مرتب سازی براساس جدیدترین ها</string>
-    <string name="menu_top_like_irani">مرتب سازی براساس بالاترین امتیاز</string>
-    <string name="menu_top_visit_irani">مرتب سازی براساس بیشترین بازدید</string>
 
-    <string name="menu_khareji">موزیک خارجی</string>
-    <string name="menu_top_visit_khareji">مرتب سازی براساس بیشترین بازدید</string>
-    <string name="menu_new_khareji">مرتب سازی براساس جدیدترین ها</string>
-    <string name="menu_top_like_khareji">مرتب سازی براساس بالاترین امتیاز</string>
+    <string name="menu_new">مرتب سازی براساس جدیدترین ها</string>
+    <string name="menu_top_like">مرتب سازی براساس بالاترین امتیاز</string>
+    <string name="menu_top_visit">مرتب سازی براساس بیشترین بازدید</string>
+
+    <string name="menu_music_irani">موزیک ایرانی</string>
+    <string name="menu_music_khareji">موزیک خارجی</string>
+    <string name="menu_clip">کلیپ</string>
+    <string name="menu_news">اخبار</string>
+
+    <string name="menu_favorite">آهنگهای برگزیده</string>
+
     <!--SETTING-->
 
     <string name="screen_light">تنظیم روشنایی صفحه</string>
@@ -38,7 +42,7 @@
 
     <string name="dialog_title_aboutMe">درباره ما</string>
     <string name="dialog_message_aboutMe">این برنامه توسط گروه برنامه نویسی کاردان اپ ساخته شده است</string>
-    <string name="dialog_title_another_app">سایز برنامه های ما</string>
+    <string name="dialog_title_another_app">سایر برنامه های ما</string>
     <string name="dialog_message_another_app">برای دیدن سایر برنامه های ما می توانید لز لینک زیر استفاده کنید</string>
 
     <!--search-->

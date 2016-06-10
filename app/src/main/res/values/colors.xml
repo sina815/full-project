@@ -17,6 +17,10 @@
     <!--NAVIGATION-->
     <color name="nav_background">#22252b</color>
     <color name="nav_drawer_text">#ff551d</color>
+    <color name="nav_drawer_text1">#34ffe1</color>
+    <color name="nav_drawer_text2">#36ff39</color>
+    <color name="nav_drawer_text3">#ddff57</color>
+    <color name="nav_drawer_text4">#ff4444</color>
 
     <!--Main-->
     <color name="main_rcv_background">#363a43</color>

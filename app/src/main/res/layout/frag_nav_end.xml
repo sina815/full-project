@@ -36,8 +36,124 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:background="@color/nav_background"
+                    android:text="@string/menu_favorite"
+                    android:textColor="@color/nav_drawer_text1"
+                    android:textSize="17sp" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/ic_favorite_black_48dp"
+                    android:tint="@color/nav_drawer_text1" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:background="@color/nav_background"
+                    android:text="@string/menu_irani"
+                    android:textColor="@color/nav_drawer_text2"
+                    android:textSize="17sp" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/setting"
+                    android:tint="@color/nav_drawer_text2" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:background="@color/nav_background"
+                    android:text="@string/dialog_title_aboutMe"
+                    android:textColor="@color/nav_drawer_text3"
+                    android:textSize="17sp" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/about_me"
+                    android:tint="@color/nav_drawer_text3" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:background="@color/nav_background"
+                    android:text="@string/dialog_title_another_app"
+                    android:textColor="@color/nav_drawer_text4"
+                    android:textSize="17sp" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/another"
+                    android:tint="@color/nav_drawer_text4" />
+
+
+            </LinearLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -55,9 +171,9 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="20dp"
                     android:background="@color/nav_background"
-                    android:text="@string/menu_irani"
+                    android:text="@string/menu_music_irani"
                     android:textColor="@color/nav_drawer_text"
-                    android:textSize="20sp" />
+                    android:textSize="19sp" />
 
             </RelativeLayout>
 
@@ -73,14 +189,14 @@
                     android:layout_height="match_parent"
                     android:layout_weight=".8"
                     android:paddingEnd="10dp"
-                    android:text="@string/menu_new_irani"
-                    android:textColor="@color/nav_drawer_text" />
+                    android:text="@string/menu_new"
+                    android:textColor="@color/nav_drawer_text1" />
 
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@mipmap/ic_favorite_black_48dp"
-                    android:tint="@color/colorAccent" />
+                    android:src="@mipmap/ic_star_rate_black_18dp"
+                    android:tint="@color/nav_drawer_text1" />
 
             </LinearLayout>
 
@@ -95,15 +211,15 @@
                     android:layout_height="match_parent"
                     android:layout_weight=".8"
                     android:paddingEnd="10dp"
-                    android:text="@string/menu_top_like_irani"
-                    android:textColor="@color/nav_drawer_text"
+                    android:text="@string/menu_top_like"
+                    android:textColor="@color/nav_drawer_text2"
                     android:textSize="13sp" />
 
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@mipmap/ic_favorite_black_48dp"
-                    android:tint="@color/colorAccent" />
+                    android:src="@mipmap/like"
+                    android:tint="@color/nav_drawer_text2" />
 
             </LinearLayout>
 
@@ -118,15 +234,15 @@
                     android:layout_height="match_parent"
                     android:layout_weight=".8"
                     android:paddingEnd="10dp"
-                    android:text="@string/menu_top_visit_irani"
-                    android:textColor="@color/nav_drawer_text"
+                    android:text="@string/menu_top_visit"
+                    android:textColor="@color/nav_drawer_text3"
                     android:textSize="13sp" />
 
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@mipmap/ic_favorite_black_48dp"
-                    android:tint="@color/colorAccent" />
+                    android:src="@mipmap/eyebrow"
+                    android:tint="@color/nav_drawer_text3" />
 
             </LinearLayout>
 
@@ -146,9 +262,9 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="20dp"
                     android:background="@color/nav_background"
-                    android:text="@string/menu_khareji"
+                    android:text="@string/menu_music_khareji"
                     android:textColor="@color/nav_drawer_text"
-                    android:textSize="22sp" />
+                    android:textSize="19sp" />
 
             </RelativeLayout>
 
@@ -163,14 +279,14 @@
                     android:layout_height="match_parent"
                     android:layout_weight=".8"
                     android:paddingEnd="10dp"
-                    android:text="@string/menu_top_visit_khareji"
-                    android:textColor="@color/nav_drawer_text" />
+                    android:text="@string/menu_top_visit"
+                    android:textColor="@color/nav_drawer_text1" />
 
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@mipmap/ic_favorite_black_48dp"
-                    android:tint="@color/colorAccent" />
+                    android:src="@mipmap/ic_star_rate_black_18dp"
+                    android:tint="@color/nav_drawer_text1" />
 
             </LinearLayout>
 
@@ -185,14 +301,14 @@
                     android:layout_height="match_parent"
                     android:layout_weight=".8"
                     android:paddingEnd="10dp"
-                    android:text="@string/menu_new_khareji"
-                    android:textColor="@color/nav_drawer_text" />
+                    android:text="@string/menu_new"
+                    android:textColor="@color/nav_drawer_text2" />
 
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@mipmap/ic_favorite_black_48dp"
-                    android:tint="@color/colorAccent" />
+                    android:src="@mipmap/like"
+                    android:tint="@color/nav_drawer_text2" />
 
             </LinearLayout>
 
@@ -207,18 +323,16 @@
                     android:layout_height="match_parent"
                     android:layout_weight=".8"
                     android:paddingEnd="10dp"
-                    android:text="@string/menu_top_like_khareji"
-                    android:textColor="@color/nav_drawer_text" />
+                    android:text="@string/menu_top_like"
+                    android:textColor="@color/nav_drawer_text3" />
 
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@mipmap/ic_favorite_black_48dp"
-                    android:tint="@color/colorAccent" />
+                    android:src="@mipmap/eyebrow"
+                    android:tint="@color/nav_drawer_text3" />
 
             </LinearLayout>
-
-
 
 
             <RelativeLayout
@@ -237,9 +351,9 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="20dp"
                     android:background="@color/nav_background"
-                    android:text="@string/menu_irani"
+                    android:text="@string/menu_clip"
                     android:textColor="@color/nav_drawer_text"
-                    android:textSize="22sp" />
+                    android:textSize="19sp" />
 
             </RelativeLayout>
 
@@ -254,14 +368,14 @@
                     android:layout_height="match_parent"
                     android:layout_weight=".8"
                     android:paddingEnd="10dp"
-                    android:text="@string/nAlbum"
-                    android:textColor="@color/nav_drawer_text" />
+                    android:text="@string/menu_top_visit"
+                    android:textColor="@color/nav_drawer_text1" />
 
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@mipmap/ic_favorite_black_48dp"
-                    android:tint="@color/colorAccent" />
+                    android:src="@mipmap/ic_star_rate_black_18dp"
+                    android:tint="@color/nav_drawer_text1" />
 
             </LinearLayout>
 
@@ -276,14 +390,124 @@
                     android:layout_height="match_parent"
                     android:layout_weight=".8"
                     android:paddingEnd="10dp"
-                    android:text="@string/nAlbum"
-                    android:textColor="@color/nav_drawer_text" />
+                    android:text="@string/menu_new"
+                    android:textColor="@color/nav_drawer_text2" />
 
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@mipmap/ic_favorite_black_48dp"
-                    android:tint="@color/colorAccent" />
+                    android:src="@mipmap/like"
+                    android:tint="@color/nav_drawer_text2" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".8"
+                    android:paddingEnd="10dp"
+                    android:text="@string/menu_top_like"
+                    android:textColor="@color/nav_drawer_text3" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@mipmap/eyebrow"
+                    android:tint="@color/nav_drawer_text3" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_centerInParent="true"
+                    android:background="@color/cardView_border" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="20dp"
+                    android:background="@color/nav_background"
+                    android:text="@string/menu_news"
+                    android:textColor="@color/nav_drawer_text"
+                    android:textSize="19sp" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".8"
+                    android:paddingEnd="10dp"
+                    android:text="@string/menu_top_visit"
+                    android:textColor="@color/nav_drawer_text1" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@mipmap/ic_star_rate_black_18dp"
+                    android:tint="@color/nav_drawer_text1" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".8"
+                    android:paddingEnd="10dp"
+                    android:text="@string/menu_new"
+                    android:textColor="@color/nav_drawer_text2" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@mipmap/like"
+                    android:tint="@color/nav_drawer_text2" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".8"
+                    android:paddingEnd="10dp"
+                    android:text="@string/menu_top_like"
+                    android:textColor="@color/nav_drawer_text3" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@mipmap/eyebrow"
+                    android:tint="@color/nav_drawer_text3" />
 
             </LinearLayout>
 

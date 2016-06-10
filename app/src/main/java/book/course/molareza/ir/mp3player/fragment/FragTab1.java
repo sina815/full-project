@@ -15,7 +15,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
@@ -31,8 +30,8 @@ import java.util.List;
 
 import book.course.molareza.ir.mp3player.G;
 import book.course.molareza.ir.mp3player.R;
-import book.course.molareza.ir.mp3player.struct.StructMusic;
 import book.course.molareza.ir.mp3player.adapter.AdapterMusic;
+import book.course.molareza.ir.mp3player.struct.StructMusic;
 
 public class FragTab1 extends Fragment {
 
@@ -44,7 +43,6 @@ public class FragTab1 extends Fragment {
 
     public int up;
 
-    private RequestQueue requestQueue ;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -61,10 +59,8 @@ public class FragTab1 extends Fragment {
         rcvContent.setLayoutManager(new GridLayoutManager(G.context, 2));
         setItem();
 
-        Log.i("TAG", "test: " );
         return view;
     }
-
 
 
     private void setItem() {
