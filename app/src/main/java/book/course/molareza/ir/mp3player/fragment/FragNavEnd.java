@@ -35,6 +35,9 @@ public class FragNavEnd extends Fragment {
 
         View view = inflater.inflate(R.layout.frag_nav_end, container, false);
 
+
+
+
         return view;
     }
 

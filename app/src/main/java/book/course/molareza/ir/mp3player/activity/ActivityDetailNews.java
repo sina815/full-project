@@ -5,6 +5,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,6 +13,7 @@ import com.squareup.picasso.Picasso;
 
 import book.course.molareza.ir.mp3player.G;
 import book.course.molareza.ir.mp3player.R;
+import book.course.molareza.ir.mp3player.database.DataBase;
 
 public class ActivityDetailNews extends AppCompatActivity {
 
@@ -28,6 +30,13 @@ public class ActivityDetailNews extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_news);
+
+        DataBase dataBase = new DataBase();
+        int screen = dataBase.readScreenSetting();
+        if (screen == 1) {
+
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
 
         Bundle bundle = getIntent().getExtras();
 
@@ -51,13 +60,16 @@ public class ActivityDetailNews extends AppCompatActivity {
         collapse.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
 
 
-
         imgDetail = (ImageView) findViewById(R.id.imgDetail);
 
         Picasso.with(G.context).load(txtUrlImage).into(imgDetail);
 
         txtTextDetail = (TextView) findViewById(R.id.txtTextDetail);
         txtTextDetail.setText(Html.fromHtml(txtText));
+
+
+        int size = dataBase.fetchDatabase();
+        txtTextDetail.setTextSize(size);
 
 
     }

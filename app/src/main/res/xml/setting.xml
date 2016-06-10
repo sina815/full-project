@@ -9,7 +9,7 @@
         android:summaryOn="@string/screen_light_on"
         android:summaryOff="@string/screen_light_off"
         android:layoutDirection="rtl"
-        android:layout="@layout/setting"
+        android:layout="@layout/activity_seting"
         />
 
 </PreferenceScreen>

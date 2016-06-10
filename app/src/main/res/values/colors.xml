@@ -31,5 +31,11 @@
     <color name="cardView_share">#ff551d</color>
 
 
+    <color name="setting_background">#363a43</color>
+    <color name="setting_text_color">#ff551d</color>
+    <color name="setting_text_color2">#ffed24</color>
+
+
+
 
 </resources>

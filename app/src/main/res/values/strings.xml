@@ -19,10 +19,17 @@
 
     <!--menu-->
 
-    <string name="menu_setting">تنظیمات</string>
+    <string name="menu_irani">موزیک ایرانی</string>
     <string name="menu_About_me">در باره ما</string>
     <string name="menu_another_app">سایر برنامه ها</string>
+    <string name="menu_new_irani">مرتب سازی براساس جدیدترین ها</string>
+    <string name="menu_top_like_irani">مرتب سازی براساس بالاترین امتیاز</string>
+    <string name="menu_top_visit_irani">مرتب سازی براساس بیشترین بازدید</string>
 
+    <string name="menu_khareji">موزیک خارجی</string>
+    <string name="menu_top_visit_khareji">مرتب سازی براساس بیشترین بازدید</string>
+    <string name="menu_new_khareji">مرتب سازی براساس جدیدترین ها</string>
+    <string name="menu_top_like_khareji">مرتب سازی براساس بالاترین امتیاز</string>
     <!--SETTING-->
 
     <string name="screen_light">تنظیم روشنایی صفحه</string>
@@ -34,8 +41,17 @@
     <string name="dialog_title_another_app">سایز برنامه های ما</string>
     <string name="dialog_message_another_app">برای دیدن سایر برنامه های ما می توانید لز لینک زیر استفاده کنید</string>
 
+    <!--search-->
     <string name="search">جستوجو</string>
     <string name="search_hint">نام خواننده را وارد کنید</string>
     <string name="search_by">جستجو بر اساس</string>
+
+
+    <!--setting-->
+    <string name="setting_screen_light">تنظیمات روشنایی صفحه نمایش</string>
+    <string name="setting_text_light">روشن ماندن صفحه نمایش</string>
+    <string name="setting_text_font_light">تنظیمات فونت</string>
+    <string name="setting_sample_font">متن نمونه</string>
+
 
 </resources>

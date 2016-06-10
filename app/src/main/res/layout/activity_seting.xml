@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/setting_background"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_margin="15dp"
+            android:text="@string/setting_screen_light"
+            android:textColor="@color/setting_text_color"
+            android:textSize="20sp" />
+
+        <CheckBox
+            android:id="@+id/chkScreen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/setting_text_color2"
+            android:gravity="right"
+            android:paddingRight="25dp"
+            android:text="@string/setting_text_light"
+            android:textColor="@color/setting_text_color2"
+            android:textIsSelectable="true"
+            android:textSize="18sp"
+            android:checked="true" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_margin="15dp"
+            android:text="@string/setting_text_font_light"
+            android:textColor="@color/setting_text_color"
+            android:textSize="18sp" />
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:indeterminate="false"
+           />
+
+        <TextView
+            android:id="@+id/txtSample"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/setting_sample_font"
+            android:textColor="@color/setting_text_color2"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imgSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/setting_buttom"
+        android:padding="20dp"
+        android:src="@mipmap/save_all"
+        android:tint="@color/setting_text_color" />
+
+
+</LinearLayout>

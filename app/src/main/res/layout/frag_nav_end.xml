@@ -55,9 +55,9 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="20dp"
                     android:background="@color/nav_background"
-                    android:text="@string/menu_setting"
+                    android:text="@string/menu_irani"
                     android:textColor="@color/nav_drawer_text"
-                    android:textSize="22sp" />
+                    android:textSize="20sp" />
 
             </RelativeLayout>
 
@@ -65,14 +65,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="10dp">
+                android:padding="10dp"
+                android:textSize="13sp">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight=".8"
                     android:paddingEnd="10dp"
-                    android:text="@string/nAlbum"
+                    android:text="@string/menu_new_irani"
                     android:textColor="@color/nav_drawer_text" />
 
                 <ImageView
@@ -94,8 +95,9 @@
                     android:layout_height="match_parent"
                     android:layout_weight=".8"
                     android:paddingEnd="10dp"
-                    android:text="@string/nAlbum"
-                    android:textColor="@color/nav_drawer_text" />
+                    android:text="@string/menu_top_like_irani"
+                    android:textColor="@color/nav_drawer_text"
+                    android:textSize="13sp" />
 
                 <ImageView
                     android:layout_width="20dp"
@@ -116,30 +118,9 @@
                     android:layout_height="match_parent"
                     android:layout_weight=".8"
                     android:paddingEnd="10dp"
-                    android:text="@string/nAlbum"
-                    android:textColor="@color/nav_drawer_text" />
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@mipmap/ic_favorite_black_48dp"
-                    android:tint="@color/colorAccent" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight=".8"
-                    android:paddingEnd="10dp"
-                    android:text="@string/nAlbum"
-                    android:textColor="@color/nav_drawer_text" />
+                    android:text="@string/menu_top_visit_irani"
+                    android:textColor="@color/nav_drawer_text"
+                    android:textSize="13sp" />
 
                 <ImageView
                     android:layout_width="20dp"
@@ -165,7 +146,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="20dp"
                     android:background="@color/nav_background"
-                    android:text="@string/menu_setting"
+                    android:text="@string/menu_khareji"
                     android:textColor="@color/nav_drawer_text"
                     android:textSize="22sp" />
 
@@ -182,7 +163,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight=".8"
                     android:paddingEnd="10dp"
-                    android:text="@string/nAlbum"
+                    android:text="@string/menu_top_visit_khareji"
                     android:textColor="@color/nav_drawer_text" />
 
                 <ImageView
@@ -204,7 +185,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight=".8"
                     android:paddingEnd="10dp"
-                    android:text="@string/nAlbum"
+                    android:text="@string/menu_new_khareji"
                     android:textColor="@color/nav_drawer_text" />
 
                 <ImageView
@@ -226,7 +207,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight=".8"
                     android:paddingEnd="10dp"
-                    android:text="@string/nAlbum"
+                    android:text="@string/menu_top_like_khareji"
                     android:textColor="@color/nav_drawer_text" />
 
                 <ImageView
@@ -237,27 +218,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight=".8"
-                    android:paddingEnd="10dp"
-                    android:text="@string/nAlbum"
-                    android:textColor="@color/nav_drawer_text" />
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@mipmap/ic_favorite_black_48dp"
-                    android:tint="@color/colorAccent" />
-
-            </LinearLayout>
 
 
             <RelativeLayout
@@ -276,7 +237,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="20dp"
                     android:background="@color/nav_background"
-                    android:text="@string/menu_setting"
+                    android:text="@string/menu_irani"
                     android:textColor="@color/nav_drawer_text"
                     android:textSize="22sp" />
 

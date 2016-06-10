@@ -24,6 +24,7 @@ import android.widget.Toast;
 import book.course.molareza.ir.mp3player.G;
 import book.course.molareza.ir.mp3player.R;
 import book.course.molareza.ir.mp3player.adapter.AdapterViewPager;
+import book.course.molareza.ir.mp3player.database.DataBase;
 import book.course.molareza.ir.mp3player.fragment.FragNavEnd;
 import book.course.molareza.ir.mp3player.fragment.FragTab1;
 import book.course.molareza.ir.mp3player.fragment.FragTab2;
@@ -140,6 +141,7 @@ public class ActivityMain extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
         setupIconTabView();
 
+        DataBase dataBase = new DataBase();
 
     }
 
