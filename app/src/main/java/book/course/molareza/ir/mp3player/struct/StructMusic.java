@@ -17,6 +17,33 @@ public class StructMusic {
     public String mp3128;
     public String cat;
     public String idcat;
+    public int like;
+    public int visit;
+    public int share;
+
+    public int getLike() {
+        return like;
+    }
+
+    public void setLike(int like) {
+        this.like = like;
+    }
+
+    public int getVisit() {
+        return visit;
+    }
+
+    public void setVisit(int visit) {
+        this.visit = visit;
+    }
+
+    public int getShare() {
+        return share;
+    }
+
+    public void setShare(int share) {
+        this.share = share;
+    }
 
     public String getId() {
         return id;

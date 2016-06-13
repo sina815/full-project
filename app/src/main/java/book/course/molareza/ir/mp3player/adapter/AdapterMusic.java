@@ -36,6 +36,10 @@ public class AdapterMusic extends RecyclerView.Adapter<AdapterMusic.ViewHolder> 
 
         holder.txtSinger.setText(item.getName());
         holder.txtAlbum.setText(item.getAlbum());
+        holder.txtLike.setText("" + item.getLike());
+        holder.txtVisit.setText("" + item.getVisit());
+        holder.txtShare.setText("" + item.getShare());
+
 
         if (item.thBitmap != null) {
 
@@ -54,9 +58,9 @@ public class AdapterMusic extends RecyclerView.Adapter<AdapterMusic.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView imgSinger, imgLike, imgShare, imgVisit;
+        private ImageView imgSinger;
 
-        private TextView txtSinger, txtAlbum;
+        private TextView txtSinger, txtAlbum, txtLike, txtVisit, txtShare;
 
         private CardView cardView;
 
@@ -64,9 +68,9 @@ public class AdapterMusic extends RecyclerView.Adapter<AdapterMusic.ViewHolder> 
             super(itemView);
 
             imgSinger = (ImageView) itemView.findViewById(R.id.imgSinger);
-            imgLike = (ImageView) itemView.findViewById(R.id.imgLike);
-            imgShare = (ImageView) itemView.findViewById(R.id.imgShare);
-            imgVisit = (ImageView) itemView.findViewById(R.id.imgVisit);
+            txtLike = (TextView) itemView.findViewById(R.id.txtLike);
+            txtVisit = (TextView) itemView.findViewById(R.id.txtVisit);
+            txtShare = (TextView) itemView.findViewById(R.id.txtShare);
             txtSinger = (TextView) itemView.findViewById(R.id.txtSinger);
             txtAlbum = (TextView) itemView.findViewById(R.id.txtAlbum);
             cardView = (CardView) itemView.findViewById(R.id.cardView);

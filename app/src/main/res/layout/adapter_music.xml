@@ -11,15 +11,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/cardView_background">
+        android:background="@color/cardView_background"
+        android:orientation="vertical">
 
         <ImageView
+            android:id="@+id/imgSinger"
             android:layout_width="match_parent"
             android:layout_height="180dp"
             android:scaleType="fitXY"
-            android:src="@mipmap/ninja"
-            android:id="@+id/imgSinger" />
+            android:src="@mipmap/ninja" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -33,8 +33,8 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="10dp"
                 android:text="@string/nSinger"
-                android:textSize="13sp"
-                android:textColor="@color/cardView_text_color_nSinger" />
+                android:textColor="@color/cardView_text_color_nSinger"
+                android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/textView"
@@ -46,8 +46,8 @@
                 android:paddingStart="5dp"
                 android:paddingTop="10dp"
                 android:text="@string/nSinger"
-                android:textSize="13sp"
-                android:textColor="@color/cardView_text_color_nSinger" />
+                android:textColor="@color/cardView_text_color_nSinger"
+                android:textSize="13sp" />
 
         </RelativeLayout>
 
@@ -63,9 +63,9 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:text="@string/nSinger"
-                android:textSize="13sp"
+                android:textColor="@color/cardView_text_color_nAlbum"
 
-                android:textColor="@color/cardView_text_color_nAlbum" />
+                android:textSize="13sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -75,9 +75,9 @@
                 android:paddingEnd="10dp"
                 android:paddingStart="5dp"
                 android:paddingTop="5dp"
-                android:textSize="13sp"
                 android:text="@string/nAlbum"
-                android:textColor="@color/cardView_text_color_nAlbum" />
+                android:textColor="@color/cardView_text_color_nAlbum"
+                android:textSize="13sp" />
 
         </RelativeLayout>
 
@@ -96,21 +96,22 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight=".33"
-                android:paddingStart="5dp"
-                android:paddingEnd="5dp">
+                android:paddingEnd="5dp"
+                android:paddingStart="5dp">
 
 
                 <ImageView
+
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:src="@mipmap/ic_favorite_black_48dp"
-                    android:layout_marginEnd="5dp"
                     android:layout_gravity="center"
-                    android:tint="@color/cardView_like"
+                    android:layout_marginEnd="5dp"
                     android:layout_marginStart="5dp"
-                    android:id="@+id/imgLike" />
+                    android:src="@mipmap/ic_favorite_black_48dp"
+                    android:tint="@color/cardView_like" />
 
                 <TextView
+                    android:id="@+id/txtLike"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
@@ -123,21 +124,22 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight=".33"
-                android:paddingStart="5dp"
-                android:paddingEnd="5dp">
+                android:paddingEnd="5dp"
+                android:paddingStart="5dp">
 
 
                 <ImageView
+
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    android:src="@mipmap/eyebrow"
-                    android:layout_marginEnd="5dp"
                     android:layout_gravity="center"
-                    android:tint="@color/cardView_visit"
+                    android:layout_marginEnd="5dp"
                     android:layout_marginStart="5dp"
-                    android:id="@+id/imgVisit" />
+                    android:src="@mipmap/eyebrow"
+                    android:tint="@color/cardView_visit" />
 
                 <TextView
+                    android:id="@+id/txtVisit"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
@@ -150,27 +152,28 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight=".33"
-                android:paddingStart="5dp"
-                android:paddingEnd="5dp">
+                android:paddingEnd="5dp"
+                android:paddingStart="5dp">
 
 
                 <ImageView
+
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    android:src="@mipmap/ic_share_variant"
-                    android:layout_marginStart="5dp"
                     android:layout_gravity="center"
-                    android:tint="@color/cardView_share"
-                    android:id="@+id/imgShare" />
+                    android:layout_marginStart="5dp"
+                    android:src="@mipmap/ic_share_variant"
+                    android:tint="@color/cardView_share" />
 
                 <TextView
+                    android:id="@+id/txtShare"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
+                    android:paddingStart="5dp"
                     android:text="541+"
                     android:textColor="@color/cardView_share"
-                    android:textSize="12sp"
-                    android:paddingStart="5dp"/>
+                    android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>
 

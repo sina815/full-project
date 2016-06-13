@@ -5,7 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/nav_drawer_text3</item>
         <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
         <item name="android:windowAnimationStyle">@style/MyWindowAnimation</item>
         <item name="colorControlNormal">@color/tab_text_title</item>
@@ -39,6 +39,13 @@
     <style name="DialogAnimation">
         <item name="android:windowEnterAnimation">@anim/dialog_in</item>
         <item name="android:windowExitAnimation">@anim/dialog_out</item>
+    </style>
+
+
+    <style name="MySearchView" >
+        <item name="android:editTextColor">@color/nav_drawer_text2</item>
+        <item name="android:textColorHint">@color/search_text_color</item>
+        <item name="colorAccent">@color/nav_drawer_text2</item>
     </style>
 
 

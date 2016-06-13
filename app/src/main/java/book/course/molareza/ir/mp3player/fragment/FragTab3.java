@@ -40,6 +40,8 @@ import book.course.molareza.ir.mp3player.struct.StructClip;
  */
 public class FragTab3 extends Fragment {
 
+    private boolean isPage = true;
+
     private RecyclerView rcvContent;
     private AdapterClip adapterClip;
     private List<StructClip> items = new ArrayList<>();
@@ -56,13 +58,19 @@ public class FragTab3 extends Fragment {
         View view = inflater.inflate(R.layout.frag_tab3, container, false);
 
         prgFrag3 = (ProgressBar) view.findViewById(R.id.prgFrag3);
-        prgFrag3.setVisibility(View.VISIBLE);
 
         rcvContent = (RecyclerView) view.findViewById(R.id.rcvContentFrag3);
         adapterClip = new AdapterClip(items);
         rcvContent.setAdapter(adapterClip);
         rcvContent.setLayoutManager(new LinearLayoutManager(G.context));
-        setItem();
+
+        if (isPage){
+
+            prgFrag3.setVisibility(View.VISIBLE);
+            setItem();
+        }else {
+            prgFrag3.setVisibility(View.INVISIBLE);
+        }
 
 
         return view;
@@ -94,6 +102,12 @@ public class FragTab3 extends Fragment {
                             item.setLike(object.getString("like"));
                             item.setVisit(object.getString("visit"));
 
+
+                            int id = Integer.parseInt(object.getString("id"));
+                            Log.i("TAGID", "id: " + id);
+                            if (id <=1){
+                                isPage = false;
+                            }
 //                            Log.i("TAGQWE", "onResponse: " + item.getAlbum());
 
                             String image = object.getString("thumbnile");

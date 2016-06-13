@@ -11,15 +11,27 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuInflater;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import book.course.molareza.ir.mp3player.G;
 import book.course.molareza.ir.mp3player.R;
@@ -30,6 +42,7 @@ import book.course.molareza.ir.mp3player.fragment.FragTab1;
 import book.course.molareza.ir.mp3player.fragment.FragTab2;
 import book.course.molareza.ir.mp3player.fragment.FragTab3;
 import book.course.molareza.ir.mp3player.fragment.FragTab4;
+import book.course.molareza.ir.mp3player.search.ActivitySearch;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ActivityMain extends AppCompatActivity {
@@ -57,6 +70,9 @@ public class ActivityMain extends AppCompatActivity {
 
     };
 
+    private String dialogId;
+    private String titleDialog;
+    private String messageDialog;
 
     @Override
     protected void onResume() {
@@ -69,7 +85,6 @@ public class ActivityMain extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.actyvity_main);
-
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -92,18 +107,21 @@ public class ActivityMain extends AppCompatActivity {
 
                             case R.id.aboutMe: {
 
-                                String title = getResources().getString(R.string.dialog_title_aboutMe);
-                                String message = getResources().getString(R.string.dialog_message_aboutMe);
-                                dialogAboutMe(title, message);
+//                                String title = getResources().getString(R.string.dialog_title_aboutMe);
+//                                String message = getResources().getString(R.string.dialog_message_aboutMe);
+
+                                dialogId = "1";
+                                getDataDialog();
                             }
 
                             break;
 
                             case R.id.another_app: {
 
-                                String title = getResources().getString(R.string.dialog_title_another_app);
-                                String message = getResources().getString(R.string.dialog_message_another_app);
-                                dialogAboutMe(title, message);
+//                                String title = getResources().getString(R.string.dialog_title_another_app);
+//                                String message = getResources().getString(R.string.dialog_message_another_app);
+                                dialogId = "2";
+                                getDataDialog();
                             }
 
                             break;
@@ -206,65 +224,80 @@ public class ActivityMain extends AppCompatActivity {
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    private void showDialog() {
 
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_right, menu);
+            final Dialog dialog = new Dialog(ActivityMain.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        return super.onCreateOptionsMenu(menu);
+            dialog.setContentView(R.layout.alert_dialog);
+
+            ImageView imgCloseDialog = (ImageView) dialog.findViewById(R.id.imgCloseDialog);
+            imgCloseDialog.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    dialog.dismiss();
+                }
+            });
+
+            TextView txtTitleDialog = (TextView) dialog.findViewById(R.id.txtTitleDialog);
+            txtTitleDialog.setText(titleDialog);
+
+            TextView txtMessageDialog = (TextView) dialog.findViewById(R.id.txtMessageDialog);
+            txtMessageDialog.setText(messageDialog);
+
+
+            dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation; //animation for dialog
+
+            dialog.show();
+
+
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        super.onOptionsItemSelected(item);
+    private void getDataDialog() {
 
-        switch (item.getItemId()) {
-            case R.id.setting:
-
-                Toast.makeText(ActivityMain.this, "setting", Toast.LENGTH_SHORT).show();
-
-
-                break;
-            case R.id.aboutMe:
-
-                Toast.makeText(ActivityMain.this, "aboutMe", Toast.LENGTH_SHORT).show();
-
-                break;
-            case R.id.another_app:
-
-                Toast.makeText(ActivityMain.this, "another_app", Toast.LENGTH_SHORT).show();
-
-                break;
-        }
-
-        return true;
-    }
-
-    private void dialogAboutMe(String title, String message) {
-
-        final Dialog dialog = new Dialog(ActivityMain.this);
-
-        dialog.setContentView(R.layout.alert_dialog);
-
-        TextView txtTitleDialog = (TextView) dialog.findViewById(R.id.txtTitleDialog);
-        txtTitleDialog.setText(title);
-
-        TextView txtMessageDialog = (TextView) dialog.findViewById(R.id.txtMessageDialog);
-        txtMessageDialog.setText(message);
-
-        Button btnCloseDialog = (Button) dialog.findViewById(R.id.btnCloseDialog);
-        btnCloseDialog.setOnClickListener(new View.OnClickListener() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, G.URL_DIALOG, new Response.Listener<String>() {
             @Override
-            public void onClick(View v) {
+            public void onResponse(String response) {
 
-                dialog.dismiss();
+                try {
+                    JSONObject JObject = new JSONObject(response);
+                    JSONArray array = JObject.getJSONArray("dialog");
+
+                   if (array !=null){
+                       for (int i = 0; i < array.length(); i++) {
+
+                           JSONObject object = array.getJSONObject(i);
+                           titleDialog = object.getString("title");
+                           messageDialog = object.getString("message");
+                           Log.i("TAGDIALOG", "getParams: " + messageDialog);
+                       }
+
+                   }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                showDialog();
             }
-        });
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
 
-        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
 
-        dialog.show();
+                Map<String, String> params = new HashMap<>();
+                params.put("id", dialogId);
+
+                return params;
+            }
+        };
+        Volley.newRequestQueue(G.context).add(stringRequest);
     }
 
 }

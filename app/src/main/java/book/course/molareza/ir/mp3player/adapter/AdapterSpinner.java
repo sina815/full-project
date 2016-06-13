@@ -11,17 +11,16 @@ import book.course.molareza.ir.mp3player.G;
 import book.course.molareza.ir.mp3player.R;
 import book.course.molareza.ir.mp3player.struct.StructSpinner;
 
-
+/**
+ * Created by Home on 6/12/2016.
+ */
 public class AdapterSpinner extends BaseAdapter {
 
     private ArrayList<StructSpinner> items;
 
     public AdapterSpinner(ArrayList<StructSpinner> items) {
         this.items = items;
-
-
     }
-
 
     @Override
     public int getCount() {
@@ -39,17 +38,17 @@ public class AdapterSpinner extends BaseAdapter {
     }
 
     public class ViewHolder {
-
-        private TextView txtTitleSpinner;
+        private TextView txtTitle;
 
         public ViewHolder(View view) {
 
-            txtTitleSpinner = (TextView) view.findViewById(R.id.txtTitleSpinner);
+            txtTitle = (TextView) view.findViewById(R.id.txtTitleSpinner);
         }
 
         public void fill(BaseAdapter adapter, StructSpinner item, int position) {
 
-            txtTitleSpinner.setText(item.title);
+            txtTitle.setText(item.title);
+
         }
     }
 
@@ -58,13 +57,16 @@ public class AdapterSpinner extends BaseAdapter {
 
         ViewHolder holder;
         StructSpinner item = items.get(position);
+
         if (convertView == null) {
 
             convertView = G.inflater.inflate(R.layout.adapter_spinner, parent, false);
-            holder = new ViewHolder(convertView);
-            convertView.setTag(holder);
 
+            holder = new ViewHolder(convertView);
+
+            convertView.setTag(holder);
         } else {
+
             holder = (ViewHolder) convertView.getTag();
         }
 

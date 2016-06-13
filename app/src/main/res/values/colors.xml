@@ -39,7 +39,15 @@
     <color name="setting_text_color">#ff551d</color>
     <color name="setting_text_color2">#ffed24</color>
 
+    <!--search-->
+    <color name="search_text_color">#494e59</color>
 
+
+    <!--Dialog-->
+    <color name="dialog_main_background">#355876</color>
+    <color name="dialog_main_background2">#203648</color>
+    <color name="dialog_text_color_1_width">#dfdfdf</color>
+    <color name="dialog_text_color_2_zard">#ff545d</color>
 
 
 </resources>

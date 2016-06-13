@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,8 @@ import book.course.molareza.ir.mp3player.struct.StructNews;
  */
 public class FragTab4 extends Fragment {
 
+    private boolean isPage = true;
+
     private RecyclerView rcvContent;
     private AdapterNews adapterNews;
     private List<StructNews> items = new ArrayList<>();
@@ -53,13 +56,19 @@ public class FragTab4 extends Fragment {
         View view = inflater.inflate(R.layout.frag_tab4, container, false);
 
         prgFrag4 = (ProgressBar) view.findViewById(R.id.prgFrag4);
-        prgFrag4.setVisibility(View.VISIBLE);
 
         rcvContent = (RecyclerView) view.findViewById(R.id.rcvContentFrag4);
         adapterNews = new AdapterNews(items);
         rcvContent.setAdapter(adapterNews);
         rcvContent.setLayoutManager(new LinearLayoutManager(G.context));
-        setItems();
+
+        if (isPage){
+
+            prgFrag4.setVisibility(View.VISIBLE);
+            setItems();
+        }else {
+            prgFrag4.setVisibility(View.INVISIBLE);
+        }
 
         return view;
     }
@@ -89,6 +98,12 @@ public class FragTab4 extends Fragment {
                             item.setLike(object.getInt("like"));
                             item.setVisit(object.getInt("visit"));
                             item.setShare(object.getInt("share"));
+
+                            int id = Integer.parseInt(object.getString("id"));
+                            Log.i("TAGID", "id: " + id);
+                            if (id <=1){
+                                isPage = false;
+                            }
 
                             String urlImage = object.getString("thumbnil");
                             imageDownloader(urlImage, u);

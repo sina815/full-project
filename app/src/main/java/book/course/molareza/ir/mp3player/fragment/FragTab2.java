@@ -40,6 +40,7 @@ import book.course.molareza.ir.mp3player.struct.StructMusic;
  */
 public class FragTab2 extends Fragment {
 
+    private boolean isPage = true;
 
     private RecyclerView rcvContent;
     private AdapterMusic adapterMusic;
@@ -58,13 +59,19 @@ public class FragTab2 extends Fragment {
         View view = inflater.inflate(R.layout.frag_tab2, container, false);
 
         prgFrag2 = (ProgressBar) view.findViewById(R.id.prgFrag2);
-        prgFrag2.setVisibility(View.VISIBLE);
 
         rcvContent = (RecyclerView) view.findViewById(R.id.rcvContentFrag2);
         adapterMusic = new AdapterMusic(items);
         rcvContent.setAdapter(adapterMusic);
         rcvContent.setLayoutManager(new GridLayoutManager(G.context, 2));
-        setItem();
+
+        if (isPage){
+
+            prgFrag2.setVisibility(View.VISIBLE);
+            setItem();
+        }else {
+            prgFrag2.setVisibility(View.INVISIBLE);
+        }
 
         Log.i("TAGFRAG2", "test: ");
         return view;
@@ -96,6 +103,16 @@ public class FragTab2 extends Fragment {
                             item.setMp3128(object.getString("mp3128"));
                             item.setCat(object.getString("cat"));
                             item.setIdcat(object.getString("idcat"));
+                            item.setLike(object.getInt("like"));
+                            item.setVisit(object.getInt("visit"));
+                            item.setShare(object.getInt("share"));
+
+                            int id = Integer.parseInt(object.getString("id"));
+                            Log.i("TAGID", "id: " + id);
+                            if (id <=1){
+                                isPage = false;
+                            }
+
 
                             String th_url = object.getString("thumbnile");
                             setImage(th_url, up);

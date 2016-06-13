@@ -41,8 +41,10 @@ public class FragTab1 extends Fragment {
 
     private ProgressBar prgFrag1;
 
-    public int up;
+    private boolean isPage = true;
 
+    public int page = 0;
+    public int up;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,13 +53,19 @@ public class FragTab1 extends Fragment {
         View view = inflater.inflate(R.layout.frag_tab1, container, false);
 
         prgFrag1 = (ProgressBar) view.findViewById(R.id.prgFrag1);
-        prgFrag1.setVisibility(View.VISIBLE);
 
         rcvContent = (RecyclerView) view.findViewById(R.id.rcvContentFrag1);
         adapterMusic = new AdapterMusic(items);
         rcvContent.setAdapter(adapterMusic);
         rcvContent.setLayoutManager(new GridLayoutManager(G.context, 2));
-        setItem();
+
+        if (isPage){
+
+            prgFrag1.setVisibility(View.VISIBLE);
+            setItem();
+        }else {
+            prgFrag1.setVisibility(View.INVISIBLE);
+        }
 
         return view;
     }
@@ -86,6 +94,15 @@ public class FragTab1 extends Fragment {
                             item.setMp3128(object.getString("mp3128"));
                             item.setCat(object.getString("cat"));
                             item.setIdcat(object.getString("idcat"));
+                            item.setLike(object.getInt("like"));
+                            item.setVisit(object.getInt("visit"));
+                            item.setShare(object.getInt("share"));
+
+                            int id = Integer.parseInt(object.getString("id"));
+                            Log.i("TAGID", "id: " + id);
+                            if (id <=1){
+                                isPage = false;
+                            }
 
                             String th_url = object.getString("thumbnile");
                             setImage(th_url, up);
