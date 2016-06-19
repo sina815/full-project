@@ -50,4 +50,7 @@
     <color name="dialog_text_color_2_zard">#ff545d</color>
 
 
+    <!--other-->
+    <color name="textColor_sefid">#ffffff</color>
+
 </resources>

@@ -37,6 +37,7 @@ import book.course.molareza.ir.mp3player.G;
 import book.course.molareza.ir.mp3player.R;
 import book.course.molareza.ir.mp3player.adapter.AdapterViewPager;
 import book.course.molareza.ir.mp3player.database.DataBase;
+import book.course.molareza.ir.mp3player.favorite.ActivityFavorite;
 import book.course.molareza.ir.mp3player.fragment.FragNavEnd;
 import book.course.molareza.ir.mp3player.fragment.FragTab1;
 import book.course.molareza.ir.mp3player.fragment.FragTab2;
@@ -52,7 +53,7 @@ public class ActivityMain extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private FragNavEnd fragNavEnd;
 
-    private ImageView menu_right, menu_left, imgSearch;
+    private ImageView menu_right, menu_left, imgSearch, imgFavorite;
 
     private LinearLayout layoutRoot;
 
@@ -84,7 +85,7 @@ public class ActivityMain extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.actyvity_main);
+        setContentView(R.layout.activity_main);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -141,6 +142,15 @@ public class ActivityMain extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ActivityMain.this, ActivitySearch.class);
+                startActivity(intent);
+            }
+        });
+
+        imgFavorite = (ImageView) findViewById(R.id.imgFavorite);
+        imgFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ActivityMain.this , ActivityFavorite.class);
                 startActivity(intent);
             }
         });
@@ -226,30 +236,30 @@ public class ActivityMain extends AppCompatActivity {
 
     private void showDialog() {
 
-            final Dialog dialog = new Dialog(ActivityMain.this);
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        final Dialog dialog = new Dialog(ActivityMain.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-            dialog.setContentView(R.layout.alert_dialog);
+        dialog.setContentView(R.layout.alert_dialog);
 
-            ImageView imgCloseDialog = (ImageView) dialog.findViewById(R.id.imgCloseDialog);
-            imgCloseDialog.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        ImageView imgCloseDialog = (ImageView) dialog.findViewById(R.id.imgCloseDialog);
+        imgCloseDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-                    dialog.dismiss();
-                }
-            });
+                dialog.dismiss();
+            }
+        });
 
-            TextView txtTitleDialog = (TextView) dialog.findViewById(R.id.txtTitleDialog);
-            txtTitleDialog.setText(titleDialog);
+        TextView txtTitleDialog = (TextView) dialog.findViewById(R.id.txtTitleDialog);
+        txtTitleDialog.setText(titleDialog);
 
-            TextView txtMessageDialog = (TextView) dialog.findViewById(R.id.txtMessageDialog);
-            txtMessageDialog.setText(messageDialog);
+        TextView txtMessageDialog = (TextView) dialog.findViewById(R.id.txtMessageDialog);
+        txtMessageDialog.setText(messageDialog);
 
 
-            dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation; //animation for dialog
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation; //animation for dialog
 
-            dialog.show();
+        dialog.show();
 
 
     }
@@ -264,16 +274,16 @@ public class ActivityMain extends AppCompatActivity {
                     JSONObject JObject = new JSONObject(response);
                     JSONArray array = JObject.getJSONArray("dialog");
 
-                   if (array !=null){
-                       for (int i = 0; i < array.length(); i++) {
+                    if (array != null) {
+                        for (int i = 0; i < array.length(); i++) {
 
-                           JSONObject object = array.getJSONObject(i);
-                           titleDialog = object.getString("title");
-                           messageDialog = object.getString("message");
-                           Log.i("TAGDIALOG", "getParams: " + messageDialog);
-                       }
+                            JSONObject object = array.getJSONObject(i);
+                            titleDialog = object.getString("title");
+                            messageDialog = object.getString("message");
+                            Log.i("TAGDIALOG", "getParams: " + messageDialog);
+                        }
 
-                   }
+                    }
 
 
                 } catch (JSONException e) {
@@ -299,6 +309,10 @@ public class ActivityMain extends AppCompatActivity {
         };
         Volley.newRequestQueue(G.context).add(stringRequest);
     }
+
+
+    /////////////////////test
+
 
 }
 

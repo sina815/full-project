@@ -20,7 +20,9 @@ import book.course.molareza.ir.mp3player.struct.StructNews;
 
 public class AdapterNews extends RecyclerView.Adapter<AdapterNews.ViewHolder> {
 
-    public List<StructNews> items;
+    public static int visitPlus = 0;
+
+    public static List<StructNews> items;
 
     public AdapterNews(List<StructNews> items) {
         this.items = items;
@@ -40,7 +42,9 @@ public class AdapterNews extends RecyclerView.Adapter<AdapterNews.ViewHolder> {
 
         holder.txtDescc.setText(Html.fromHtml(item.getDesc()));
         holder.txtLikeNews.setText("" + item.getLike());
-        holder.txtVisitNews.setText("" + item.getVisit());
+
+//        int visit = item.getVisit() + item.visitPlus;
+        holder.txtVisitNews.setText("" + item.visit);
         holder.txtShareNews.setText("" + item.getShare());
 
         if (item.thBitmap != null) {
@@ -81,6 +85,8 @@ public class AdapterNews extends RecyclerView.Adapter<AdapterNews.ViewHolder> {
                     intent.putExtra("TITLE", item.getTitle());
                     intent.putExtra("TEXT", item.getText());
                     intent.putExtra("BIGIMAGE", item.bigImage);
+                    intent.putExtra("ID", item.id);
+                    intent.putExtra("PO", getPosition());
                     G.currentActivity.startActivity(intent);
                 }
             });

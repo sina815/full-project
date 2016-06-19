@@ -48,7 +48,7 @@ public class FragTabSearch2 extends Fragment {
     private boolean isActive2;
 
     private RecyclerView rcvContent;
-    private AdapterMusic adapterMusic2;
+    private AdapterMusic adapterMusic;
     private List<StructMusic> items;
 
     private ProgressBar prgFrag2;
@@ -62,84 +62,61 @@ public class FragTabSearch2 extends Fragment {
 
     private TabLayout tabLayout;
 
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//
-//    }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
 
-        if (isVisibleToUser){
-            isActive2 = true;
-        }else {
-            isActive2 = false;
+        if (isVisibleToUser) {
+
+                searchViewFrag2 = (SearchView) getActivity().findViewById(R.id.searchView);
+                searchViewFrag2.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+
+
+                        items = new ArrayList<StructMusic>();
+
+                        up = 0;
+
+                        search = query;
+
+                        prgFrag2.setVisibility(View.VISIBLE);
+                        adapterMusic = new AdapterMusic(items);
+                        rcvContent.setAdapter(adapterMusic);
+                        rcvContent.setLayoutManager(new GridLayoutManager(G.context, 2));
+                        khareji = "khareji";
+                        setItems();
+
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+
+
+                        return false;
+                    }
+                });
+
+
+                Toast.makeText(G.context, "tab2", Toast.LENGTH_SHORT).show();
+            } else {
+                isActive2 = false;
+            }
         }
 
-        Toast.makeText(G.context, "isActive2: "  + isActive2  , Toast.LENGTH_SHORT).show();
 
-    }
-
-//    @Override
-//    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-//        super.onActivityCreated(savedInstanceState);
-//        tabLayout = (TabLayout) getActivity().findViewById(R.id.tabLayoutSearch);
-//        int po = tabLayout.getSelectedTabPosition();
-//        if (po == 1){
-//            isActive = true;
-//        }else {
-//            isActive = false;
-//        }
-//        Toast.makeText(G.context, "isActive: "  + isActive + "    po    " + po, Toast.LENGTH_SHORT).show();
-//
-//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 
-        View view = inflater.inflate(R.layout.frag_tab2, container, false);
+        View view = inflater.inflate(R.layout.frag_tab1, container, false);
 
-
-        prgFrag2 = (ProgressBar) view.findViewById(R.id.prgFrag2);
+        prgFrag2 = (ProgressBar) view.findViewById(R.id.prgFrag1);
         prgFrag2.setVisibility(View.INVISIBLE);
-
-        //    Log.i("TAG4321", "params2: " + khareji);
-
-        rcvContent = (RecyclerView) view.findViewById(R.id.rcvContentFrag2);
-
-        searchViewFrag2 = (SearchView) getActivity().findViewById(R.id.searchView);
-        searchViewFrag2.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-
-                if (isActive2) {
-                    items = new ArrayList<StructMusic>();
-                    up = 0;
-                    search = query;
-
-                    prgFrag2.setVisibility(View.VISIBLE);
-                    adapterMusic2 = new AdapterMusic(items);
-                    rcvContent.setAdapter(adapterMusic2);
-                    rcvContent.setLayoutManager(new GridLayoutManager(G.context, 2));
-
-                    khareji = "khareji";
-                    setItems();
-                    Toast.makeText(G.context, "po"  + "  " + khareji, Toast.LENGTH_SHORT).show();
-                }
-
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-
-
-                return false;
-            }
-        });
+        rcvContent = (RecyclerView) view.findViewById(R.id.rcvContentFrag1);
 
         return view;
     }
@@ -185,7 +162,7 @@ public class FragTabSearch2 extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                adapterMusic2.notifyDataSetChanged();
+                adapterMusic.notifyDataSetChanged();
                 prgFrag2.setVisibility(View.INVISIBLE);
             }
         }, new Response.ErrorListener() {
@@ -220,8 +197,8 @@ public class FragTabSearch2 extends Fragment {
             @Override
             public void onResponse(Bitmap response) {
 
-                adapterMusic2.items.get(position).thBitmap = response;
-                adapterMusic2.notifyDataSetChanged();
+                adapterMusic.items.get(position).thBitmap = response;
+                adapterMusic.notifyDataSetChanged();
 
             }
         }, 0, 0, ImageView.ScaleType.FIT_XY, Bitmap.Config.ARGB_8888, new Response.ErrorListener() {

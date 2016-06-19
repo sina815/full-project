@@ -51,16 +51,31 @@ public class FragTab4 extends Fragment {
 
 
     @Override
+    public void onResume() {
+        super.onResume();
+        adapterNews.notifyDataSetChanged();
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        adapterNews.notifyDataSetChanged();
+
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.frag_tab4, container, false);
+        View view = inflater.inflate(R.layout.frag_tab1, container, false);
 
-        prgFrag4 = (ProgressBar) view.findViewById(R.id.prgFrag4);
+        prgFrag4 = (ProgressBar) view.findViewById(R.id.prgFrag1);
 
-        rcvContent = (RecyclerView) view.findViewById(R.id.rcvContentFrag4);
+        rcvContent = (RecyclerView) view.findViewById(R.id.rcvContentFrag1);
         adapterNews = new AdapterNews(items);
         rcvContent.setAdapter(adapterNews);
         rcvContent.setLayoutManager(new LinearLayoutManager(G.context));
+        adapterNews.notifyDataSetChanged();
 
         if (isPage){
 
@@ -72,6 +87,7 @@ public class FragTab4 extends Fragment {
 
         return view;
     }
+
 
     private void setItems() {
 
@@ -108,9 +124,7 @@ public class FragTab4 extends Fragment {
                             String urlImage = object.getString("thumbnil");
                             imageDownloader(urlImage, u);
                             u++;
-
                             items.add(item);
-
                         }
 
                     }

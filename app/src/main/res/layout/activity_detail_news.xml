@@ -36,10 +36,9 @@
                 android:id="@+id/toolbarNews"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-               />
+                android:paddingStart="10dp"
+                app:layout_collapseMode="pin" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
@@ -69,5 +68,7 @@
         android:tint="@color/cardView_share"
         app:backgroundTint="@color/toolbar_background"
         app:layout_anchor="@id/appbar"
-        app:layout_anchorGravity="bottom|end" />
+        app:layout_anchorGravity="bottom|end"
+        android:id="@+id/fab"/>
+
 </android.support.design.widget.CoordinatorLayout>

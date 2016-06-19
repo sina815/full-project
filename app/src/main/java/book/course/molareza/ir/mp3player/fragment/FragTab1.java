@@ -47,6 +47,12 @@ public class FragTab1 extends Fragment {
     public int up;
 
     @Override
+    public void onResume() {
+        super.onResume();
+        adapterMusic.notifyDataSetChanged();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 
@@ -58,7 +64,7 @@ public class FragTab1 extends Fragment {
         adapterMusic = new AdapterMusic(items);
         rcvContent.setAdapter(adapterMusic);
         rcvContent.setLayoutManager(new GridLayoutManager(G.context, 2));
-
+        adapterMusic.notifyDataSetChanged();
         if (isPage){
 
             prgFrag1.setVisibility(View.VISIBLE);
@@ -97,6 +103,7 @@ public class FragTab1 extends Fragment {
                             item.setLike(object.getInt("like"));
                             item.setVisit(object.getInt("visit"));
                             item.setShare(object.getInt("share"));
+                            item.setTable(object.getString("tbName"));
 
                             int id = Integer.parseInt(object.getString("id"));
                             Log.i("TAGID", "id: " + id);

@@ -17,6 +17,7 @@ public class StructNews {
     public int like;
     public int visit;
     public int share;
+    public int visitPlus ;
 
     public String getId() {
         return id;

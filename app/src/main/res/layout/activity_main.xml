@@ -70,8 +70,8 @@
         android:layout_width="280dp"
         android:layout_height="match_parent"
         android:layout_gravity="end"
-        app:layout="@layout/frag_nav_end"
-        tools:layout="@layout/frag_nav_end" />
+        app:layout="@layout/frag_nav"
+        tools:layout="@layout/frag_nav" />
 
 </android.support.v4.widget.DrawerLayout>
 

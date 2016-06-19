@@ -20,6 +20,7 @@ import android.widget.TextView;
 import book.course.molareza.ir.mp3player.G;
 import book.course.molareza.ir.mp3player.R;
 import book.course.molareza.ir.mp3player.activity.ActivityCall;
+import book.course.molareza.ir.mp3player.favorite.ActivityFavorite;
 import book.course.molareza.ir.mp3player.activity.ActivitySetting;
 
 
@@ -31,7 +32,7 @@ public class FragNavEnd extends Fragment {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
-    private ViewGroup ltCall, ltSetting, ltDialogAbout, ltDialogAnother;
+    private ViewGroup ltCall, ltSetting, ltDialogAbout, ltDialogAnother, ltFavorite;
 
     public FragNavEnd() {
         // Required empty public constructor
@@ -41,7 +42,16 @@ public class FragNavEnd extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.frag_nav_end, container, false);
+        View view = inflater.inflate(R.layout.frag_nav, container, false);
+
+        ltFavorite = (ViewGroup) view.findViewById(R.id.ltFavorite);
+        ltFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(G.currentActivity, ActivityFavorite.class);
+                startActivity(intent);
+            }
+        });
 
         ltCall = (ViewGroup) view.findViewById(R.id.ltCall);
         ltCall.setOnClickListener(new View.OnClickListener() {

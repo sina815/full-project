@@ -60,85 +60,51 @@ public class FragTabSearch4 extends Fragment {
 
     private TabLayout tabLayout;
 
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//
-//    }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
 
-        if (isVisibleToUser){
-                isActive4 = true;
-            }else {
-                isActive4 = false;
-            }
+        if (isVisibleToUser) {
+            searchViewFrag4 = (SearchView) getActivity().findViewById(R.id.searchView);
+            searchViewFrag4.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
 
-            Toast.makeText(G.context, "isActive4: "  + isActive4  , Toast.LENGTH_SHORT).show();
+                    up = 0;
+                    items = new ArrayList<StructNews>();
+                    search = query;
+                    prgFrag4.setVisibility(View.VISIBLE);
+                    adapterNews = new AdapterNews(items);
+                    rcvContent.setAdapter(adapterNews);
+                    rcvContent.setLayoutManager(new GridLayoutManager(G.context, 2));
+                    news = "news";
+                    setItems();
 
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+
+
+                    return false;
+                }
+            });
+
+            Toast.makeText(G.context, "tab4", Toast.LENGTH_SHORT).show();
+        }
     }
-//
-//    @Override
-//    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-//        super.onActivityCreated(savedInstanceState);
-////        tabLayout = (TabLayout) getActivity().findViewById(R.id.tabLayoutSearch);
-////        int po = tabLayout.getSelectedTabPosition();
-////        if (po == 3){
-////            isActive = true;
-////        }else {
-////            isActive = false;
-////        }
-//
-//    }
-//
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 
-        View view = inflater.inflate(R.layout.frag_tab4, container, false);
+        View view = inflater.inflate(R.layout.frag_tab1, container, false);
 
-        prgFrag4 = (ProgressBar) view.findViewById(R.id.prgFrag4);
+        prgFrag4 = (ProgressBar) view.findViewById(R.id.prgFrag1);
         prgFrag4.setVisibility(View.INVISIBLE);
-        rcvContent = (RecyclerView) view.findViewById(R.id.rcvContentFrag4);
-
-        searchViewFrag4 = (SearchView) getActivity().findViewById(R.id.searchView);
-        searchViewFrag4.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-
-                if (isActive4) {
-
-                    items = new ArrayList<StructNews>();
-
-                    up = 0;
-
-                    search = query;
-
-                    prgFrag4.setVisibility(View.VISIBLE);
-                    adapterNews = new AdapterNews(items);
-                    rcvContent.setAdapter(adapterNews);
-                    rcvContent.setLayoutManager(new GridLayoutManager(G.context, 2));
-
-
-                    news = "news";
-                    setItems();
-
-                    Toast.makeText(G.context, "po" + "  " + news, Toast.LENGTH_SHORT).show();
-                }
-
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-
-
-                return false;
-            }
-        });
+        rcvContent = (RecyclerView) view.findViewById(R.id.rcvContentFrag1);
 
 
         return view;
@@ -150,16 +116,15 @@ public class FragTabSearch4 extends Fragment {
             @Override
             public void onResponse(String response) {
 
-
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     JSONArray array = jsonObject.getJSONArray("search");
-                    Log.i("TAG4321", "onQueryTextSubmit2: " + array);
                     if (array != null) {
 
                         for (int i = 0; i < array.length(); i++) {
                             StructNews item = new StructNews();
                             JSONObject object = array.getJSONObject(i);
+                            Log.i("TAGGQWER", "array: " + object);
 
                             item.setId(object.getString("id"));
                             item.setTitle(object.getString("title"));
@@ -171,20 +136,22 @@ public class FragTabSearch4 extends Fragment {
                             item.setVisit(object.getInt("visit"));
                             item.setShare(object.getInt("share"));
 
+                            String urlImage = object.getString("thumbnil");
 
-                            String th_url = object.getString("thumbnile");
-                            Log.i("TAG4321", "onQueryTextSubmit2: " + th_url);
-                            setImage(th_url, up);
+                            setImage(urlImage, up);
                             up++;
-                            Log.i("TAG4321", "onQueryTextSubmit: " + th_url);
                             items.add(item);
                         }
 
+                    } else {
+                        Log.i("TAGGQWER", "error: ");
                     }
 
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Log.i("TAGGQWER", "error: " + e.getMessage());
+
                 }
                 adapterNews.notifyDataSetChanged();
                 prgFrag4.setVisibility(View.INVISIBLE);
@@ -205,7 +172,7 @@ public class FragTabSearch4 extends Fragment {
 
                 paramss.put("search", search);
                 paramss.put("table", news);
-                Log.i("TAG87654321", "params4: " + news);
+                Log.i("TAG87654321", "params4: " + news + "    search: " + search);
                 return paramss;
             }
         };

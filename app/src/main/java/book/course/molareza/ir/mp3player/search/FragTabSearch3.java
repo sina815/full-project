@@ -1,7 +1,6 @@
 package book.course.molareza.ir.mp3player.search;
 
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -49,7 +48,7 @@ public class FragTabSearch3 extends Fragment {
 
     private RecyclerView rcvContent;
     private AdapterClip adapterClip;
-    private List<StructClip> items;
+    private List<StructClip> items ;
 
     private ProgressBar prgFrag3;
 
@@ -61,85 +60,54 @@ public class FragTabSearch3 extends Fragment {
 
     private TabLayout tabLayout;
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-    }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
 
-        if (isVisibleToUser){
-            isActive3 = true;
-        }else {
-            isActive3 = false;
+        if (isVisibleToUser) {
+
+                searchViewFrag3 = (SearchView) getActivity().findViewById(R.id.searchView);
+                searchViewFrag3.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+
+                        items = new ArrayList<StructClip>();
+                        up = 0;
+                        search = query;
+                        prgFrag3.setVisibility(View.VISIBLE);
+                        adapterClip = new AdapterClip(items);
+                        rcvContent.setAdapter(adapterClip);
+                        rcvContent.setLayoutManager(new GridLayoutManager(G.context, 2));
+                        clip = "clip";
+                        setItems();
+
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+
+
+                        return false;
+                    }
+                });
+
+
+                Toast.makeText(G.context, "tab3", Toast.LENGTH_SHORT).show();
+            }
         }
 
-        Toast.makeText(G.context, "isActive3: "  + isActive3  , Toast.LENGTH_SHORT).show();
 
-    }
-
-//    @Override
-//    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-//        super.onActivityCreated(savedInstanceState);
-//        tabLayout = (TabLayout) getActivity().findViewById(R.id.tabLayoutSearch);
-//        int po = tabLayout.getSelectedTabPosition();
-//        if (po == 2){
-//            isActive = true;
-//        }else {
-//            isActive = false;
-//        }
-//        Toast.makeText(G.context, "isActive: "  + isActive + "    po    " + po, Toast.LENGTH_SHORT).show();
-//
-//    }
-
-    @Override
+        @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 
-        View view = inflater.inflate(R.layout.frag_tab3, container, false);
+        View view = inflater.inflate(R.layout.frag_tab1, container, false);
 
-        prgFrag3 = (ProgressBar) view.findViewById(R.id.prgFrag3);
+        prgFrag3 = (ProgressBar) view.findViewById(R.id.prgFrag1);
         prgFrag3.setVisibility(View.INVISIBLE);
-
-
-        rcvContent = (RecyclerView) view.findViewById(R.id.rcvContentFrag3);
-
-        searchViewFrag3 = (SearchView) getActivity().findViewById(R.id.searchView);
-        searchViewFrag3.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-
-                if (isActive3) {
-                    items = new ArrayList<StructClip>();
-
-                    up = 0;
-
-                    search = query;
-
-                    prgFrag3.setVisibility(View.VISIBLE);
-                    adapterClip = new AdapterClip(items);
-                    rcvContent.setAdapter(adapterClip);
-                    rcvContent.setLayoutManager(new GridLayoutManager(G.context, 2));
-
-
-                    clip = "clip";
-                    setItems();
-                    Toast.makeText(G.context, "po"  + "  " + clip, Toast.LENGTH_SHORT).show();
-
-                }
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-
-
-                return false;
-            }
-        });
+        rcvContent = (RecyclerView) view.findViewById(R.id.rcvContentFrag1);
 
         return view;
 

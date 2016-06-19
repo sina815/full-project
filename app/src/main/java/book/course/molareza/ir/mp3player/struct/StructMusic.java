@@ -17,9 +17,19 @@ public class StructMusic {
     public String mp3128;
     public String cat;
     public String idcat;
+    public String table;
     public int like;
     public int visit;
     public int share;
+
+
+    public String getTable() {
+        return table;
+    }
+
+    public void setTable(String table) {
+        this.table = table;
+    }
 
     public int getLike() {
         return like;

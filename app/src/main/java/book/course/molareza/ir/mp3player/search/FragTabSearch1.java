@@ -60,46 +60,55 @@ public class FragTabSearch1 extends Fragment {
 
 
     private TabLayout tabLayout;
-//
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//
-//    }
+
+
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
 
-        if (isVisibleToUser){
-            isActive1 = true;
-        }else {
-            isActive1 = false;
+        if (isVisibleToUser) {
+
+                searchView = (SearchView) getActivity().findViewById(R.id.searchView);
+                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+
+
+                        items = new ArrayList<StructMusic>();
+
+                        up = 0;
+
+                        search = query;
+
+                        prgFrag1.setVisibility(View.VISIBLE);
+                        adapterMusic = new AdapterMusic(items);
+                        rcvContent.setAdapter(adapterMusic);
+                        rcvContent.setLayoutManager(new GridLayoutManager(G.context, 2));
+                        irani = "irani";
+                        setItems();
+
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+
+                        return false;
+                    }
+                });
+
+                Toast.makeText(G.context, "tab1", Toast.LENGTH_SHORT).show();
+            } else {
+                //isActive2 = false;
+            }
         }
 
-        Toast.makeText(G.context, "isActive1: "  + isActive1  , Toast.LENGTH_SHORT).show();
 
-    }
 
-//    @Override
-//    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-//        super.onActivityCreated(savedInstanceState);
-//        tabLayout = (TabLayout) getActivity().findViewById(R.id.tabLayoutSearch);
-//        int po = tabLayout.getSelectedTabPosition();
-//        if (po == 0){
-//            isActive = true;
-//        }else {
-//            isActive = false;
-//        }
-//        Toast.makeText(G.context, "isActive: "  + isActive + "    po    " + po, Toast.LENGTH_SHORT).show();
-//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-//        Todo:problem => just one fragment active i cant find solve
-
-
 
         View view = inflater.inflate(R.layout.frag_tab1, container, false);
 
@@ -107,36 +116,6 @@ public class FragTabSearch1 extends Fragment {
         prgFrag1.setVisibility(View.INVISIBLE);
         Log.i("TAG4321", "params1: " + irani);
         rcvContent = (RecyclerView) view.findViewById(R.id.rcvContentFrag1);
-        searchView = (SearchView) getActivity().findViewById(R.id.searchView);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                if (isActive1) {
-
-                    items = new ArrayList<StructMusic>();
-                    up = 0;
-                    search = query;
-
-                    prgFrag1.setVisibility(View.VISIBLE);
-                    adapterMusic = new AdapterMusic(items);
-                    rcvContent.setAdapter(adapterMusic);
-                    rcvContent.setLayoutManager(new GridLayoutManager(G.context, 2));
-
-                    irani = "irani";
-                    setItems();
-                    Toast.makeText(G.context, "po"  + "  " + irani, Toast.LENGTH_SHORT).show();
-
-                }
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-
-
-                return false;
-            }
-        });
 
         return view;
     }

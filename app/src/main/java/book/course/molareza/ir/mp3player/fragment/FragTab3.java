@@ -55,11 +55,11 @@ public class FragTab3 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.frag_tab3, container, false);
+        View view = inflater.inflate(R.layout.frag_tab1, container, false);
 
-        prgFrag3 = (ProgressBar) view.findViewById(R.id.prgFrag3);
+        prgFrag3 = (ProgressBar) view.findViewById(R.id.prgFrag1);
 
-        rcvContent = (RecyclerView) view.findViewById(R.id.rcvContentFrag3);
+        rcvContent = (RecyclerView) view.findViewById(R.id.rcvContentFrag1);
         adapterClip = new AdapterClip(items);
         rcvContent.setAdapter(adapterClip);
         rcvContent.setLayoutManager(new LinearLayoutManager(G.context));

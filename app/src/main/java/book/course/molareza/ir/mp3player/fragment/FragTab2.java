@@ -35,9 +35,7 @@ import book.course.molareza.ir.mp3player.adapter.AdapterMusic;
 import book.course.molareza.ir.mp3player.struct.StructMusic;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
 public class FragTab2 extends Fragment {
 
     private boolean isPage = true;
@@ -53,18 +51,25 @@ public class FragTab2 extends Fragment {
     private RequestQueue requestQueue;
 
     @Override
+    public void onResume() {
+        super.onResume();
+        adapterMusic.notifyDataSetChanged();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        Toast.makeText(G.context, "f2", Toast.LENGTH_SHORT).show();
 
-        View view = inflater.inflate(R.layout.frag_tab2, container, false);
+        View view = inflater.inflate(R.layout.frag_tab1, container, false);
 
-        prgFrag2 = (ProgressBar) view.findViewById(R.id.prgFrag2);
+        prgFrag2 = (ProgressBar) view.findViewById(R.id.prgFrag1);
 
-        rcvContent = (RecyclerView) view.findViewById(R.id.rcvContentFrag2);
+        rcvContent = (RecyclerView) view.findViewById(R.id.rcvContentFrag1);
         adapterMusic = new AdapterMusic(items);
         rcvContent.setAdapter(adapterMusic);
         rcvContent.setLayoutManager(new GridLayoutManager(G.context, 2));
-
+        adapterMusic.notifyDataSetChanged();
         if (isPage){
 
             prgFrag2.setVisibility(View.VISIBLE);
@@ -106,6 +111,7 @@ public class FragTab2 extends Fragment {
                             item.setLike(object.getInt("like"));
                             item.setVisit(object.getInt("visit"));
                             item.setShare(object.getInt("share"));
+                            item.setTable(object.getString("tbName"));
 
                             int id = Integer.parseInt(object.getString("id"));
                             Log.i("TAGID", "id: " + id);
