@@ -58,13 +58,6 @@ public class FragTab4 extends Fragment {
 
 
     @Override
-    public void onStart() {
-        super.onStart();
-        adapterNews.notifyDataSetChanged();
-
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.frag_tab1, container, false);
@@ -75,7 +68,7 @@ public class FragTab4 extends Fragment {
         adapterNews = new AdapterNews(items);
         rcvContent.setAdapter(adapterNews);
         rcvContent.setLayoutManager(new LinearLayoutManager(G.context));
-        adapterNews.notifyDataSetChanged();
+//        adapterNews.notifyDataSetChanged();
 
         if (isPage){
 
@@ -153,7 +146,7 @@ public class FragTab4 extends Fragment {
             @Override
             public void onResponse(Bitmap response) {
 
-                adapterNews.items.get(position).setThBitmap(response);
+                AdapterNews.items.get(position).setThBitmap(response);
                 adapterNews.notifyDataSetChanged();
 
             }

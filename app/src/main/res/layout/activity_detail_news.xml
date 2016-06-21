@@ -32,6 +32,33 @@
                 android:src="@mipmap/ninja"
                 app:layout_collapseMode="parallax" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="20dp"
+                android:layout_marginTop="205dp"
+                android:background="@drawable/background_shape"
+                android:id="@+id/layoutLike">
+
+                <ImageView
+                    android:id="@+id/imgLikeDetail"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@mipmap/like"
+                    android:tint="@color/nav_drawer_text"/>
+
+                <TextView
+                    android:id="@+id/txtLikeDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/nSinger"
+                    android:layout_gravity="center"
+                    android:paddingStart="20dp"
+                    android:textColor="@color/nav_drawer_text"/>
+
+            </LinearLayout>
+
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbarNews"
                 android:layout_width="match_parent"
@@ -42,7 +69,6 @@
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
-
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -64,9 +90,7 @@
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_marginEnd="30dp"
-        android:src="@mipmap/ic_favorite_black_48dp"
-        android:tint="@color/cardView_share"
-        app:backgroundTint="@color/toolbar_background"
+        app:backgroundTint="@color/fab_back"
         app:layout_anchor="@id/appbar"
         app:layout_anchorGravity="bottom|end"
         android:id="@+id/fab"/>

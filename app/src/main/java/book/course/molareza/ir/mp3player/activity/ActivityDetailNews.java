@@ -6,7 +6,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,29 +26,42 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import book.course.molareza.ir.mp3player.G;
 import book.course.molareza.ir.mp3player.R;
 import book.course.molareza.ir.mp3player.adapter.AdapterNews;
 import book.course.molareza.ir.mp3player.database.DataBase;
-import book.course.molareza.ir.mp3player.struct.StructNews;
+import book.course.molareza.ir.mp3player.db.FavoriteDetail;
+import book.course.molareza.ir.mp3player.db.FavoriteDetailDao;
+import book.course.molareza.ir.mp3player.db.LikeDetail;
+import book.course.molareza.ir.mp3player.db.LikeDetailDao;
 
 public class ActivityDetailNews extends AppCompatActivity {
 
     private Toolbar toolbar;
 
-    private String txtText, txtUrlImage, txtTitle;
+    private String txtText, txtId, txtDesc, txtUrlBigImage, txtUrlThImage, txtTitle;
 
     private FloatingActionButton fab;
-    private boolean fav = false;
+    private boolean isFav = false;
+    private boolean isLike = false;
+    private ViewGroup layoutLike;
 
-    private ImageView imgDetail;
-    private TextView txtTextDetail;
+    private ImageView imgDetail, imgLikeDetail;
+    private TextView txtTextDetail, txtLikeDetail;
     private String id = "";
+    private int cLike = 0;
 
     private CollapsingToolbarLayout collapse;
     private int po;
+
+    //send Item
+
+    private String num = "1";
+    private String table = "news";
+    private String set = "visit";
 
 
     @Override
@@ -54,7 +69,8 @@ public class ActivityDetailNews extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_news);
 
-        sendVisit();
+        Log.i("LOGLOG", "f1: " + isFav);
+//        G.favoriteDetailDao.deleteAll();
 
         DataBase dataBase = new DataBase();
         int screen = dataBase.readScreenSetting();
@@ -64,17 +80,22 @@ public class ActivityDetailNews extends AppCompatActivity {
         }
 
         Bundle bundle = getIntent().getExtras();
-
         if (bundle != null) {
 
+            txtId = bundle.getString("ID");
             txtTitle = bundle.getString("TITLE");
+            txtDesc = bundle.getString("DESC");
             txtText = bundle.getString("TEXT");
-            txtUrlImage = bundle.getString("BIGIMAGE");
+            txtUrlBigImage = bundle.getString("BIGIMAGE");
+            txtUrlThImage = bundle.getString("THIMAGE");
             id = bundle.getString("ID");
             po = bundle.getInt("PO");
-
+            cLike = bundle.getInt("LIKE");
+            Toast.makeText(ActivityDetailNews.this, "" + cLike, Toast.LENGTH_SHORT).show();
         }
 
+        sendVisit();
+        checkFavoriteAndLike();
 
         toolbar = (Toolbar) findViewById(R.id.toolbarNews);
         setSupportActionBar(toolbar);
@@ -88,35 +109,166 @@ public class ActivityDetailNews extends AppCompatActivity {
         collapse.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
+        layoutLike = (ViewGroup) findViewById(R.id.layoutLike);
+        imgLikeDetail = (ImageView) findViewById(R.id.imgLikeDetail);
+        txtLikeDetail = (TextView) findViewById(R.id.txtLikeDetail);
+        clickLike();
+
+
+        isState();
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (fav){
+                if (isFav) {
+
+                    G.favoriteDetailDao.queryBuilder()
+                            .where(FavoriteDetailDao.Properties.Id_item.eq(txtId))
+                            .buildDelete()
+                            .executeDeleteWithoutDetachingEntities();
+
                     fab.setColorFilter(getResources().getColor(R.color.tab_text_select));
-                    fav = false;
+                    fab.setImageResource(R.mipmap.ic_favorite_border_black_48dp);
 
-                }else {
+                    isFav = false;
 
+                    Toast.makeText(ActivityDetailNews.this, "این مطلب از لیست علاقه مندی ها پاک شد", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    FavoriteDetail favorite = new FavoriteDetail();
+                    favorite.setId_item(txtId);
+                    favorite.setName(txtTitle);
+                    favorite.setAlbum(txtDesc);
+                    favorite.setText(txtText);
+                    favorite.setThImage(txtUrlThImage);
+                    favorite.setBigImage(txtUrlBigImage);
+                    G.favoriteDetailDao.insert(favorite);
+
+                    fab.setImageResource(R.mipmap.ic_favorite_black_48dp);
                     fab.setColorFilter(getResources().getColor(R.color.tab_text_title));
-                    fav = true;
+                    isFav = true;
+
+                    Log.i("LOGLOG", "f2: " + isFav);
+
+                    Toast.makeText(ActivityDetailNews.this, "این مطلب به علاقه مندی ها اضافه شد", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
 
+        layoutLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isLike) {
 
+                    G.likeDetailDao.queryBuilder().
+                            where(LikeDetailDao.Properties.Item_id.eq(txtId))
+                            .buildDelete()
+                            .executeDeleteWithoutDetachingEntities();
+
+                    num = "2";
+                    set = "like1";
+                    sendVisit();
+
+                    cLike = cLike - 1;
+                    clickLike();
+                    imgLikeDetail.setColorFilter(getResources().getColor(R.color.tab_text_select));
+                    txtLikeDetail.setTextColor(getResources().getColor(R.color.tab_text_select));
+                    isLike = false;
+
+                } else {
+
+                    LikeDetail like = new LikeDetail();
+                    like.setItem_id(txtId);
+                    G.likeDetailDao.insert(like);
+
+                    num = "1";
+                    set = "like1";
+
+                    sendVisit();
+
+                    cLike = cLike + 1;
+                    clickLike();
+                    imgLikeDetail.setColorFilter(getResources().getColor(R.color.tab_text_title));
+                    txtLikeDetail.setTextColor(getResources().getColor(R.color.tab_text_title));
+                    isLike = true;
+                }
             }
         });
 
         imgDetail = (ImageView) findViewById(R.id.imgDetail);
 
-        Picasso.with(G.context).load(txtUrlImage).into(imgDetail);
+        Picasso.with(G.context).load(txtUrlBigImage).into(imgDetail);
 
         txtTextDetail = (TextView) findViewById(R.id.txtTextDetail);
-        txtTextDetail.setText(Html.fromHtml(txtText));
+        if (txtText != null) {
+
+            txtTextDetail.setText(Html.fromHtml(txtText));
+        }
 
 
         int size = dataBase.fetchDatabase();
         txtTextDetail.setTextSize(size);
 
+    }
+
+    private void clickLike() {
+
+
+        assert txtLikeDetail != null;
+        txtLikeDetail.setText("" + cLike);
+
+    }
+
+    private void isState() {
+        if (isFav) {
+            fab.setColorFilter(getResources().getColor(R.color.tab_text_title));
+            fab.setImageResource(R.mipmap.ic_favorite_black_48dp);
+        } else {
+            fab.setColorFilter(getResources().getColor(R.color.tab_text_select));
+            fab.setImageResource(R.mipmap.ic_favorite_border_black_48dp);
+
+        }
+
+        if (isLike) {
+            imgLikeDetail.setColorFilter(getResources().getColor(R.color.tab_text_title));
+            txtLikeDetail.setTextColor(getResources().getColor(R.color.tab_text_title));
+
+        } else {
+            imgLikeDetail.setColorFilter(getResources().getColor(R.color.tab_text_select));
+            txtLikeDetail.setTextColor(getResources().getColor(R.color.tab_text_select));
+
+        }
+
+
+    }
+
+    private void checkFavoriteAndLike() {
+        List<FavoriteDetail> favoritesList = G.favoriteDetailDao.queryBuilder()
+                .where(FavoriteDetailDao.Properties.Id_item.eq(txtId))
+                .list();
+
+        for (FavoriteDetail fc : favoritesList) {
+
+            if (fc.getId_item() != null) {
+                Log.i("LOGLOG", "in: " + fc.getId_item());
+
+                isFav = true;
+            }
+        }
+
+        List<LikeDetail> likeList = G.likeDetailDao.queryBuilder().where(LikeDetailDao.Properties
+                .Item_id.eq(txtId))
+                .list();
+        for (LikeDetail lk : likeList) {
+
+            if (lk.getItem_id() != null) {
+
+                isLike = true;
+
+            }
+
+        }
     }
 
     private void sendVisit() {
@@ -131,18 +283,20 @@ public class ActivityDetailNews extends AppCompatActivity {
                     String state = object.getString("state");
                     int st = Integer.parseInt(state);
 
-                    //  Log.i("LOGTAG", "onResponse: " + state);
+                    Log.i("LOGTAG", "onResponse: " + response);
                     if (st == 200) {
 
-                        StructNews item = new StructNews();
-
-                        String vs = object.getString("visit");
+                        String vs = object.getString("plus");
                         int vPlus = Integer.parseInt(vs);
 
-                        AdapterNews.items.get(po).setVisit(vPlus);
+                        if (set.equals("visit")) {
 
-                        Toast.makeText(ActivityDetailNews.this, "" + po, Toast.LENGTH_SHORT).show();
-                        Toast.makeText(ActivityDetailNews.this, "" + vPlus, Toast.LENGTH_SHORT).show();
+                            AdapterNews.items.get(po).setVisit(vPlus);
+                        } else {
+
+                            AdapterNews.items.get(po).setLike(vPlus);
+                        }
+
 
                     }
                 } catch (JSONException e) {
@@ -163,9 +317,10 @@ public class ActivityDetailNews extends AppCompatActivity {
 
                 Map<String, String> params = new HashMap<>();
 
-                params.put("visit", "1");
-                params.put("table", "news");
+                params.put("num", num);
+                params.put("table", table);
                 params.put("id", id);
+                params.put("set", set);
 
                 return params;
 

@@ -102,7 +102,7 @@ public class FragNavEnd extends Fragment {
 
     private void dialog(String title, String message) {
 
-        Dialog dialog = new Dialog(G.currentActivity);
+        final Dialog dialog = new Dialog(G.currentActivity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         dialog.setContentView(R.layout.alert_dialog);
@@ -112,6 +112,14 @@ public class FragNavEnd extends Fragment {
 
         TextView txtMessage = (TextView) dialog.findViewById(R.id.txtMessageDialog);
         txtMessage.setText(message);
+
+        ImageView imgClose = (ImageView) dialog.findViewById(R.id.imgCloseDialog);
+        imgClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
 
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
 

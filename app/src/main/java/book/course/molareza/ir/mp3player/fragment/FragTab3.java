@@ -50,6 +50,13 @@ public class FragTab3 extends Fragment {
 
     private int u;
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        adapterClip.notifyDataSetChanged();
+
+    }
 
     @Nullable
     @Override
@@ -63,6 +70,7 @@ public class FragTab3 extends Fragment {
         adapterClip = new AdapterClip(items);
         rcvContent.setAdapter(adapterClip);
         rcvContent.setLayoutManager(new LinearLayoutManager(G.context));
+        adapterClip.notifyDataSetChanged();
 
         if (isPage){
 

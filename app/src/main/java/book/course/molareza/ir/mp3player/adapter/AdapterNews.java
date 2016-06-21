@@ -42,8 +42,6 @@ public class AdapterNews extends RecyclerView.Adapter<AdapterNews.ViewHolder> {
 
         holder.txtDescc.setText(Html.fromHtml(item.getDesc()));
         holder.txtLikeNews.setText("" + item.getLike());
-
-//        int visit = item.getVisit() + item.visitPlus;
         holder.txtVisitNews.setText("" + item.visit);
         holder.txtShareNews.setText("" + item.getShare());
 
@@ -83,9 +81,12 @@ public class AdapterNews extends RecyclerView.Adapter<AdapterNews.ViewHolder> {
                     StructNews item = items.get(getPosition());
                     Intent intent = new Intent(G.currentActivity, ActivityDetailNews.class);
                     intent.putExtra("TITLE", item.getTitle());
+                    intent.putExtra("DESC", item.getDesc());
                     intent.putExtra("TEXT", item.getText());
                     intent.putExtra("BIGIMAGE", item.bigImage);
+                    intent.putExtra("THIMAGE", item.thumbnil);
                     intent.putExtra("ID", item.id);
+                    intent.putExtra("LIKE", item.getLike());
                     intent.putExtra("PO", getPosition());
                     G.currentActivity.startActivity(intent);
                 }

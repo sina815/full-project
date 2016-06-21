@@ -14,14 +14,15 @@ import java.util.List;
 import book.course.molareza.ir.mp3player.G;
 import book.course.molareza.ir.mp3player.R;
 import book.course.molareza.ir.mp3player.activity.ActivityPlayer;
-import book.course.molareza.ir.mp3player.struct.StructMusic;
+import book.course.molareza.ir.mp3player.struct.StructMusicIrani;
 
 
-public class AdapterMusic extends RecyclerView.Adapter<AdapterMusic.ViewHolder> {
+public class AdapterMusicIrani extends RecyclerView.Adapter<AdapterMusicIrani.ViewHolder> {
 
-    public  List<StructMusic> items;
 
-    public AdapterMusic(List<StructMusic> items) {
+    public static List<StructMusicIrani> items;
+
+    public AdapterMusicIrani(List<StructMusicIrani> items) {
         this.items = items;
     }
 
@@ -35,9 +36,7 @@ public class AdapterMusic extends RecyclerView.Adapter<AdapterMusic.ViewHolder> 
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        StructMusic item = items.get(position);
-
-
+        StructMusicIrani item = items.get(position);
 
         holder.txtSinger.setText(item.getName());
         holder.txtAlbum.setText(item.getAlbum());
@@ -83,17 +82,19 @@ public class AdapterMusic extends RecyclerView.Adapter<AdapterMusic.ViewHolder> 
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    StructMusic item = items.get(getPosition());
+                    StructMusicIrani item = items.get(getPosition());
 
                     Intent intent = new Intent(G.currentActivity, ActivityPlayer.class);
-                    intent.putExtra("URL_IMAGE", item.getBigimage());
+                    intent.putExtra("URL_BIG_IMAGE", item.getBigimage());
+                    intent.putExtra("URL_TH_IMAGE", item.getThumbnile());
                     intent.putExtra("URL_MP3_64", item.getMp364());
                     intent.putExtra("URL_MP3_128", item.getMp3128());
                     intent.putExtra("NAME", item.getName());
                     intent.putExtra("ALBUM", item.getAlbum());
-                    intent.putExtra("ID", item.id);
+                    intent.putExtra("ID", item.getId());
                     intent.putExtra("PO", getPosition());
                     intent.putExtra("TABLE", item.getTable());
+                    intent.putExtra("LIKE", item.getLike());
                     G.currentActivity.startActivity(intent);
                 }
             });

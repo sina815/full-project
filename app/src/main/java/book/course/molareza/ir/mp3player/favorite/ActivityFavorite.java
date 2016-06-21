@@ -60,7 +60,9 @@ public class ActivityFavorite extends AppCompatActivity {
             tabLayout.getTabAt(i).getIcon().setColorFilter(getResources().getColor(R.color.tab_text_title), PorterDuff.Mode.SRC_IN);
         }
 
-        int po = tabLayout.getSelectedTabPosition();
+
+
+        final int po = tabLayout.getSelectedTabPosition();
         tabLayout.getTabAt(po).getIcon().setColorFilter(getResources().getColor(R.color.tab_text_select), PorterDuff.Mode.SRC_IN);
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -68,6 +70,8 @@ public class ActivityFavorite extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 tab.getIcon().setColorFilter(getResources().getColor(R.color.tab_text_select), PorterDuff.Mode.SRC_IN);
 
+                int position = tab.getPosition();
+                viewPager.setCurrentItem(position);
             }
 
             @Override

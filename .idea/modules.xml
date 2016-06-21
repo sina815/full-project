@@ -4,6 +4,10 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Mp3Player.iml" filepath="$PROJECT_DIR$/Mp3Player.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/freemarker-2.3.23/freemarker-2.3.23.iml" filepath="$PROJECT_DIR$/freemarker-2.3.23/freemarker-2.3.23.iml" />
+      <module fileurl="file://$PROJECT_DIR$/greendao/greendao.iml" filepath="$PROJECT_DIR$/greendao/greendao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/greendao-2.2.1/greendao-2.2.1.iml" filepath="$PROJECT_DIR$/greendao-2.2.1/greendao-2.2.1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/greendao-generator-2.2.0/greendao-generator-2.2.0.iml" filepath="$PROJECT_DIR$/greendao-generator-2.2.0/greendao-generator-2.2.0.iml" />
     </modules>
   </component>
 </project>

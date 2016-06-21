@@ -52,5 +52,7 @@
 
     <!--other-->
     <color name="textColor_sefid">#ffffff</color>
+    <color name="fab_back">#f92b2e35</color>
+
 
 </resources>

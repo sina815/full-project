@@ -36,16 +36,16 @@ import java.util.Map;
 
 import book.course.molareza.ir.mp3player.G;
 import book.course.molareza.ir.mp3player.R;
-import book.course.molareza.ir.mp3player.adapter.AdapterMusic;
-import book.course.molareza.ir.mp3player.struct.StructMusic;
+import book.course.molareza.ir.mp3player.adapter.AdapterMusicIrani;
+import book.course.molareza.ir.mp3player.struct.StructMusicIrani;
 
 public class FragTabSearch1 extends Fragment {
 
     private boolean isActive1;
 
     private RecyclerView rcvContent;
-    private AdapterMusic adapterMusic;
-    private List<StructMusic> items;
+    private AdapterMusicIrani adapterMusic;
+    private List<StructMusicIrani> items;
 
     private ProgressBar prgFrag1;
 
@@ -75,14 +75,14 @@ public class FragTabSearch1 extends Fragment {
                     public boolean onQueryTextSubmit(String query) {
 
 
-                        items = new ArrayList<StructMusic>();
+                        items = new ArrayList<StructMusicIrani>();
 
                         up = 0;
 
                         search = query;
 
                         prgFrag1.setVisibility(View.VISIBLE);
-                        adapterMusic = new AdapterMusic(items);
+                        adapterMusic = new AdapterMusicIrani(items);
                         rcvContent.setAdapter(adapterMusic);
                         rcvContent.setLayoutManager(new GridLayoutManager(G.context, 2));
                         irani = "irani";
@@ -138,7 +138,7 @@ public class FragTabSearch1 extends Fragment {
                     if (array != null) {
 
                         for (int i = 0; i < array.length(); i++) {
-                            StructMusic item = new StructMusic();
+                            StructMusicIrani item = new StructMusicIrani();
                             JSONObject object = array.getJSONObject(i);
 
                             item.setId(object.getString("id"));

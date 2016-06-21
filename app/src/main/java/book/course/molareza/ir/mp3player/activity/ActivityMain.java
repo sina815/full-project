@@ -182,16 +182,11 @@ public class ActivityMain extends AppCompatActivity {
     private void setupIconTabView() {
 
 
-        tabLayout.getTabAt(0).setIcon(iconTabView[1]);
-        tabLayout.getTabAt(1).setIcon(iconTabView[2]);
-        tabLayout.getTabAt(2).setIcon(iconTabView[0]);
-        tabLayout.getTabAt(3).setIcon(iconTabView[3]);
+        for (int i = 0; i < 4; i++) {
+            tabLayout.getTabAt(i).setIcon(iconTabView[i]);
 
-        tabLayout.getTabAt(0).getIcon().setColorFilter(getResources().getColor(R.color.tab_text_title), PorterDuff.Mode.SRC_IN);
-        tabLayout.getTabAt(1).getIcon().setColorFilter(getResources().getColor(R.color.tab_text_title), PorterDuff.Mode.SRC_IN);
-        tabLayout.getTabAt(2).getIcon().setColorFilter(getResources().getColor(R.color.tab_text_title), PorterDuff.Mode.SRC_IN);
-        tabLayout.getTabAt(3).getIcon().setColorFilter(getResources().getColor(R.color.tab_text_title), PorterDuff.Mode.SRC_IN);
-
+            tabLayout.getTabAt(i).getIcon().setColorFilter(getResources().getColor(R.color.tab_text_title), PorterDuff.Mode.SRC_IN);
+        }
 
         int position = tabLayout.getSelectedTabPosition();
         tabLayout.getTabAt(position).getIcon().setColorFilter(getResources().getColor(R.color.tab_text_select), PorterDuff.Mode.SRC_IN);

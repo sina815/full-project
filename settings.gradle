@@ -1,1 +1,1 @@
-include ':app'
+include ':app', ':greendao', ':greendao-generator-2.2.0', ':freemarker-2.3.23', ':greendao-2.2.1'

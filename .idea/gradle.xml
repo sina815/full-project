@@ -9,12 +9,20 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/freemarker-2.3.23" />
+            <option value="$PROJECT_DIR$/greendao" />
+            <option value="$PROJECT_DIR$/greendao-2.2.1" />
+            <option value="$PROJECT_DIR$/greendao-generator-2.2.0" />
           </set>
         </option>
         <option name="myModules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/freemarker-2.3.23" />
+            <option value="$PROJECT_DIR$/greendao" />
+            <option value="$PROJECT_DIR$/greendao-2.2.1" />
+            <option value="$PROJECT_DIR$/greendao-generator-2.2.0" />
           </set>
         </option>
       </GradleProjectSettings>

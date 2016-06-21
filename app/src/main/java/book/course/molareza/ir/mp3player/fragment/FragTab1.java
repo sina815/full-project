@@ -30,14 +30,14 @@ import java.util.List;
 
 import book.course.molareza.ir.mp3player.G;
 import book.course.molareza.ir.mp3player.R;
-import book.course.molareza.ir.mp3player.adapter.AdapterMusic;
-import book.course.molareza.ir.mp3player.struct.StructMusic;
+import book.course.molareza.ir.mp3player.adapter.AdapterMusicIrani;
+import book.course.molareza.ir.mp3player.struct.StructMusicIrani;
 
 public class FragTab1 extends Fragment {
 
     private RecyclerView rcvContent;
-    private AdapterMusic adapterMusic;
-    private List<StructMusic> items = new ArrayList<>();
+    private AdapterMusicIrani adapterMusicIrani;
+    private List<StructMusicIrani> items = new ArrayList<>();
 
     private ProgressBar prgFrag1;
 
@@ -49,7 +49,7 @@ public class FragTab1 extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        adapterMusic.notifyDataSetChanged();
+        adapterMusicIrani.notifyDataSetChanged();
     }
 
     @Override
@@ -61,10 +61,10 @@ public class FragTab1 extends Fragment {
         prgFrag1 = (ProgressBar) view.findViewById(R.id.prgFrag1);
 
         rcvContent = (RecyclerView) view.findViewById(R.id.rcvContentFrag1);
-        adapterMusic = new AdapterMusic(items);
-        rcvContent.setAdapter(adapterMusic);
+        adapterMusicIrani = new AdapterMusicIrani(items);
+        rcvContent.setAdapter(adapterMusicIrani);
         rcvContent.setLayoutManager(new GridLayoutManager(G.context, 2));
-        adapterMusic.notifyDataSetChanged();
+        adapterMusicIrani.notifyDataSetChanged();
         if (isPage){
 
             prgFrag1.setVisibility(View.VISIBLE);
@@ -88,7 +88,7 @@ public class FragTab1 extends Fragment {
 
                     if (array != null) {
                         for (int i = 0; i < array.length(); i++) {
-                            StructMusic item = new StructMusic();
+                            StructMusicIrani item = new StructMusicIrani();
                             JSONObject object = array.getJSONObject(i);
 
                             item.setId(object.getString("id"));
@@ -127,7 +127,7 @@ public class FragTab1 extends Fragment {
                     e.printStackTrace();
                 }
 
-                adapterMusic.notifyDataSetChanged();
+                adapterMusicIrani.notifyDataSetChanged();
                 prgFrag1.setVisibility(View.INVISIBLE);
 
             }
@@ -153,8 +153,8 @@ public class FragTab1 extends Fragment {
             public void onResponse(Bitmap response) {
 
 
-                adapterMusic.items.get(position).thBitmap = response;
-                adapterMusic.notifyDataSetChanged();
+                adapterMusicIrani.items.get(position).thBitmap = response;
+                adapterMusicIrani.notifyDataSetChanged();
 
             }
         }, 0, 0, ImageView.ScaleType.FIT_XY, Bitmap.Config.ARGB_8888, new Response.ErrorListener() {

@@ -4,7 +4,7 @@ package book.course.molareza.ir.mp3player.struct;
 
 import android.graphics.Bitmap;
 
-public class StructMusic {
+public class StructMusicKhareji {
 
     public String id;
     public String name;
