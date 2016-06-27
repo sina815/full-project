@@ -36,7 +36,7 @@ import book.course.molareza.ir.mp3player.G;
 import book.course.molareza.ir.mp3player.Helper;
 import book.course.molareza.ir.mp3player.R;
 import book.course.molareza.ir.mp3player.adapter.AdapterMusicIKhareji;
-import book.course.molareza.ir.mp3player.adapter.AdapterMusicIrani;
+import book.course.molareza.ir.mp3player.adapter.AdapterMusicKhareji;
 import book.course.molareza.ir.mp3player.db.FavoriteMusicIrani;
 import book.course.molareza.ir.mp3player.db.FavoriteMusicIraniDao;
 import book.course.molareza.ir.mp3player.db.FavoriteMusicKhareji;
@@ -62,7 +62,7 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
 
     private String urlBigImage, urlThImage, name, album, urlMp3_64, urlMp3_128;
 
-    private MediaPlayer mediaPlayer;
+    public  MediaPlayer mediaPlayer;
     private boolean isRepeat = false;
 
     long totalTime, currentTime;
@@ -81,7 +81,9 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
     protected void onResume() {
         super.onResume();
         G.currentActivity = this;
+
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -186,11 +188,102 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
                 if (mediaPlayer.isPlaying()) {
                     mediaPlayer.pause();
                     imgPlay.setImageResource(R.mipmap.play);
+
                 } else {
 
                     mediaPlayer.start();
                     imgPlay.setImageResource(R.mipmap.pause);
                     update_seekBar_timer();
+
+
+                    ////////////////////////////////////////
+//
+//                    String strtitle = "i dont now";
+//                    // Set Notification Text
+//                    String strtext = "its new for me";
+//
+//                    // Open NotificationView Class on Notification Click
+//                    Intent intent = new Intent(ActivityPlayer.this, ActivityMain.class);
+//                    // Send data to NotificationView Class
+//                    intent.putExtra("title", strtitle);
+//                    intent.putExtra("text", strtext);
+//
+//                    PendingIntent pIntent = PendingIntent.getActivity(ActivityPlayer.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//
+//                    NotificationCompat.Builder builder = new NotificationCompat.Builder(G.context)
+//                            // Set Icon
+//                            .setSmallIcon(R.mipmap.play)
+//                            // Set Ticker Message
+//                            .setTicker("Ticker")
+//                            // Set Title
+//                            .setContentTitle(name)
+//                            // Set Text
+//                            .setContentText(album)
+//                            // Add an Action Button below Notification
+//                            .addAction(R.mipmap.pause, "Action Button", pIntent)
+//                            // Set PendingIntent into Notification
+//                            .setContentIntent(pIntent)
+//                            // Dismiss Notification
+//                            .setAutoCancel(true);
+//
+//                    // Create Notification Manager
+//                    NotificationManager notificationmanager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+//                    // Build Notification with Notification Manager
+//                    notificationmanager.notify(0, builder.build());
+
+
+
+
+
+
+
+//                 	// Using RemoteViews to bind custom layouts into Notification
+//                    RemoteViews remoteViews = new RemoteViews(getPackageName(),
+//                            R.layout.custom_notification);
+////
+////                    // Set Notification Title
+//
+//                    String strtitle = "i dont now";
+//                    // Set Notification Text
+//                    String strtext = "its new for me";
+//
+//                    // Open NotificationView Class on Notification Click
+//                    Intent intent = new Intent(ActivityPlayer.this, ActivityMain.class);
+//                    // Send data to NotificationView Class
+//                    intent.putExtra("title", strtitle);
+//                    intent.putExtra("text", strtext);
+//                    // Open NotificationView.java Activity
+//                    PendingIntent pIntent = PendingIntent.getActivity(G.context, 0, intent,
+//                            PendingIntent.FLAG_UPDATE_CURRENT);
+////
+//                    NotificationCompat.Builder builder = new NotificationCompat.Builder(G.context)
+//                            // Set Icon
+//                            .setSmallIcon(R.mipmap.down)
+//                            // Set Ticker Message
+//                            .setTicker("ticker")
+//                            // Dismiss Notification
+//                            .setAutoCancel(true)
+//                            // Set PendingIntent into Notification
+//                            .setContentIntent(pIntent)
+//                            // Set RemoteViews into Notification
+//                            .setContent(remoteViews);
+//
+//                    // Locate and set the Image into customnotificationtext.xml ImageViews
+//               //     remoteViews.setImageViewResource(R.id.notification_button_play,R.mipmap.play);
+//               //     remoteViews.setImageViewResource(R.id.notification_button_close,R.mipmap.close);
+//
+//                    // Locate and set the Text into customnotificationtext.xml TextViews
+//                    remoteViews.setTextViewText(R.id.title,"setText1");
+//                    remoteViews.setTextViewText(R.id.text,"setText2");
+//
+//                    // Create Notification Manager
+//                    NotificationManager notificationmanager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+//                    // Build Notification with Notification Manager
+//                    notificationmanager.notify(0, builder.build());
+
+
+
+                    //////////////////////////////////
                 }
             }
         });
@@ -408,13 +501,13 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
             @Override
             public void onClick(View v) {
 
-                if (table.equals("irani")){
+                if (table.equals("irani")) {
 
-                    FileDownloader fileDownloader =  new FileDownloader(ActivityPlayer.this);
-                    fileDownloader.execute(urlMp3_64,G.DIR_IRANI);
-                }else {
-                    FileDownloader fileDownloader =  new FileDownloader(ActivityPlayer.this);
-                    fileDownloader.execute(urlMp3_64,G.DIR_KHAREJI);
+                    FileDownloader fileDownloader = new FileDownloader(ActivityPlayer.this);
+                    fileDownloader.execute(urlMp3_64, G.DIR_IRANI);
+                } else {
+                    FileDownloader fileDownloader = new FileDownloader(ActivityPlayer.this);
+                    fileDownloader.execute(urlMp3_64, G.DIR_KHAREJI);
                 }
 
             }
@@ -423,7 +516,7 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
 
     private void clickLike() {
 
-         txtLikeMusic.setText("" + cLike);
+        txtLikeMusic.setText("" + cLike);
 
     }
 
@@ -685,7 +778,7 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
 
                             if (table.equals("irani")) {
 
-                                AdapterMusicIrani.items.get(po).setVisit(vPlus);
+                                AdapterMusicKhareji.items.get(po).setVisit(vPlus);
 
                             } else {
 
@@ -693,14 +786,14 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
 
                             }
 
-                            //   AdapterMusicIrani ad = new AdapterMusicIrani(null);
+                            //   AdapterMusicKhareji ad = new AdapterMusicKhareji(null);
                             //  ad.items.get(po).setVisit(vPlus);
 
                         } else {
 
                             if (table.equals("irani")) {
 
-                                AdapterMusicIrani.items.get(po).setLike(vPlus);
+                                AdapterMusicKhareji.items.get(po).setLike(vPlus);
 
                             } else {
 
@@ -743,4 +836,6 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
         Volley.newRequestQueue(G.context).add(stringRequest);
 
     }
+
+
 }

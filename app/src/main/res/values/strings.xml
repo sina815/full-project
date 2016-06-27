@@ -61,9 +61,19 @@
 
     <!--call_us-->
     <string name="call_email">ایمیل</string>
+    <string name="call_email_hint">لطفا ایمیل خود را وارد کنید</string>
     <string name="call_name">نام</string>
+    <string name="call_name_hint">لطفا نام خود را وارد کنید</string>
     <string name="call_text">متن</string>
+    <string name="call_text_hint">لطفا متن خود را وارد کنید</string>
     <string name="call_send">ارسال</string>
     <string name="call_cat">دسته بندی</string>
+    <string name="call_toolbar">تماس باما</string>
+
+
+    <!--error-->
+
+    <string name="error_connect">متاسفانه ارتباط با سرور برقرار نشد</string>
+    <string name="error_down_image">متاسفانه مشکلی در دریافت عکس ها ازسمت سرور به وجود آمده !</string>
 
 </resources>

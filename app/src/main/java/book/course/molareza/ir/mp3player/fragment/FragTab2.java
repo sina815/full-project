@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,8 +57,6 @@ public class FragTab2 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        Toast.makeText(G.context, "f2", Toast.LENGTH_SHORT).show();
-
         View view = inflater.inflate(R.layout.frag_tab1, container, false);
 
         prgFrag2 = (ProgressBar) view.findViewById(R.id.prgFrag1);
@@ -77,7 +74,6 @@ public class FragTab2 extends Fragment {
             prgFrag2.setVisibility(View.INVISIBLE);
         }
 
-        Log.i("TAGFRAG2", "test: ");
         return view;
     }
 
@@ -88,7 +84,6 @@ public class FragTab2 extends Fragment {
             @Override
             public void onResponse(JSONObject response) {
 
-                Log.i("TAGFRAG2", "onResponse: " + response);
 
                 try {
                     JSONArray array = response.getJSONArray("music");
@@ -113,7 +108,7 @@ public class FragTab2 extends Fragment {
                             item.setTable(object.getString("tbName"));
 
                             int id = Integer.parseInt(object.getString("id"));
-                            Log.i("TAGID", "id: " + id);
+
                             if (id <=1){
                                 isPage = false;
                             }
@@ -122,8 +117,6 @@ public class FragTab2 extends Fragment {
                             String th_url = object.getString("thumbnile");
                             setImage(th_url, up);
                             up++;
-
-                            Log.i("TAG", "onResponse: " + th_url);
 
                             items.add(item);
 
@@ -143,8 +136,7 @@ public class FragTab2 extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(G.context, "failure to connect server", Toast.LENGTH_SHORT).show();
-                Log.i("TAGASD", "onErrorResponse: " + error.getMessage());
+                Toast.makeText(G.context, getResources().getString(R.string.error_connect), Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -168,7 +160,7 @@ public class FragTab2 extends Fragment {
         }, 0, 0, ImageView.ScaleType.FIT_XY, Bitmap.Config.ARGB_8888, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(G.context, "failure to get image", Toast.LENGTH_SHORT).show();
+                Toast.makeText(G.context,getResources().getString(R.string.error_down_image), Toast.LENGTH_SHORT).show();
             }
         });
 

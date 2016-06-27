@@ -42,15 +42,13 @@ public class AdapterMusicIKhareji extends RecyclerView.Adapter<AdapterMusicIKhar
         holder.txtAlbum.setText(item.getAlbum());
         holder.txtLike.setText("" + item.getLike());
         holder.txtVisit.setText("" + item.getVisit());
-        holder.txtShare.setText("" + item.getShare());
-
 
         if (item.thBitmap != null) {
 
             holder.imgSinger.setImageBitmap(item.thBitmap);
 
         } else {
-            holder.imgSinger.setImageResource(R.mipmap.ninja);
+            holder.imgSinger.setImageResource(R.mipmap.splash);
         }
 
     }
@@ -74,7 +72,6 @@ public class AdapterMusicIKhareji extends RecyclerView.Adapter<AdapterMusicIKhar
             imgSinger = (ImageView) itemView.findViewById(R.id.imgSinger);
             txtLike = (TextView) itemView.findViewById(R.id.txtLike);
             txtVisit = (TextView) itemView.findViewById(R.id.txtVisit);
-            txtShare = (TextView) itemView.findViewById(R.id.txtShare);
             txtSinger = (TextView) itemView.findViewById(R.id.txtSinger);
             txtAlbum = (TextView) itemView.findViewById(R.id.txtAlbum);
             cardView = (CardView) itemView.findViewById(R.id.cardView);

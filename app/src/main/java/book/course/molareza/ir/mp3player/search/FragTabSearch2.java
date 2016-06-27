@@ -36,8 +36,8 @@ import java.util.Map;
 
 import book.course.molareza.ir.mp3player.G;
 import book.course.molareza.ir.mp3player.R;
-import book.course.molareza.ir.mp3player.adapter.AdapterMusicIrani;
-import book.course.molareza.ir.mp3player.struct.StructMusicIrani;
+import book.course.molareza.ir.mp3player.adapter.AdapterMusicIKhareji;
+import book.course.molareza.ir.mp3player.struct.StructMusicKhareji;
 
 
 /**
@@ -48,8 +48,8 @@ public class FragTabSearch2 extends Fragment {
     private boolean isActive2;
 
     private RecyclerView rcvContent;
-    private AdapterMusicIrani adapterMusic;
-    private List<StructMusicIrani> items;
+    private AdapterMusicIKhareji adapterMusicIKhareji;
+    private List<StructMusicKhareji> items;
 
     private ProgressBar prgFrag2;
 
@@ -75,15 +75,15 @@ public class FragTabSearch2 extends Fragment {
                     public boolean onQueryTextSubmit(String query) {
 
 
-                        items = new ArrayList<StructMusicIrani>();
+                        items = new ArrayList<>();
 
                         up = 0;
 
                         search = query;
 
                         prgFrag2.setVisibility(View.VISIBLE);
-                        adapterMusic = new AdapterMusicIrani(items);
-                        rcvContent.setAdapter(adapterMusic);
+                        adapterMusicIKhareji = new AdapterMusicIKhareji(items);
+                        rcvContent.setAdapter(adapterMusicIKhareji);
                         rcvContent.setLayoutManager(new GridLayoutManager(G.context, 2));
                         khareji = "khareji";
                         setItems();
@@ -136,7 +136,7 @@ public class FragTabSearch2 extends Fragment {
                     if (array != null) {
 
                         for (int i = 0; i < array.length(); i++) {
-                            StructMusicIrani item = new StructMusicIrani();
+                            StructMusicKhareji item = new StructMusicKhareji();
                             JSONObject object = array.getJSONObject(i);
 
                             item.setId(object.getString("id"));
@@ -162,7 +162,7 @@ public class FragTabSearch2 extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                adapterMusic.notifyDataSetChanged();
+                adapterMusicIKhareji.notifyDataSetChanged();
                 prgFrag2.setVisibility(View.INVISIBLE);
             }
         }, new Response.ErrorListener() {
@@ -197,8 +197,8 @@ public class FragTabSearch2 extends Fragment {
             @Override
             public void onResponse(Bitmap response) {
 
-                adapterMusic.items.get(position).thBitmap = response;
-                adapterMusic.notifyDataSetChanged();
+                adapterMusicIKhareji.items.get(position).thBitmap = response;
+                adapterMusicIKhareji.notifyDataSetChanged();
 
             }
         }, 0, 0, ImageView.ScaleType.FIT_XY, Bitmap.Config.ARGB_8888, new Response.ErrorListener() {

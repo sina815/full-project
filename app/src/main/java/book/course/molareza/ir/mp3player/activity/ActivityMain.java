@@ -63,9 +63,9 @@ public class ActivityMain extends AppCompatActivity {
     private AdapterViewPager adapterViewPager;
 
     public int[] iconTabView = {
-            R.mipmap.ic_clip,
             R.mipmap.ic_music,
             R.mipmap.ic_stars,
+            R.mipmap.ic_clip,
             R.mipmap.newspaper
 
 

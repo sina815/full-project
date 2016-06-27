@@ -50,7 +50,7 @@ public class AdapterClip extends RecyclerView.Adapter<AdapterClip.ViewHolder> {
         if (item.thBitmap != null) {
             holder.imgSinger.setImageBitmap(item.thBitmap);
         } else {
-            holder.imgSinger.setImageResource(R.mipmap.ninja);
+            holder.imgSinger.setImageResource(R.mipmap.splash);
         }
 
     }

@@ -22,14 +22,14 @@ import java.util.List;
 
 import book.course.molareza.ir.mp3player.G;
 import book.course.molareza.ir.mp3player.R;
-import book.course.molareza.ir.mp3player.adapter.AdapterMusicIrani;
+import book.course.molareza.ir.mp3player.adapter.AdapterMusicKhareji;
 import book.course.molareza.ir.mp3player.db.FavoriteMusicIrani;
 import book.course.molareza.ir.mp3player.struct.StructMusicIrani;
 
 
 public class FragTabFavorite1 extends Fragment {
 
-    private AdapterMusicIrani adapterMusic;
+    private AdapterMusicKhareji adapterMusic;
     private List<StructMusicIrani> items = new ArrayList<>();
     private ProgressBar progressBar;
 
@@ -49,7 +49,7 @@ public class FragTabFavorite1 extends Fragment {
         //     Toast.makeText(G.context, "ا ها پاک شد", Toast.LENGTH_SHORT).show();
 
         RecyclerView rcvContent = (RecyclerView) view.findViewById(R.id.rcvContentFrag1);
-        adapterMusic = new AdapterMusicIrani(items);
+        adapterMusic = new AdapterMusicKhareji(items);
         rcvContent.setAdapter(adapterMusic);
         rcvContent.setLayoutManager(new GridLayoutManager(G.context, 2));
 
@@ -99,7 +99,7 @@ public class FragTabFavorite1 extends Fragment {
             @Override
             public void onResponse(Bitmap response) {
 
-                AdapterMusicIrani.items.get(id).thBitmap = response;
+                AdapterMusicKhareji.items.get(id).thBitmap = response;
                 adapterMusic.notifyDataSetChanged();
 
             }

@@ -4,7 +4,7 @@ package book.course.molareza.ir.mp3player.favorite;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,7 +51,7 @@ public class FragTabFavorite3 extends Fragment {
         RecyclerView rcvContent = (RecyclerView) view.findViewById(R.id.rcvContentFrag1);
         adapterClip = new AdapterClip(items);
         rcvContent.setAdapter(adapterClip);
-        rcvContent.setLayoutManager(new LinearLayoutManager(G.context));
+        rcvContent.setLayoutManager(new GridLayoutManager(G.context, 2));
         if (isReaped) {
             setItem();
         }
@@ -81,7 +81,7 @@ public class FragTabFavorite3 extends Fragment {
 
             long num_id = favoriteMusicKharejis.get(i).getId();
             if (num_id == 1) {
-            //    isReaped = false;
+                //    isReaped = false;
             }
 
             u++;

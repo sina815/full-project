@@ -7,130 +7,141 @@
     android:orientation="vertical"
     tools:context="book.course.molareza.ir.mp3player.activity.ActivityCall">
 
-
-    <LinearLayout
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbarCall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/edtEmailCall"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_weight=".8"
-            android:ems="10"
-            android:inputType="textEmailAddress"
-            android:textColor="@color/nav_drawer_text2"/>
+        android:background="@color/toolbar_background">
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.2"
-            android:gravity="center"
-            android:text="@string/call_email"
-            android:textColor="@color/cardView_share"
+            android:layout_marginEnd="15dp"
+            android:gravity="right"
+            android:text="@string/call_toolbar"
+            android:textColor="@color/tab_text_title"
             android:textSize="18sp" />
 
-    </LinearLayout>
+    </android.support.v7.widget.Toolbar>
 
-    <LinearLayout
+
+    <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/edtNameCall"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_weight=".8"
-            android:ems="10"
-            android:inputType="textEmailAddress"
-            android:textColor="@color/nav_drawer_text2"/>
-
-        <TextView
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.2"
-            android:gravity="center"
-            android:text="@string/call_name"
-            android:textColor="@color/cardView_share"
-            android:textSize="18sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:orientation="horizontal">
+            android:orientation="vertical">
 
 
-        <Spinner
-            android:id="@+id/spinnerCall"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="5dp"
-            android:layout_weight=".8"
-            android:spinnerMode="dropdown"
-            android:background="@android:drawable/spinner_dropdown_background"/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.2"
-            android:gravity="center"
-            android:text="@string/call_cat"
-            android:textColor="@color/cardView_share"
-            android:textSize="18sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:padding="15dp"
+                android:text="@string/call_email"
+                android:textColor="@color/tab_text_title"
+                android:textSize="18sp" />
 
 
-        <EditText
-            android:id="@+id/editText"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight=".8"
-            android:background="@drawable/border"
-            android:ems="10"
-            android:inputType="text"
-            android:minHeight="200dp"
-            android:padding="10dp"
-            android:textColor="@color/cardView_share"
-            android:textSize="14sp" />
+            <EditText
+                android:hint="@string/call_email_hint"
+                android:id="@+id/edtEmailCall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/text_box"
+                android:ems="10"
+                android:inputType="textEmailAddress"
+                android:padding="10dp"
+                android:textColor="@color/nav_drawer_text2" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.2"
-            android:gravity="top|center_horizontal"
-            android:text="@string/call_text"
-            android:textColor="@color/cardView_share"
-            android:textSize="18sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:padding="15dp"
+                android:text="@string/call_name"
+                android:textColor="@color/tab_text_title"
+                android:textSize="18sp" />
 
-    </LinearLayout>
 
-    <Button
-        android:id="@+id/btnSend"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:background="@color/cardView_share"
-        android:text="@string/call_send"
-        android:textColor="@color/main_rcv_background"
-        android:textSize="20sp" />
+            <EditText
+                android:hint="@string/call_name_hint"
+                android:id="@+id/edtNameCall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/text_box"
+                android:ems="10"
+                android:inputType="textEmailAddress"
+                android:padding="10dp"
+                android:textColor="@color/nav_drawer_text2" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:padding="15dp"
+                android:text="@string/call_cat"
+                android:textColor="@color/tab_text_title"
+                android:textSize="18sp" />
+
+
+            <Spinner
+                android:id="@+id/spinnerCall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/text_box"
+                android:spinnerMode="dropdown" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:padding="15dp"
+                android:text="@string/call_text"
+                android:textColor="@color/tab_text_title"
+                android:textSize="18sp" />
+
+            <EditText
+                android:hint="@string/call_text_hint"
+                android:id="@+id/editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/text_box"
+                android:ems="10"
+                android:gravity="top|right"
+                android:inputType="textMultiLine"
+                android:maxLines="10"
+                android:padding="10dp"
+                android:scrollbars="vertical"
+                android:textColor="@color/tab_text_title"
+                android:textSize="14sp" />
+
+
+            <Button
+                android:id="@+id/btnSend"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/text_box"
+                android:text="@string/call_send"
+                android:textColor="@color/tab_text_title"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+    </ScrollView>
 
 
 </LinearLayout>

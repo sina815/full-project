@@ -12,6 +12,6 @@
         android:gravity="right"
         android:layout_gravity="right"
         android:padding="5dp"
-        android:textColor="@color/cardView_share" />
+        android:textColor="@color/cardView_visit" />
 
 </LinearLayout>

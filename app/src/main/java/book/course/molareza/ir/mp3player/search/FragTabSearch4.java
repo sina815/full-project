@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -77,7 +77,7 @@ public class FragTabSearch4 extends Fragment {
                     prgFrag4.setVisibility(View.VISIBLE);
                     adapterNews = new AdapterNews(items);
                     rcvContent.setAdapter(adapterNews);
-                    rcvContent.setLayoutManager(new GridLayoutManager(G.context, 2));
+                    rcvContent.setLayoutManager(new LinearLayoutManager(G.context));
                     news = "news";
                     setItems();
 
@@ -92,7 +92,6 @@ public class FragTabSearch4 extends Fragment {
                 }
             });
 
-            Toast.makeText(G.context, "tab4", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -115,7 +114,7 @@ public class FragTabSearch4 extends Fragment {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, G.URL_SEARCH, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
+                Log.i("TAG4321", "onQueryTextSubmit2: " + response);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     JSONArray array = jsonObject.getJSONArray("search");
@@ -150,7 +149,7 @@ public class FragTabSearch4 extends Fragment {
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Log.i("TAGGQWER", "error: " + e.getMessage());
+                    Log.i("", "error: " + e.getMessage());
 
                 }
                 adapterNews.notifyDataSetChanged();
@@ -172,7 +171,7 @@ public class FragTabSearch4 extends Fragment {
 
                 paramss.put("search", search);
                 paramss.put("table", news);
-                Log.i("TAG87654321", "params4: " + news + "    search: " + search);
+                Log.i("TAG4321", "params4: " + news + "    search: " + search);
                 return paramss;
             }
         };

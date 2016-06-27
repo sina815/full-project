@@ -10,21 +10,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:background="@mipmap/ninja" />
+            android:layout_height="180dp"
+            android:background="@mipmap/splash" />
 
-        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/profile_image"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="120dp"
-            android:src="@mipmap/img4"
-            app:civ_border_color="@color/cardView_border"
-            app:civ_border_width="2dp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/dark"
+            android:layout_gravity="bottom"/>
 
     </FrameLayout>
 

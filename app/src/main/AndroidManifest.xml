@@ -32,7 +32,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.ActivityMain" />
         </activity>
-        <activity android:name=".activity.ActivityCall" />
+        <activity android:name=".activity.ActivityCall" >
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.ActivityMain"/>
+        </activity>
         <activity android:name=".favorite.ActivityFavorite">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

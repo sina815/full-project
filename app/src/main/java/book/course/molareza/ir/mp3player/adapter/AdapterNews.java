@@ -43,12 +43,11 @@ public class AdapterNews extends RecyclerView.Adapter<AdapterNews.ViewHolder> {
         holder.txtDescc.setText(Html.fromHtml(item.getDesc()));
         holder.txtLikeNews.setText("" + item.getLike());
         holder.txtVisitNews.setText("" + item.visit);
-        holder.txtShareNews.setText("" + item.getShare());
 
         if (item.thBitmap != null) {
             holder.imgNews.setImageBitmap(item.getThBitmap());
         } else {
-            holder.imgNews.setImageResource(R.mipmap.ninja);
+            holder.imgNews.setImageResource(R.mipmap.splash);
         }
 
     }
@@ -61,7 +60,7 @@ public class AdapterNews extends RecyclerView.Adapter<AdapterNews.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView imgNews;
-        private TextView txtDescc, txtLikeNews, txtVisitNews, txtShareNews;
+        private TextView txtDescc, txtLikeNews, txtVisitNews;
         private CardView cardView;
 
         public ViewHolder(View itemView) {
@@ -71,7 +70,6 @@ public class AdapterNews extends RecyclerView.Adapter<AdapterNews.ViewHolder> {
             txtDescc = (TextView) itemView.findViewById(R.id.txtDescc);
             txtLikeNews = (TextView) itemView.findViewById(R.id.txtLikeNews);
             txtVisitNews = (TextView) itemView.findViewById(R.id.txtVisitNews);
-            txtShareNews = (TextView) itemView.findViewById(R.id.txtShareNews);
             cardView = (CardView) itemView.findViewById(R.id.cardView);
 
             cardView.setOnClickListener(new View.OnClickListener() {

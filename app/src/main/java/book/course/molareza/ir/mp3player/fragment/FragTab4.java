@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,7 +67,6 @@ public class FragTab4 extends Fragment {
         adapterNews = new AdapterNews(items);
         rcvContent.setAdapter(adapterNews);
         rcvContent.setLayoutManager(new LinearLayoutManager(G.context));
-//        adapterNews.notifyDataSetChanged();
 
         if (isPage){
 
@@ -109,7 +107,6 @@ public class FragTab4 extends Fragment {
                             item.setShare(object.getInt("share"));
 
                             int id = Integer.parseInt(object.getString("id"));
-                            Log.i("TAGID", "id: " + id);
                             if (id <=1){
                                 isPage = false;
                             }
@@ -133,7 +130,7 @@ public class FragTab4 extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(G.context, "failure to connect to server", Toast.LENGTH_SHORT).show();
+                Toast.makeText(G.context, getResources().getString(R.string.error_connect), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -153,7 +150,7 @@ public class FragTab4 extends Fragment {
         }, 0, 0, ImageView.ScaleType.FIT_XY, Bitmap.Config.ARGB_8888, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(G.context, "failure download image", Toast.LENGTH_SHORT).show();
+                Toast.makeText(G.context, getResources().getString(R.string.error_down_image), Toast.LENGTH_SHORT).show();
             }
         });
 

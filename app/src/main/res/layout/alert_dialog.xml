@@ -3,13 +3,14 @@
     android:id="@+id/layoutRoot_about"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dialog_main_background"
+    android:background="@color/main_rcv_background"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/dialog_main_background2">
+        android:background="@color/tab_background"
+        android:orientation="vertical">
 
 
         <ImageView
@@ -17,9 +18,15 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_marginStart="20dp"
-android:padding="5dp"
+            android:padding="5dp"
             android:src="@mipmap/error"
             android:tint="@color/nav_drawer_text4" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/dark"/>
+
     </LinearLayout>
 
     <TextView
@@ -27,32 +34,32 @@ android:padding="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="right"
-        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:paddingEnd="25dp"
         android:paddingStart="25dp"
-        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
         android:text="@string/app_name"
-        android:textColor="@color/dialog_text_color_1_width"
+        android:textColor="@color/cardView_text_color_nSinger"
         android:textSize="17sp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/dialog_main_background2" />
+        android:background="@color/dark" />
 
     <TextView
         android:id="@+id/txtMessageDialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
         android:layout_marginBottom="20dp"
+        android:layout_marginTop="5dp"
         android:gravity="right"
-        android:paddingTop="15dp"
+        android:paddingBottom="10dp"
         android:paddingEnd="25dp"
         android:paddingStart="25dp"
-        android:paddingBottom="10dp"
+        android:paddingTop="15dp"
         android:text="@string/abroad_music"
-        android:textColor="@color/dialog_text_color_2_zard"
+        android:textColor="@color/cardView_text_color_nAlbum"
         android:textSize="15sp" />
 
 

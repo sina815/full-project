@@ -93,8 +93,6 @@ public class FragTabSearch3 extends Fragment {
                     }
                 });
 
-
-                Toast.makeText(G.context, "tab3", Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -175,7 +173,7 @@ public class FragTabSearch3 extends Fragment {
 
                 paramss.put("search", search);
                 paramss.put("table", clip);
-                Log.i("TAG87654321", "params3: " + clip);
+                Log.i("TAG87654321", "params3: " + clip  + search);
                 return paramss;
             }
         };

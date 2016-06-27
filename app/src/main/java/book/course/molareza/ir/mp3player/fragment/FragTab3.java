@@ -5,9 +5,8 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +68,7 @@ public class FragTab3 extends Fragment {
         rcvContent = (RecyclerView) view.findViewById(R.id.rcvContentFrag1);
         adapterClip = new AdapterClip(items);
         rcvContent.setAdapter(adapterClip);
-        rcvContent.setLayoutManager(new LinearLayoutManager(G.context));
+        rcvContent.setLayoutManager(new GridLayoutManager(G.context,2));
         adapterClip.notifyDataSetChanged();
 
         if (isPage){
@@ -112,18 +111,15 @@ public class FragTab3 extends Fragment {
 
 
                             int id = Integer.parseInt(object.getString("id"));
-                            Log.i("TAGID", "id: " + id);
                             if (id <=1){
                                 isPage = false;
                             }
-//                            Log.i("TAGQWE", "onResponse: " + item.getAlbum());
 
                             String image = object.getString("thumbnile");
                             imageDownloader(image, u);
                             u++;
 
                             items.add(item);
-
                         }
 
                     }
@@ -140,8 +136,7 @@ public class FragTab3 extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(G.context, "failure connect to server", Toast.LENGTH_SHORT).show();
-                Log.i("ERROR_CLIP", "onErrorResponse: " + error.getMessage());
+                Toast.makeText(G.context, getResources().getString(R.string.error_connect), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -162,7 +157,7 @@ public class FragTab3 extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(G.context, "failure download image", Toast.LENGTH_SHORT).show();
+                Toast.makeText(G.context, getResources().getString(R.string.error_down_image), Toast.LENGTH_SHORT).show();
 
             }
         });

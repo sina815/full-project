@@ -3,7 +3,7 @@ package book.course.molareza.ir.mp3player.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -23,11 +23,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import book.course.molareza.ir.mp3player.G;
+import book.course.molareza.ir.mp3player.MyToast;
 import book.course.molareza.ir.mp3player.R;
 import book.course.molareza.ir.mp3player.adapter.AdapterSpinner;
 import book.course.molareza.ir.mp3player.struct.StructSpinner;
 
 public class ActivityCall extends AppCompatActivity {
+
+    private Toolbar toolbar;
 
     private EditText edtEmail, edtName, edtText;
     private Button btnSend;
@@ -43,6 +46,15 @@ public class ActivityCall extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_call);
 
+        toolbar = (Toolbar) findViewById(R.id.toolbarCall);
+        setSupportActionBar(toolbar);
+
+        if (getSupportActionBar() != null){
+
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        }
+
         edtEmail = (EditText) findViewById(R.id.edtEmailCall);
         edtName = (EditText) findViewById(R.id.edtNameCall);
         edtText = (EditText) findViewById(R.id.editText);
@@ -57,9 +69,9 @@ public class ActivityCall extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                email = edtEmail.getText().toString().trim();
-                name = edtName.getText().toString().trim();
-                text = edtText.getText().toString().trim();
+                email = edtEmail.getText().toString();
+                name = edtName.getText().toString();
+                text = edtText.getText().toString();
                 int po = spinner.getSelectedItemPosition();
                 switch (po) {
                     case 0:
@@ -73,24 +85,20 @@ public class ActivityCall extends AppCompatActivity {
                         break;
                 }
 
-                if (email != null) {
-
-                    if (name != null) {
-
-                        if (text != null) {
+                if (email.length() >0 ) {
+                    if (name.length() >0) {
+                        if (text.length() >0) {
 
                             sendData();
 
                         } else {
-                            Toast.makeText(ActivityCall.this, "لطفا متن خود را وارد کنید", Toast.LENGTH_SHORT).show();
+                            MyToast.makeText(G.context, "لطفا متن خود را وارد کنید", Toast.LENGTH_SHORT).show();
                         }
-
                     } else {
-                        Toast.makeText(ActivityCall.this, "لطفا نام خود را وارد کنید", Toast.LENGTH_SHORT).show();
+                        MyToast.makeText(G.context, "لطفا نام خود را وارد کنید", Toast.LENGTH_SHORT).show();
                     }
-
                 } else {
-                    Toast.makeText(ActivityCall.this, "لطفا ایمیل خود را وارد کنید", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(G.context, "لطفا ایمیل خود را وارد کنید", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -103,14 +111,15 @@ public class ActivityCall extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
 
-                Log.i("TAGCALL", "onResponse: " + response);
+                MyToast.makeText(G.context , response , Toast.LENGTH_LONG);
+
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(ActivityCall.this, "متاسفانه ارسال صورت نگرفت", Toast.LENGTH_SHORT).show();
+                MyToast.makeText(ActivityCall.this, "متاسفانه ارسال صورت نگرفت", Toast.LENGTH_SHORT).show();
 
             }
         }) {
@@ -122,8 +131,6 @@ public class ActivityCall extends AppCompatActivity {
                 params.put("name", name);
                 params.put("cat", sp);
                 params.put("text", text);
-
-                Log.i("TAGCALL", "params: " + params);
 
                 return params;
             }
@@ -161,4 +168,6 @@ public class ActivityCall extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
 
     }
+
+
 }

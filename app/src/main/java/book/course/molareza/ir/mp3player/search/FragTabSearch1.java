@@ -36,7 +36,7 @@ import java.util.Map;
 
 import book.course.molareza.ir.mp3player.G;
 import book.course.molareza.ir.mp3player.R;
-import book.course.molareza.ir.mp3player.adapter.AdapterMusicIrani;
+import book.course.molareza.ir.mp3player.adapter.AdapterMusicKhareji;
 import book.course.molareza.ir.mp3player.struct.StructMusicIrani;
 
 public class FragTabSearch1 extends Fragment {
@@ -44,7 +44,7 @@ public class FragTabSearch1 extends Fragment {
     private boolean isActive1;
 
     private RecyclerView rcvContent;
-    private AdapterMusicIrani adapterMusic;
+    private AdapterMusicKhareji adapterMusic;
     private List<StructMusicIrani> items;
 
     private ProgressBar prgFrag1;
@@ -82,7 +82,7 @@ public class FragTabSearch1 extends Fragment {
                         search = query;
 
                         prgFrag1.setVisibility(View.VISIBLE);
-                        adapterMusic = new AdapterMusicIrani(items);
+                        adapterMusic = new AdapterMusicKhareji(items);
                         rcvContent.setAdapter(adapterMusic);
                         rcvContent.setLayoutManager(new GridLayoutManager(G.context, 2));
                         irani = "irani";

@@ -17,12 +17,12 @@ import book.course.molareza.ir.mp3player.activity.ActivityPlayer;
 import book.course.molareza.ir.mp3player.struct.StructMusicIrani;
 
 
-public class AdapterMusicIrani extends RecyclerView.Adapter<AdapterMusicIrani.ViewHolder> {
+public class AdapterMusicKhareji extends RecyclerView.Adapter<AdapterMusicKhareji.ViewHolder> {
 
 
     public static List<StructMusicIrani> items;
 
-    public AdapterMusicIrani(List<StructMusicIrani> items) {
+    public AdapterMusicKhareji(List<StructMusicIrani> items) {
         this.items = items;
     }
 
@@ -42,15 +42,13 @@ public class AdapterMusicIrani extends RecyclerView.Adapter<AdapterMusicIrani.Vi
         holder.txtAlbum.setText(item.getAlbum());
         holder.txtLike.setText("" + item.getLike());
         holder.txtVisit.setText("" + item.getVisit());
-        holder.txtShare.setText("" + item.getShare());
-
 
         if (item.thBitmap != null) {
 
             holder.imgSinger.setImageBitmap(item.thBitmap);
 
         } else {
-            holder.imgSinger.setImageResource(R.mipmap.ninja);
+            holder.imgSinger.setImageResource(R.mipmap.splash);
         }
 
     }
@@ -74,7 +72,6 @@ public class AdapterMusicIrani extends RecyclerView.Adapter<AdapterMusicIrani.Vi
             imgSinger = (ImageView) itemView.findViewById(R.id.imgSinger);
             txtLike = (TextView) itemView.findViewById(R.id.txtLike);
             txtVisit = (TextView) itemView.findViewById(R.id.txtVisit);
-            txtShare = (TextView) itemView.findViewById(R.id.txtShare);
             txtSinger = (TextView) itemView.findViewById(R.id.txtSinger);
             txtAlbum = (TextView) itemView.findViewById(R.id.txtAlbum);
             cardView = (CardView) itemView.findViewById(R.id.cardView);

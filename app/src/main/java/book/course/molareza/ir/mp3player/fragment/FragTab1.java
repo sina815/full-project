@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,22 +28,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import book.course.molareza.ir.mp3player.G;
+import book.course.molareza.ir.mp3player.MyToast;
 import book.course.molareza.ir.mp3player.R;
-import book.course.molareza.ir.mp3player.adapter.AdapterMusicIrani;
+import book.course.molareza.ir.mp3player.adapter.AdapterMusicKhareji;
 import book.course.molareza.ir.mp3player.struct.StructMusicIrani;
 
 public class FragTab1 extends Fragment {
 
-    private RecyclerView rcvContent;
-    private AdapterMusicIrani adapterMusicIrani;
-    private List<StructMusicIrani> items = new ArrayList<>();
-
-    private ProgressBar prgFrag1;
-
-    private boolean isPage = true;
-
     public int page = 0;
     public int up;
+    private RecyclerView rcvContent;
+    private AdapterMusicKhareji adapterMusicIrani;
+    private List<StructMusicIrani> items = new ArrayList<>();
+    private ProgressBar prgFrag1;
+    private boolean isPage = true;
 
     @Override
     public void onResume() {
@@ -61,15 +58,15 @@ public class FragTab1 extends Fragment {
         prgFrag1 = (ProgressBar) view.findViewById(R.id.prgFrag1);
 
         rcvContent = (RecyclerView) view.findViewById(R.id.rcvContentFrag1);
-        adapterMusicIrani = new AdapterMusicIrani(items);
+        adapterMusicIrani = new AdapterMusicKhareji(items);
         rcvContent.setAdapter(adapterMusicIrani);
         rcvContent.setLayoutManager(new GridLayoutManager(G.context, 2));
         adapterMusicIrani.notifyDataSetChanged();
-        if (isPage){
+        if (isPage) {
 
             prgFrag1.setVisibility(View.VISIBLE);
             setItem();
-        }else {
+        } else {
             prgFrag1.setVisibility(View.INVISIBLE);
         }
 
@@ -106,16 +103,14 @@ public class FragTab1 extends Fragment {
                             item.setTable(object.getString("tbName"));
 
                             int id = Integer.parseInt(object.getString("id"));
-                            Log.i("TAGID", "id: " + id);
-                            if (id <=1){
+
+                            if (id <= 1) {
                                 isPage = false;
                             }
 
                             String th_url = object.getString("thumbnile");
                             setImage(th_url, up);
                             up++;
-
-                            Log.i("TAG", "onResponse: " + th_url);
 
                             items.add(item);
 
@@ -135,8 +130,7 @@ public class FragTab1 extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(G.context, "failure to connect server", Toast.LENGTH_SHORT).show();
-                Log.i("TAG", "onResponse: " + error.getMessage());
+                MyToast.makeText(G.context, getResources().getString(R.string.error_connect), Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -160,7 +154,7 @@ public class FragTab1 extends Fragment {
         }, 0, 0, ImageView.ScaleType.FIT_XY, Bitmap.Config.ARGB_8888, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(G.context, "failure to get image", Toast.LENGTH_SHORT).show();
+                MyToast.makeText(G.context, getResources().getString(R.string.error_down_image), Toast.LENGTH_SHORT).show();
             }
         });
 

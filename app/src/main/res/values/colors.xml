@@ -26,13 +26,12 @@
     <color name="main_rcv_background">#363a43</color>
 
     <!--cardView-->
-    <color name="cardView_background">#15171b</color>
-    <color name="cardView_text_color_nSinger">#33ffc2</color>
-    <color name="cardView_text_color_nAlbum">#fff15a</color>
+    <color name="cardView_background">#202329</color>
+    <color name="cardView_text_color_nSinger">#14f3ff</color>
+    <color name="cardView_text_color_nAlbum">#ffce3f</color>
     <color name="cardView_border">#ff502d</color>
     <color name="cardView_like">#00ff95</color>
-    <color name="cardView_visit">#ffed24</color>
-    <color name="cardView_share">#ff551d</color>
+    <color name="cardView_visit">#ff472f</color>
 
 
     <color name="setting_background">#363a43</color>
@@ -53,6 +52,8 @@
     <!--other-->
     <color name="textColor_sefid">#ffffff</color>
     <color name="fab_back">#f92b2e35</color>
+    <color name="setting_edt_back">#4d515b</color>
+    <color name="dark">#151515</color>
 
 
 </resources>
