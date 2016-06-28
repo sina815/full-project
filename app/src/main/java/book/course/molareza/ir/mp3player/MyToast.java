@@ -8,9 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-/**
- * Created by Home on 6/22/2016.
- */
+
 public class MyToast extends Toast {
     /**
      * Construct an empty Toast object.  You must call {@link #setView} before you
@@ -23,14 +21,14 @@ public class MyToast extends Toast {
         super(context);
 
 
-        View view = G.inflater.inflate(R.layout.toast, null);
+        View view = G.inflater.inflate(R.layout.toast,null);
 
         TextView txtToast = (TextView) view.findViewById(R.id.txtTextToast);
         txtToast.setText(text);
 
         this.setView(view);
         this.setDuration(duration);
-        this.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL , 0 , 100);
+        this.setGravity(Gravity.FILL_HORIZONTAL | Gravity.CENTER_VERTICAL , 0 , 0);
 
     }
 

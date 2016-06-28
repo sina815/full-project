@@ -26,11 +26,10 @@
                 app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
 
 
-
                 <include
                     android:id="@+id/toolbar"
                     layout="@layout/toolbar"
-                    app:layout_collapseMode="parallax"/>
+                    app:layout_collapseMode="parallax" />
 
                 <View
                     android:layout_width="match_parent"

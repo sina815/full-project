@@ -2,6 +2,7 @@ package book.course.molareza.ir.mp3player;
 
 import android.app.Activity;
 import android.app.Application;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.AudioManager;
@@ -30,6 +31,7 @@ public class G extends Application {
     public static LayoutInflater inflater;
     public static final Handler HANDLER = new Handler();
     public static Activity currentActivity;
+    public static NotificationManager notificationManager;
 
     public static AudioManager audioManager;
 
@@ -41,6 +43,7 @@ public class G extends Application {
     public static final String URL_CALL = "http://192.168.1.38/musicbazan/call.php";
     public static final String URL_DIALOG = "http://192.168.1.38/musicbazan/dialog.php";
     public static final String URL_VISIT = "http://192.168.1.38/musicbazan/visit.php";
+    public static final String URL_VERSION = "http://192.168.1.38/musicbazan/version.php";
 
     public static final String SD_CARD = Environment.getExternalStorageDirectory().getAbsolutePath();
     public static final String DIR_MUSIC = SD_CARD + "/musicBazan";
@@ -62,8 +65,9 @@ public class G extends Application {
         super.onCreate();
         context = getApplicationContext();
         inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+
+        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                 .setDefaultFontPath("fonts/IRANSansMobile.ttf")

@@ -3,8 +3,12 @@ package book.course.molareza.ir.mp3player.activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -16,13 +20,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -35,6 +39,7 @@ import java.util.Map;
 
 import book.course.molareza.ir.mp3player.G;
 import book.course.molareza.ir.mp3player.R;
+import book.course.molareza.ir.mp3player.SharePref;
 import book.course.molareza.ir.mp3player.adapter.AdapterViewPager;
 import book.course.molareza.ir.mp3player.database.DataBase;
 import book.course.molareza.ir.mp3player.favorite.ActivityFavorite;
@@ -48,19 +53,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ActivityMain extends AppCompatActivity {
 
-    private Toolbar toolbar;
-
-    private DrawerLayout drawerLayout;
-    private FragNavEnd fragNavEnd;
-
-    private ImageView menu_right, menu_left, imgSearch, imgFavorite;
-
-    private LinearLayout layoutRoot;
-
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
-
-    private AdapterViewPager adapterViewPager;
+    private SharedPreferences sharedPreferences;
 
     public int[] iconTabView = {
             R.mipmap.ic_music,
@@ -70,7 +63,15 @@ public class ActivityMain extends AppCompatActivity {
 
 
     };
-
+    private String id, newVersion, desc, link;
+    private Toolbar toolbar;
+    private DrawerLayout drawerLayout;
+    private FragNavEnd fragNavEnd;
+    private ImageView menu_right, menu_left, imgSearch, imgFavorite;
+    private CoordinatorLayout layoutRoot;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    private AdapterViewPager adapterViewPager;
     private String dialogId;
     private String titleDialog;
     private String messageDialog;
@@ -86,6 +87,8 @@ public class ActivityMain extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        checkNewVersion();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -150,7 +153,7 @@ public class ActivityMain extends AppCompatActivity {
         imgFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ActivityMain.this , ActivityFavorite.class);
+                Intent intent = new Intent(ActivityMain.this, ActivityFavorite.class);
                 startActivity(intent);
             }
         });
@@ -158,6 +161,8 @@ public class ActivityMain extends AppCompatActivity {
 
         drawerLayout = (DrawerLayout) findViewById(R.id.draw_nav);
         fragNavEnd = (FragNavEnd) getSupportFragmentManager().findFragmentById(R.id.frag_nav_end);
+
+        layoutRoot = (CoordinatorLayout) findViewById(R.id.layoutRoot);
 
         menu_right = (ImageView) findViewById(R.id.toolbar_menu);
         fragNavEnd.setup(drawerLayout, toolbar, menu_right, layoutRoot);
@@ -170,6 +175,124 @@ public class ActivityMain extends AppCompatActivity {
         setupIconTabView();
 
         DataBase dataBase = new DataBase();
+
+    }
+
+    /////////////// check newVersion
+
+    private void checkNewVersion() {
+
+        JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, G.URL_VERSION, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                try {
+                    JSONArray array = response.getJSONArray("version");
+
+                    if (array != null) {
+
+                        for (int i = 0; i < array.length(); i++) {
+
+                            JSONObject object = array.getJSONObject(i);
+
+                            id = object.getString("id");
+                            newVersion = object.getString("version");
+                            desc = object.getString("desc");
+                            link = object.getString("link");
+
+                            sharedPreferences = getSharedPreferences(SharePref.FILE_NAME , MODE_PRIVATE);
+                            float oldVersion = sharedPreferences.getFloat(SharePref.VERSION , 1.0f);
+
+                            if (oldVersion < Float.parseFloat(newVersion))
+                            {
+                                checkVersion();
+                            }
+
+                        }
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+
+            }
+        });
+
+        Volley.newRequestQueue(G.context).add(objectRequest);
+    }
+
+
+    ///////////////////////// check newVersion my app
+
+    private void checkVersion() {
+        ///// check newVersion my app
+
+        PackageManager manager = G.context.getPackageManager();
+        PackageInfo info = null;
+
+        try {
+            info = manager.getPackageInfo(G.context.getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        assert info != null;
+        String versionApp = info.versionName;
+
+        float myAppVersion = Float.parseFloat(versionApp);
+        float myNewVersion = Float.parseFloat(newVersion);
+
+        sharedPreferences = getSharedPreferences(SharePref.FILE_NAME , MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putFloat(SharePref.VERSION ,  myNewVersion);
+        editor.apply();
+
+
+        if (myAppVersion < myNewVersion) {
+
+            shoDialogUpdate();
+
+        }
+
+        ///////////////////////////
+
+    }
+
+    private void shoDialogUpdate() {
+
+        final Dialog dialog = new Dialog(ActivityMain.this);
+
+       dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        dialog.setContentView(R.layout.alert_dialog);
+
+        TextView txtTitle = (TextView) dialog.findViewById(R.id.txtTitleDialog);
+        txtTitle.setText("بروز رسانی");
+
+        TextView txtMessage = (TextView) dialog.findViewById(R.id.txtMessageDialog);
+        txtMessage.setText(desc);
+
+        ImageView imgClose = (ImageView) dialog.findViewById(R.id.imgCloseDialog);
+        imgClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog.dismiss();
+
+            }
+        });
+
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+
+        dialog.show();
 
     }
 
@@ -194,8 +317,8 @@ public class ActivityMain extends AppCompatActivity {
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                tab.getIcon().setColorFilter(getResources().getColor(R.color.tab_text_select), PorterDuff.Mode.SRC_IN);
 
+                tab.getIcon().setColorFilter(getResources().getColor(R.color.tab_text_select), PorterDuff.Mode.SRC_IN);
                 int position = tab.getPosition();
                 viewPager.setCurrentItem(position);
 

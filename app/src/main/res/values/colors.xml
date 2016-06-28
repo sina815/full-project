@@ -54,6 +54,7 @@
     <color name="fab_back">#f92b2e35</color>
     <color name="setting_edt_back">#4d515b</color>
     <color name="dark">#151515</color>
+    <color name="transition_full">#00000000</color>
 
 
 </resources>

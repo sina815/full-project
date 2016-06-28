@@ -4,6 +4,7 @@ package book.course.molareza.ir.mp3player.fragment;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -14,14 +15,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import book.course.molareza.ir.mp3player.G;
 import book.course.molareza.ir.mp3player.R;
 import book.course.molareza.ir.mp3player.activity.ActivityCall;
-import book.course.molareza.ir.mp3player.favorite.ActivityFavorite;
 import book.course.molareza.ir.mp3player.activity.ActivitySetting;
+import book.course.molareza.ir.mp3player.favorite.ActivityFavorite;
 
 
 /**
@@ -128,7 +128,7 @@ public class FragNavEnd extends Fragment {
 
     }
 
-    public void setup(DrawerLayout draw, Toolbar toolbar, ImageView menu_right, final LinearLayout layoutRoot) {
+    public void setup(final DrawerLayout draw, final Toolbar toolbar, ImageView menu_right, final CoordinatorLayout layoutRoot) {
 
         drawerLayout = draw;
 
@@ -150,12 +150,15 @@ public class FragNavEnd extends Fragment {
             public void onDrawerSlide(View drawerView, float slideOffset) {
                 super.onDrawerSlide(drawerView, slideOffset);
 
+                int widthDrawer = drawerView.getWidth();
+                float pad = (slideOffset * widthDrawer) * (-1);
+                layoutRoot.setTranslationX(pad);
 
             }
         };
 
-
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        drawerLayout.setScrimColor(getResources().getColor(R.color.transition_full));
 
         menu_right.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,6 +172,5 @@ public class FragNavEnd extends Fragment {
                 });
             }
         });
-
     }
 }

@@ -98,7 +98,7 @@ public class ActivityCall extends AppCompatActivity {
                         MyToast.makeText(G.context, "لطفا نام خود را وارد کنید", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(G.context, "لطفا ایمیل خود را وارد کنید", Toast.LENGTH_SHORT).show();
+                    MyToast.makeText(G.context, "لطفا ایمیل خود را وارد کنید", Toast.LENGTH_SHORT).show();
                 }
             }
         });

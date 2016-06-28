@@ -1,17 +1,23 @@
 package book.course.molareza.ir.mp3player.activity;
 
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.RemoteViews;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +40,7 @@ import java.util.Map;
 
 import book.course.molareza.ir.mp3player.G;
 import book.course.molareza.ir.mp3player.Helper;
+import book.course.molareza.ir.mp3player.MyToast;
 import book.course.molareza.ir.mp3player.R;
 import book.course.molareza.ir.mp3player.adapter.AdapterMusicIKhareji;
 import book.course.molareza.ir.mp3player.adapter.AdapterMusicKhareji;
@@ -49,25 +56,19 @@ import book.course.molareza.ir.mp3player.db.LikeMusicKharejiDao;
 public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnBufferingUpdateListener, SeekBar.OnSeekBarChangeListener
         , MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
 
+    public MediaPlayer mediaPlayer;
+    public int po;
+    long totalTime, currentTime;
     private Toolbar toolbar;
-
     private ImageView imgBlur, imgMain, imgRepeat, imgPrev, imgPlay, imgNext, imgDownload, imgLikeMusic;
     private TextView txtCurrentTime, txtTotalTime, txtSingerPlayer, txtLikeMusic;
     private SeekBar seekBarPlayer;
-
     private ViewGroup layoutLike;
     private ImageView imgFavorite;
     private boolean isFav = false;
     private boolean isLike = false;
-
-    private String urlBigImage, urlThImage, name, album, urlMp3_64, urlMp3_128;
-
-    public  MediaPlayer mediaPlayer;
     private boolean isRepeat = false;
-
-    long totalTime, currentTime;
-
-    public int po;
+    private String urlBigImage, urlThImage, name, album, urlMp3_64, urlMp3_128;
     private String id = "";
     //send Item
 
@@ -75,13 +76,28 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
     private String table = "";
     private String set = "visit";
     private int cLike = 0;
-
+    private Notification notification;
 
     @Override
     protected void onResume() {
         super.onResume();
         G.currentActivity = this;
 
+        if (mediaPlayer.isPlaying()) {
+
+            notification();
+        }
+
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mediaPlayer.isPlaying()) {
+
+            notification();
+        }
     }
 
 
@@ -90,16 +106,10 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
 
-        // getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         int result = G.audioManager.requestAudioFocus(ActivityPlayer.this, AudioManager.STREAM_MUSIC,
                 AudioManager.AUDIOFOCUS_GAIN);
-
-//        G.favoriteMusicIraniDao.deleteAll();
-//        G.favoriteMusicKharejiDao.deleteAll();
-//        G.likeMusicIraniDao.deleteAll();
-//        G.likeMusicKharejiDao.deleteAll();
-
 
         imgBlur = (ImageView) findViewById(R.id.imgBlur);
         imgMain = (ImageView) findViewById(R.id.imgMain);
@@ -232,11 +242,6 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
 //                    notificationmanager.notify(0, builder.build());
 
 
-
-
-
-
-
 //                 	// Using RemoteViews to bind custom layouts into Notification
 //                    RemoteViews remoteViews = new RemoteViews(getPackageName(),
 //                            R.layout.custom_notification);
@@ -280,7 +285,6 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
 //                    NotificationManager notificationmanager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 //                    // Build Notification with Notification Manager
 //                    notificationmanager.notify(0, builder.build());
-
 
 
                     //////////////////////////////////
@@ -330,13 +334,13 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
 
                     isRepeat = true;
                     imgRepeat.setColorFilter(getResources().getColor(R.color.tab_text_title), PorterDuff.Mode.SRC_IN);
-                    Toast.makeText(ActivityPlayer.this, "حالت تکرار فعال شد", Toast.LENGTH_SHORT).show();
+                    MyToast.makeText(ActivityPlayer.this, "حالت تکرار فعال شد", Toast.LENGTH_SHORT).show();
 
                 } else {
 
                     isRepeat = false;
                     imgRepeat.setColorFilter(getResources().getColor(R.color.tab_text_select), PorterDuff.Mode.SRC_IN);
-                    Toast.makeText(ActivityPlayer.this, "حالت تکرار غیرفعال شد", Toast.LENGTH_SHORT).show();
+                    MyToast.makeText(ActivityPlayer.this, "حالت تکرار غیرفعال شد", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -520,7 +524,6 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
 
     }
 
-
     private void isState() {
 
         if (table.equals("irani")) {
@@ -565,6 +568,9 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
 
 
     }
+
+
+    //seekBar change listener
 
     private void checkFavoriteAndLike() {
 
@@ -631,9 +637,6 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
         }
     }
 
-
-    //seekBar change listener
-
     @Override
     public void onBufferingUpdate(MediaPlayer mp, int percent) {
         seekBarPlayer.setSecondaryProgress(percent);
@@ -672,8 +675,9 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
         } else {
 
             seekBarPlayer.setProgress(0);
+            txtCurrentTime.setText("00:00");
             mediaPlayer.setLooping(true);
-            update_seekBar_timer();
+            // update_seekBar_timer();
             Toast.makeText(ActivityPlayer.this, "repeat on", Toast.LENGTH_SHORT).show();
         }
 
@@ -690,41 +694,6 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
         } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
             // Stop or pause depending on your need
             mediaPlayer.stop();
-        }
-    }
-
-
-    private class startPlay extends AsyncTask {
-
-        @Override
-        protected Object doInBackground(Object[] params) {
-
-            try {
-                mediaPlayer.setDataSource(urlMp3_64);
-                mediaPlayer.prepare();
-                //  Log.i("TAGURL", "onCreate: " + urlMp3_64);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Object o) {
-            super.onPostExecute(o);
-
-            mediaPlayer.start();
-            imgRepeat.setEnabled(true);
-            imgPrev.setEnabled(true);
-            imgPlay.setEnabled(true);
-            imgNext.setEnabled(true);
-            imgDownload.setEnabled(true);
-            imgPlay.setImageResource(R.mipmap.pause);
-
-            update_seekBar_timer();
-
-
         }
     }
 
@@ -748,8 +717,10 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
             };
             G.HANDLER.postDelayed(notif, 1000);
 
-            if (currentTime == totalTime) {
 
+            if (!isRepeat && currentTime >= totalTime) {
+                Toast.makeText(ActivityPlayer.this, "stop", Toast.LENGTH_SHORT).show();
+                imgPlay.setImageResource(R.mipmap.pause);
                 mediaPlayer.stop();
             }
         }
@@ -835,6 +806,76 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
 
         Volley.newRequestQueue(G.context).add(stringRequest);
 
+    }
+
+    //notify if media is play and page is finish
+    private void notification() {
+
+        // Using RemoteViews to bind custom layouts into Notification
+        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.custom_notification);
+        // Set Notification Title
+
+        // Open NotificationView Class on Notification Click
+        Intent intent = new Intent(ActivityPlayer.this, ActivityMain.class);
+        // Open NotificationView.java Activity
+        PendingIntent pIntent = PendingIntent.getActivity(G.context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(G.context)
+                // Set Icon
+                .setSmallIcon(R.mipmap.play)
+                // Set Ticker Message
+                .setTicker("ticker")
+                // Dismiss Notification
+                .setAutoCancel(true)
+                // Set PendingIntent into Notification
+                .setContentIntent(pIntent)
+                // Set RemoteViews into Notification
+                .setContent(remoteViews);
+
+        imgMain.buildDrawingCache();
+        Bitmap bt = imgMain.getDrawingCache();
+
+        remoteViews.setTextViewText(R.id.txtSingerNotify, name);
+        remoteViews.setTextViewText(R.id.txtAlbumNotify, album);
+        remoteViews.setImageViewBitmap(R.id.imgNotify, bt);
+
+        G.notificationManager.notify(0, builder.build());
+
+    }
+
+
+    private class startPlay extends AsyncTask {
+
+        @Override
+        protected Object doInBackground(Object[] params) {
+
+            try {
+                mediaPlayer.setDataSource(urlMp3_64);
+                mediaPlayer.prepare();
+                //  Log.i("TAGURL", "onCreate: " + urlMp3_64);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+
+            mediaPlayer.start();
+            imgRepeat.setEnabled(true);
+            imgPrev.setEnabled(true);
+            imgPlay.setEnabled(true);
+            imgNext.setEnabled(true);
+            imgDownload.setEnabled(true);
+            imgPlay.setImageResource(R.mipmap.pause);
+
+            update_seekBar_timer();
+
+
+        }
     }
 
 

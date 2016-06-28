@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/main_rcv_background"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/imgNotify"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="fitXY"
+        android:src="@mipmap/splash" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:paddingEnd="20dp"
+            android:paddingStart="5dp"
+            android:paddingTop="10dp"
+            android:text="@string/nSinger"
+            android:textColor="@color/cardView_text_color_nSinger"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/txtSingerNotify"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@id/textView2"
+            android:paddingEnd="5dp"
+            android:paddingTop="10dp"
+            android:paddingStart="20dp"
+            android:text="@string/nAlbum"
+            android:textColor="@color/cardView_text_color_nSinger"
+            android:textSize="14sp" />
+
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:paddingBottom="5dp"
+            android:paddingEnd="25dp"
+            android:paddingStart="5dp"
+            android:paddingTop="10dp"
+            android:text="@string/nAlbum"
+            android:textColor="@color/cardView_text_color_nAlbum"
+            android:textSize="14sp" />
+
+
+        <TextView
+            android:id="@+id/txtAlbumNotify"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@id/textView3"
+            android:paddingBottom="5dp"
+            android:paddingEnd="5dp"
+            android:paddingStart="20dp"
+            android:text="@string/nAlbum"
+            android:textColor="@color/cardView_text_color_nAlbum"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>
