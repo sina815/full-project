@@ -5,7 +5,7 @@
     android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
+    android:layout_margin="2dp"
     card_view:cardElevation="15dp">
 
     <LinearLayout
@@ -41,9 +41,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:layout_toEndOf="@+id/txtSingerClip"
-                android:paddingEnd="10dp"
-                android:paddingStart="5dp"
+                android:layout_toRightOf="@+id/txtSingerClip"
+                android:paddingRight="10dp"
+                android:paddingLeft="5dp"
                 android:paddingTop="10dp"
                 android:text="@string/nSinger"
                 android:textColor="@color/cardView_text_color_nSinger"
@@ -70,9 +70,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:layout_toEndOf="@+id/txtAlbumClip"
-                android:paddingEnd="10dp"
-                android:paddingStart="5dp"
+                android:layout_toRightOf="@+id/txtAlbumClip"
+                android:paddingRight="10dp"
+                android:paddingLeft="5dp"
                 android:paddingTop="5dp"
                 android:text="@string/nAlbum"
                 android:textColor="@color/cardView_text_color_nAlbum"
@@ -103,8 +103,8 @@
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:layout_gravity="center"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginStart="15dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="5dp"
                     android:src="@mipmap/like"
                     android:tint="@color/cardView_like" />
 

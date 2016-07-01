@@ -78,18 +78,6 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
     private int cLike = 0;
     private Notification notification;
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        G.currentActivity = this;
-
-        if (mediaPlayer.isPlaying()) {
-
-            notification();
-        }
-
-    }
-
 
     @Override
     protected void onDestroy() {
@@ -368,7 +356,7 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
                         imgFavorite.setImageResource(R.mipmap.ic_favorite_border_black_48dp);
                         imgFavorite.setColorFilter(getResources().getColor(R.color.tab_text_select));
                         isFav = false;
-                        Toast.makeText(ActivityPlayer.this, "این مطلب از لیست علاقه مندی ها پاک شد", Toast.LENGTH_SHORT).show();
+                        MyToast.makeText(ActivityPlayer.this, "این مطلب از لیست علاقه مندی ها پاک شد", Toast.LENGTH_SHORT).show();
 
                     } else {
 
@@ -388,7 +376,7 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
                         imgFavorite.setColorFilter(getResources().getColor(R.color.tab_text_title));
                         isFav = true;
 
-                        Toast.makeText(ActivityPlayer.this, "این مطلب به علاقه مندی ها اضافه شد", Toast.LENGTH_SHORT).show();
+                        MyToast.makeText(ActivityPlayer.this, "این مطلب به علاقه مندی ها اضافه شد", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     if (isFav) {
@@ -670,7 +658,7 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
             seekBarPlayer.setProgress(0);
             txtCurrentTime.setText("00:00");
             imgPlay.setImageResource(R.mipmap.play);
-            Toast.makeText(ActivityPlayer.this, "repeat off", Toast.LENGTH_SHORT).show();
+            MyToast.makeText(ActivityPlayer.this, "حالت نکرار خاموش شد", Toast.LENGTH_SHORT).show();
 
         } else {
 
@@ -678,7 +666,7 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
             txtCurrentTime.setText("00:00");
             mediaPlayer.setLooping(true);
             // update_seekBar_timer();
-            Toast.makeText(ActivityPlayer.this, "repeat on", Toast.LENGTH_SHORT).show();
+            MyToast.makeText(ActivityPlayer.this, "حالت تکرار روشن شد", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -719,7 +707,6 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
 
 
             if (!isRepeat && currentTime >= totalTime) {
-                Toast.makeText(ActivityPlayer.this, "stop", Toast.LENGTH_SHORT).show();
                 imgPlay.setImageResource(R.mipmap.pause);
                 mediaPlayer.stop();
             }
@@ -732,7 +719,6 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
         StringRequest stringRequest = new StringRequest(Request.Method.POST, G.URL_VISIT, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.i("LOGTAG", "onResponse: " + response);
 
                 try {
                     JSONObject object = new JSONObject(response);
@@ -814,7 +800,6 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
         // Using RemoteViews to bind custom layouts into Notification
         RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.custom_notification);
         // Set Notification Title
-
         // Open NotificationView Class on Notification Click
         Intent intent = new Intent(ActivityPlayer.this, ActivityMain.class);
         // Open NotificationView.java Activity
@@ -824,7 +809,7 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
                 // Set Icon
                 .setSmallIcon(R.mipmap.play)
                 // Set Ticker Message
-                .setTicker("ticker")
+                .setTicker("پخش موزیک")
                 // Dismiss Notification
                 .setAutoCancel(true)
                 // Set PendingIntent into Notification

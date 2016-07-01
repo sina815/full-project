@@ -21,7 +21,7 @@
             android:scaleType="fitXY"
             android:src="@mipmap/splash" />
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
@@ -41,17 +41,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:layout_toEndOf="@+id/txtSinger"
-                android:paddingEnd="10dp"
-                android:paddingStart="5dp"
+                android:layout_toRightOf="@+id/txtAlbumClip"
+                android:paddingLeft="5dp"
+                android:paddingRight="10dp"
                 android:paddingTop="10dp"
                 android:text="@string/nSinger"
                 android:textColor="@color/cardView_text_color_nSinger"
                 android:textSize="13sp" />
 
-        </RelativeLayout>
+        </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
@@ -64,22 +64,21 @@
                 android:paddingTop="5dp"
                 android:text="@string/nSinger"
                 android:textColor="@color/cardView_text_color_nAlbum"
-
                 android:textSize="13sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:layout_toEndOf="@+id/txtAlbum"
-                android:paddingEnd="10dp"
-                android:paddingStart="5dp"
+                android:layout_toRightOf="@+id/txtAlbumClip"
+                android:paddingLeft="5dp"
+                android:paddingRight="10dp"
                 android:paddingTop="5dp"
                 android:text="@string/nAlbum"
                 android:textColor="@color/cardView_text_color_nAlbum"
                 android:textSize="13sp" />
 
-        </RelativeLayout>
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
@@ -96,16 +95,16 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight=".5"
-                android:paddingEnd="5dp"
-                android:paddingStart="15dp">
+                android:paddingLeft="15dp"
+                android:paddingRight="5dp">
 
                 <ImageView
 
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:layout_gravity="center"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginStart="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="10dp"
                     android:src="@mipmap/like"
                     android:tint="@color/cardView_like" />
 
@@ -114,18 +113,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
+                    android:paddingTop="2dp"
                     android:text="541+"
                     android:textColor="@color/cardView_like"
-                    android:textSize="12sp"
-                    android:paddingTop="2dp"/>
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight=".5"
-                android:paddingEnd="5dp"
-                android:paddingStart="15dp">
+                android:paddingLeft="15dp"
+                android:paddingRight="5dp">
 
 
                 <ImageView
@@ -142,12 +141,12 @@
                     android:id="@+id/txtVisit"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="8dp"
                     android:gravity="center"
+                    android:paddingTop="2dp"
                     android:text="541+"
                     android:textColor="@color/cardView_visit"
-                    android:textSize="12sp"
-                    android:layout_marginStart="8dp"
-                    android:paddingTop="2dp"/>
+                    android:textSize="12sp" />
             </LinearLayout>
 
 

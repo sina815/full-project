@@ -28,7 +28,7 @@ public class MyToast extends Toast {
 
         this.setView(view);
         this.setDuration(duration);
-        this.setGravity(Gravity.FILL_HORIZONTAL | Gravity.CENTER_VERTICAL , 0 , 0);
+        this.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL , 0 , 0);
 
     }
 

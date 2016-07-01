@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -40,10 +41,22 @@ public class FragTabFavorite3 extends Fragment {
     private boolean isReaped = true;
     public int u;
 
+    private TextView txtNotFound;
+
+    private boolean isCount = true;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.frag_tab1, container, false);
+
+        txtNotFound = (TextView) view.findViewById(R.id.txtNotFound);
+        txtNotFound.setText(R.string.favorite_nothing);
+
+        if (isCount){
+
+            txtNotFound.setVisibility(View.VISIBLE);
+        }
 
         progressBar = (ProgressBar) view.findViewById(R.id.prgFrag1);
         progressBar.setVisibility(View.INVISIBLE);
@@ -61,27 +74,41 @@ public class FragTabFavorite3 extends Fragment {
 
     private void setItem() {
 
-        List<FavoriteClip> favoriteMusicKharejis = G.favoriteClipDao.loadAll();
+        List<FavoriteClip> favoriteClips = G.favoriteClipDao.loadAll();
 
-        for (int i = 0; i < favoriteMusicKharejis.size(); i++) {
+        if (!favoriteClips.isEmpty()){
 
-            // Toast.makeText(G.context, "ا ها پاک شد", Toast.LENGTH_SHORT).show();
+            txtNotFound.setVisibility(View.INVISIBLE);
+            isCount = false;
+        }
+
+
+
+        if (!favoriteClips.isEmpty()){
+
+            txtNotFound.setVisibility(View.INVISIBLE);
+        }
+
+
+        for (int i = 0; i < favoriteClips.size(); i++) {
+
+
             StructClip item = new StructClip();
 
-            item.setId(favoriteMusicKharejis.get(i).getId_item());
-            item.setName(favoriteMusicKharejis.get(i).getName());
-            item.setAlbum(favoriteMusicKharejis.get(i).getAlbum());
-            item.setThumbnile(favoriteMusicKharejis.get(i).getThImage());
-            item.setBigImage(favoriteMusicKharejis.get(i).getBigImage());
-            item.setClip(favoriteMusicKharejis.get(i).getClip());
+            item.setId(favoriteClips.get(i).getId_item());
+            item.setName(favoriteClips.get(i).getName());
+            item.setAlbum(favoriteClips.get(i).getAlbum());
+            item.setThumbnile(favoriteClips.get(i).getThImage());
+            item.setBigImage(favoriteClips.get(i).getBigImage());
+            item.setClip(favoriteClips.get(i).getClip());
 
-            String urlImage = favoriteMusicKharejis.get(i).getThImage();
+            String urlImage = favoriteClips.get(i).getThImage();
 
             setImage(urlImage, u);
 
-            long num_id = favoriteMusicKharejis.get(i).getId();
+            long num_id = favoriteClips.get(i).getId();
             if (num_id == 1) {
-                //    isReaped = false;
+                    isReaped = false;
             }
 
             u++;

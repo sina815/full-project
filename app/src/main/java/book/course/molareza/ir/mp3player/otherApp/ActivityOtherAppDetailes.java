@@ -1,4 +1,4 @@
-package book.course.molareza.ir.mp3player.activity;
+package book.course.molareza.ir.mp3player.otherApp;
 
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -30,25 +29,21 @@ import java.util.List;
 import java.util.Map;
 
 import book.course.molareza.ir.mp3player.G;
-import book.course.molareza.ir.mp3player.MyToast;
 import book.course.molareza.ir.mp3player.R;
-import book.course.molareza.ir.mp3player.adapter.AdapterNews;
+import book.course.molareza.ir.mp3player.activity.FileDownloader;
 import book.course.molareza.ir.mp3player.database.DataBase;
-import book.course.molareza.ir.mp3player.db.FavoriteDetail;
-import book.course.molareza.ir.mp3player.db.FavoriteDetailDao;
-import book.course.molareza.ir.mp3player.db.LikeDetail;
-import book.course.molareza.ir.mp3player.db.LikeDetailDao;
+import book.course.molareza.ir.mp3player.db.LikeOtherApp;
+import book.course.molareza.ir.mp3player.db.LikeOtherAppDao;
 
-public class ActivityDetailNews extends AppCompatActivity {
-
+public class ActivityOtherAppDetailes extends AppCompatActivity {
     private Toolbar toolbar;
 
-    private String txtText, txtId, txtDesc, txtUrlBigImage, txtUrlThImage, txtTitle;
+    private String txtText, txtId, txtDesc, txtUrlBigImage, txtUrlThImage, txtTitle, link;
 
     private FloatingActionButton fab;
     private boolean isFav = false;
     private boolean isLike = false;
-    private ViewGroup layoutLike;
+    private ViewGroup layoutLike, layoutDownload;
 
     private ImageView imgDetail, imgLikeDetail;
     private TextView txtTextDetail, txtLikeDetail;
@@ -61,17 +56,15 @@ public class ActivityDetailNews extends AppCompatActivity {
     //send Item
 
     private String num = "1";
-    private String table = "news";
+    private String table = "otherapp";
     private String set = "visit";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_news);
+        setContentView(R.layout.activity_other_app_detailes);
 
         Log.i("LOGLOG", "f1: " + isFav);
-//        G.favoriteDetailDao.deleteAll();
 
         DataBase dataBase = new DataBase();
         int screen = dataBase.readScreenSetting();
@@ -92,6 +85,7 @@ public class ActivityDetailNews extends AppCompatActivity {
             id = bundle.getString("ID");
             po = bundle.getInt("PO");
             cLike = bundle.getInt("LIKE");
+            link = bundle.getString("LINK");
         }
 
         sendVisit();
@@ -117,52 +111,13 @@ public class ActivityDetailNews extends AppCompatActivity {
 
         isState();
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (isFav) {
-
-                    G.favoriteDetailDao.queryBuilder()
-                            .where(FavoriteDetailDao.Properties.Id_item.eq(txtId))
-                            .buildDelete()
-                            .executeDeleteWithoutDetachingEntities();
-
-                    fab.setColorFilter(getResources().getColor(R.color.tab_text_select));
-                    fab.setImageResource(R.mipmap.ic_favorite_border_black_48dp);
-
-                    isFav = false;
-
-                    MyToast.makeText(ActivityDetailNews.this, "این مطلب از لیست علاقه مندی ها پاک شد", Toast.LENGTH_SHORT).show();
-                } else {
-
-                    FavoriteDetail favorite = new FavoriteDetail();
-                    favorite.setId_item(txtId);
-                    favorite.setName(txtTitle);
-                    favorite.setAlbum(txtDesc);
-                    favorite.setText(txtText);
-                    favorite.setThImage(txtUrlThImage);
-                    favorite.setBigImage(txtUrlBigImage);
-                    G.favoriteDetailDao.insert(favorite);
-
-                    fab.setImageResource(R.mipmap.ic_favorite_black_48dp);
-                    fab.setColorFilter(getResources().getColor(R.color.tab_text_title));
-                    isFav = true;
-
-                    Log.i("LOGLOG", "f2: " + isFav);
-
-                    MyToast.makeText(ActivityDetailNews.this, "این مطلب به علاقه مندی ها اضافه شد", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
         layoutLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isLike) {
 
-                    G.likeDetailDao.queryBuilder().
-                            where(LikeDetailDao.Properties.Item_id.eq(txtId))
+                    G.likeOtherAppDao.queryBuilder().
+                            where(LikeOtherAppDao.Properties.Item_id.eq(txtId))
                             .buildDelete()
                             .executeDeleteWithoutDetachingEntities();
 
@@ -178,9 +133,9 @@ public class ActivityDetailNews extends AppCompatActivity {
 
                 } else {
 
-                    LikeDetail like = new LikeDetail();
+                    LikeOtherApp like = new LikeOtherApp();
                     like.setItem_id(txtId);
-                    G.likeDetailDao.insert(like);
+                    G.likeOtherAppDao.insert(like);
 
                     num = "1";
                     set = "like1";
@@ -210,6 +165,16 @@ public class ActivityDetailNews extends AppCompatActivity {
         int size = dataBase.fetchDatabase();
         txtTextDetail.setTextSize(size);
 
+        layoutDownload = (ViewGroup) findViewById(R.id.layoutDownload);
+        layoutDownload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                FileDownloader fileDownloader = new FileDownloader(ActivityOtherAppDetailes.this);
+                fileDownloader.execute(link, G.DIR_APP);
+            }
+        });
+
     }
 
     private void clickLike() {
@@ -221,14 +186,6 @@ public class ActivityDetailNews extends AppCompatActivity {
     }
 
     private void isState() {
-        if (isFav) {
-            fab.setColorFilter(getResources().getColor(R.color.tab_text_title));
-            fab.setImageResource(R.mipmap.ic_favorite_black_48dp);
-        } else {
-            fab.setColorFilter(getResources().getColor(R.color.tab_text_select));
-            fab.setImageResource(R.mipmap.ic_favorite_border_black_48dp);
-
-        }
 
         if (isLike) {
             imgLikeDetail.setColorFilter(getResources().getColor(R.color.tab_text_title));
@@ -240,27 +197,14 @@ public class ActivityDetailNews extends AppCompatActivity {
 
         }
 
-
     }
 
     private void checkFavoriteAndLike() {
-        List<FavoriteDetail> favoritesList = G.favoriteDetailDao.queryBuilder()
-                .where(FavoriteDetailDao.Properties.Id_item.eq(txtId))
-                .list();
 
-        for (FavoriteDetail fc : favoritesList) {
-
-            if (fc.getId_item() != null) {
-                Log.i("LOGLOG", "in: " + fc.getId_item());
-
-                isFav = true;
-            }
-        }
-
-        List<LikeDetail> likeList = G.likeDetailDao.queryBuilder().where(LikeDetailDao.Properties
+        List<LikeOtherApp> likeList = G.likeOtherAppDao.queryBuilder().where(LikeOtherAppDao.Properties
                 .Item_id.eq(txtId))
                 .list();
-        for (LikeDetail lk : likeList) {
+        for (LikeOtherApp lk : likeList) {
 
             if (lk.getItem_id() != null) {
 
@@ -283,20 +227,18 @@ public class ActivityDetailNews extends AppCompatActivity {
                     String state = object.getString("state");
                     int st = Integer.parseInt(state);
 
-                    Log.i("LOGTAG", "onResponse: " + response);
                     if (st == 200) {
 
                         String vs = object.getString("plus");
                         int vPlus = Integer.parseInt(vs);
 
                         if (set.equals("visit")) {
-                            AdapterNews.items.get(po).setVisit(vPlus);
+
+                            AdapterOtherApp.items.get(po).setVisit(vPlus);
                         } else {
 
-                            AdapterNews.items.get(po).setLike(vPlus);
+                            AdapterOtherApp.items.get(po).setLike(vPlus);
                         }
-
-
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -330,3 +272,6 @@ public class ActivityDetailNews extends AppCompatActivity {
 
     }
 }
+
+
+

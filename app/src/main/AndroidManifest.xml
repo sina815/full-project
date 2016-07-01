@@ -4,12 +4,12 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".G"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/app"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -32,9 +32,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.ActivityMain" />
         </activity>
-        <activity android:name=".activity.ActivityCall" >
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.ActivityMain"/>
+        <activity android:name=".activity.ActivityCall">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.ActivityMain" />
         </activity>
         <activity android:name=".favorite.ActivityFavorite">
             <meta-data
@@ -51,6 +52,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.ActivityMain" />
         </activity>
+        <activity android:name=".activity.ActivityInternet" />
+        <activity android:name=".otherApp.ActivityOtherApp">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.ActivityMain" />
+        </activity>
+        <activity android:name=".otherApp.ActivityOtherAppDetailes"></activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="988b7ccf395749c3c914898b2a82a8ecf897bdb3" />
     </application>
 
 </manifest>

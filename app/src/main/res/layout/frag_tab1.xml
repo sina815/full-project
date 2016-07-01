@@ -19,4 +19,17 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/txtNotFound"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:textColor="@color/tab_text_title"
+        android:visibility="gone" />
+
+
 </RelativeLayout>

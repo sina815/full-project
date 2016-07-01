@@ -67,6 +67,10 @@ public class Main {
         likeClip.addIdProperty().primaryKey();
         likeClip.addStringProperty("item_id");
 
+        Entity likeOtherApp = schema.addEntity("LikeOtherApp");
+        likeOtherApp.addIdProperty().primaryKey();
+        likeOtherApp.addStringProperty("item_id");
+
         DaoGenerator dg = new DaoGenerator();
         dg.generateAll(schema, "app/src/main/java");
 

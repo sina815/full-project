@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 import book.course.molareza.ir.mp3player.G;
+import book.course.molareza.ir.mp3player.MyToast;
 import book.course.molareza.ir.mp3player.R;
 import book.course.molareza.ir.mp3player.adapter.AdapterClip;
 import book.course.molareza.ir.mp3player.db.FavoriteClip;
@@ -78,7 +79,7 @@ public class ActivityClip extends AppCompatActivity {
 
         }
 
-        if (like !=null){
+        if (like != null) {
 
             cLike = Integer.parseInt(like);
         }
@@ -118,7 +119,7 @@ public class ActivityClip extends AppCompatActivity {
 
                     isFav = false;
 
-                    Toast.makeText(ActivityClip.this, "این مطلب از لیست علاقه مندی ها پاک شد", Toast.LENGTH_SHORT).show();
+                    MyToast.makeText(ActivityClip.this, "این مطلب از لیست علاقه مندی ها پاک شد", Toast.LENGTH_SHORT).show();
 
                 } else {
 
@@ -136,7 +137,7 @@ public class ActivityClip extends AppCompatActivity {
 
                     isFav = true;
 
-                    Toast.makeText(ActivityClip.this, "این مطلب به علاقه مندی ها اضافه شد", Toast.LENGTH_SHORT).show();
+                    MyToast.makeText(ActivityClip.this, "این مطلب به علاقه مندی ها اضافه شد", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -227,14 +228,12 @@ public class ActivityClip extends AppCompatActivity {
         });
 
 
-
         imgDownloadClip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Log.i("TAGTAGTAG", "onClick: " );
                 FileDownloader fileDownloader = new FileDownloader(ActivityClip.this);
-                fileDownloader.execute(urlClip,G.DIR_CLIP);
+                fileDownloader.execute(urlClip, G.DIR_CLIP);
             }
         });
 

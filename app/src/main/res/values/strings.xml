@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Mp3Player</string>
+    <string name="app_name">موزیک باز</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -75,5 +75,14 @@
 
     <string name="error_connect">متاسفانه ارتباط با سرور برقرار نشد</string>
     <string name="error_down_image">متاسفانه مشکلی در دریافت عکس ها ازسمت سرور به وجود آمده !</string>
+    <string name="error_connect_internet">عدم اتصال به اینترنت ! </string>
+    <string name="wifi">وای فای</string>
+    <string name="refresh">تلاش مجدد</string>
+    <string name="download">دانلود</string>
+    <string name="error_get_pic">خطا هنگام دریافت عکس</string>
+
+
+    <!--favorite-->
+    <string name="favorite_nothing">هنوز موردی به علاقه مندی ها اضافه نشده !</string>
 
 </resources>

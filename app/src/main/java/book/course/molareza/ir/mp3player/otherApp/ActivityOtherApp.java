@@ -1,14 +1,15 @@
-package book.course.molareza.ir.mp3player.fragment;
+package book.course.molareza.ir.mp3player.otherApp;
 
-
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -30,112 +31,110 @@ import java.util.List;
 import book.course.molareza.ir.mp3player.G;
 import book.course.molareza.ir.mp3player.MyToast;
 import book.course.molareza.ir.mp3player.R;
-import book.course.molareza.ir.mp3player.adapter.AdapterNews;
-import book.course.molareza.ir.mp3player.struct.StructNews;
+import book.course.molareza.ir.mp3player.activity.ActivityMain;
+import book.course.molareza.ir.mp3player.struct.StructOtherApp;
 
+public class ActivityOtherApp extends AppCompatActivity {
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class FragTab4 extends Fragment {
+    private Toolbar toolbar;
+    private RecyclerView rcvContent;
+    private ProgressBar prgBar;
+    private AdapterOtherApp adapterOtherApp;
+    private List<StructOtherApp> items = new ArrayList<>();
 
     private boolean isPage = true;
-
-    private RecyclerView rcvContent;
-    private AdapterNews adapterNews;
-    private List<StructNews> items = new ArrayList<>();
-
-    private ProgressBar prgFrag4;
-
     private int u;
 
-
     @Override
-    public void onResume() {
+    protected void onResume() {
         super.onResume();
-        adapterNews.notifyDataSetChanged();
+        adapterOtherApp.notifyDataSetChanged();
     }
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_other_app);
 
-        View view = inflater.inflate(R.layout.frag_tab1, container, false);
+        toolbar = (Toolbar) findViewById(R.id.toolbarOtherApp);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() !=null){
 
-        prgFrag4 = (ProgressBar) view.findViewById(R.id.prgFrag1);
-
-        rcvContent = (RecyclerView) view.findViewById(R.id.rcvContentFrag1);
-        adapterNews = new AdapterNews(items);
-        rcvContent.setAdapter(adapterNews);
-        rcvContent.setLayoutManager(new LinearLayoutManager(G.context));
-
-        if (isPage){
-
-            prgFrag4.setVisibility(View.VISIBLE);
-            setItems();
-        }else {
-            prgFrag4.setVisibility(View.INVISIBLE);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        return view;
-    }
+        prgBar = (ProgressBar) findViewById(R.id.prgOtherApp);
+        assert prgBar != null;
+        prgBar.setVisibility(View.VISIBLE);
 
+        rcvContent = (RecyclerView) findViewById(R.id.rcvContentOtherApp);
+        adapterOtherApp = new AdapterOtherApp(items);
+        rcvContent.setAdapter(adapterOtherApp);
+        rcvContent.setLayoutManager(new LinearLayoutManager(G.context));
+        setItems();
+        adapterOtherApp.notifyDataSetChanged();
+
+    }
 
     private void setItems() {
 
-        JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, G.URL_NEWS, new Response.Listener<JSONObject>() {
+        JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, G.URL_OTHER_APP, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 
                 try {
-                    JSONArray array = response.getJSONArray("news");
 
-                    if (array != null) {
+                    JSONArray array = response.getJSONArray("app");
 
+                    if (array !=null){
                         for (int i = 0; i < array.length(); i++) {
 
-                            StructNews item = new StructNews();
+                            StructOtherApp item = new StructOtherApp();
                             JSONObject object = array.getJSONObject(i);
 
+                            Log.i("TAGAPP", "onResponse: " + array);
                             item.setId(object.getString("id"));
-                            item.setTitle(object.getString("title"));
                             item.setDesc(object.getString("desc"));
                             item.setText(object.getString("text"));
-                            item.setThumbnil(object.getString("thumbnil"));
-                            item.setBigImage(object.getString("bigimage"));
-                            item.setLike(object.getInt("like"));
+                            item.setThImage(object.getString("thumbnail"));
+                            item.setBigImage(object.getString("bigImage"));
+                            item.setLink(object.getString("link"));
                             item.setVisit(object.getInt("visit"));
-                            item.setShare(object.getInt("share"));
+                            item.setLike(object.getInt("like"));
+                            item.setTable(object.getString("tbName"));
 
                             int id = Integer.parseInt(object.getString("id"));
                             if (id <=1){
                                 isPage = false;
                             }
 
-                            String urlImage = object.getString("thumbnil");
+                            String urlImage = object.getString("thumbnail");
                             imageDownloader(urlImage, u);
                             u++;
+
                             items.add(item);
                         }
 
                     }
 
-                    prgFrag4.setVisibility(View.INVISIBLE);
-                    adapterNews.notifyDataSetChanged();
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+                adapterOtherApp.notifyDataSetChanged();;
+                prgBar.setVisibility(View.INVISIBLE);
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                MyToast.makeText(G.context, getResources().getString(R.string.error_connect), Toast.LENGTH_SHORT).show();
+
+
             }
         });
 
         Volley.newRequestQueue(G.context).add(objectRequest);
+
     }
 
     private void imageDownloader(String urlImage, final int position) {
@@ -144,8 +143,8 @@ public class FragTab4 extends Fragment {
             @Override
             public void onResponse(Bitmap response) {
 
-                AdapterNews.items.get(position).setThBitmap(response);
-                adapterNews.notifyDataSetChanged();
+                adapterOtherApp.items.get(position).setBitmapImage(response);
+                adapterOtherApp.notifyDataSetChanged();
 
             }
         }, 0, 0, ImageView.ScaleType.FIT_XY, Bitmap.Config.ARGB_8888, new Response.ErrorListener() {
@@ -159,5 +158,13 @@ public class FragTab4 extends Fragment {
 
     }
 
-
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK){
+            Intent intent = new Intent(ActivityOtherApp.this , ActivityMain.class);
+            startActivity(intent);
+            finish();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }

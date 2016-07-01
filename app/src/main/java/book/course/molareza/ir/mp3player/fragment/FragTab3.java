@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import book.course.molareza.ir.mp3player.G;
+import book.course.molareza.ir.mp3player.MyToast;
 import book.course.molareza.ir.mp3player.R;
 import book.course.molareza.ir.mp3player.adapter.AdapterClip;
 import book.course.molareza.ir.mp3player.struct.StructClip;
@@ -136,7 +137,7 @@ public class FragTab3 extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(G.context, getResources().getString(R.string.error_connect), Toast.LENGTH_SHORT).show();
+                MyToast.makeText(G.context, getResources().getString(R.string.error_connect), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -157,7 +158,7 @@ public class FragTab3 extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(G.context, getResources().getString(R.string.error_down_image), Toast.LENGTH_SHORT).show();
+                MyToast.makeText(G.context, getResources().getString(R.string.error_down_image), Toast.LENGTH_SHORT).show();
 
             }
         });

@@ -1,13 +1,16 @@
 package book.course.molareza.ir.mp3player.favorite;
 
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 
 import book.course.molareza.ir.mp3player.R;
+import book.course.molareza.ir.mp3player.activity.ActivityMain;
 import book.course.molareza.ir.mp3player.adapter.AdapterViewPager;
 
 public class ActivityFavorite extends AppCompatActivity {
@@ -15,7 +18,6 @@ public class ActivityFavorite extends AppCompatActivity {
     private Toolbar toolbar;
     private ViewPager viewPager;
     private TabLayout tabLayout;
-    private ViewPager upViewPager;
     private AdapterViewPager adapterViewPager;
 
     public int[] iconTabView = {
@@ -101,5 +103,15 @@ public class ActivityFavorite extends AppCompatActivity {
         viewPager.setAdapter(adapterViewPager);
         adapterViewPager.notifyDataSetChanged();
 
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+         if (keyCode == KeyEvent.KEYCODE_BACK){
+             Intent intent = new Intent(ActivityFavorite.this , ActivityMain.class);
+             startActivity(intent);
+             finish();
+         }
+        return super.onKeyDown(keyCode, event);
     }
 }

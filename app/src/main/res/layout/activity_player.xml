@@ -54,8 +54,8 @@
         android:id="@+id/linearLayout"
         android:layout_above="@+id/layout_Player"
         android:padding="7dp"
-        android:layout_alignStart="@+id/imgMain"
-        android:layout_alignEnd="@+id/imgMain"
+        android:layout_alignLeft="@+id/imgMain"
+        android:layout_alignRight="@+id/imgMain"
         android:background="@drawable/background_shape"
         android:layout_marginBottom="15dp">
 
@@ -75,7 +75,7 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:src="@mipmap/like"
-                android:layout_marginStart="6dp"
+                android:layout_marginLeft="6dp"
                 android:tint="@color/tab_text_select" />
             <TextView
                 android:id="@+id/txtLikeMusic"
@@ -84,7 +84,7 @@
                 android:text="@string/nSinger"
                 android:gravity="center"
                 android:textColor="@color/tab_text_select"
-                android:paddingStart="20dp"/>
+                android:paddingLeft="20dp"/>
 
 
             </LinearLayout>
@@ -98,9 +98,9 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:src="@mipmap/ic_favorite_border_black_48dp"
-                android:layout_marginStart="6dp"
+                android:layout_marginLeft="6dp"
                 android:tint="@color/tab_text_select"
-                android:paddingEnd="5dp"
+                android:paddingLeft="5dp"
                />
 
 
@@ -159,7 +159,7 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
                 android:src="@mipmap/repeat_off" />
 
             <ImageView
@@ -167,7 +167,7 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="30dp"
+                android:layout_marginLeft="30dp"
                 android:src="@mipmap/prev" />
 
             <ImageView
@@ -175,7 +175,7 @@
                 android:layout_width="65dp"
                 android:layout_height="65dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="45dp"
+                android:layout_marginLeft="45dp"
                 android:src="@mipmap/play" />
 
             <ImageView
@@ -183,7 +183,7 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="45dp"
+                android:layout_marginLeft="45dp"
                 android:src="@mipmap/next" />
 
             <ImageView
@@ -191,7 +191,7 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="30dp"
+                android:layout_marginLeft="30dp"
                 android:src="@mipmap/down" />
 
         </LinearLayout>

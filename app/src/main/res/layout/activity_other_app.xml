@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".otherApp.ActivityOtherApp"
+    android:id="@+id/coordinator">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbarOtherApp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
+
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbarOtherApp"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/toolbar_background"
+                app:layout_collapseMode="parallax">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="3dp"
+                    android:gravity="right"
+                    android:padding="10dp"
+                    android:text="@string/menu_another_app"
+                    android:textColor="@color/toolbar_text_title"
+                    android:textSize="17sp" />
+
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rcvContentOtherApp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/main_rcv_background" />
+
+    <ProgressBar
+        android:id="@+id/prgOtherApp"
+        style="?android:attr/progressBarStyleLargeInverse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
+
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

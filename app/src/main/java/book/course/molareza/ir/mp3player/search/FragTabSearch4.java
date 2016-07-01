@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 import book.course.molareza.ir.mp3player.G;
+import book.course.molareza.ir.mp3player.MyToast;
 import book.course.molareza.ir.mp3player.R;
 import book.course.molareza.ir.mp3player.adapter.AdapterNews;
 import book.course.molareza.ir.mp3player.struct.StructNews;
@@ -44,20 +45,15 @@ import book.course.molareza.ir.mp3player.struct.StructNews;
  */
 public class FragTabSearch4 extends Fragment {
 
-    private boolean isActive4;
-
-    private RecyclerView rcvContent;
-    private AdapterNews adapterNews;
-    private List<StructNews> items;
-
-    private ProgressBar prgFrag4;
-
-    private SearchView searchViewFrag4;
-
     public int up;
     public String search;
     public String news;
-
+    private boolean isActive4;
+    private RecyclerView rcvContent;
+    private AdapterNews adapterNews;
+    private List<StructNews> items;
+    private ProgressBar prgFrag4;
+    private SearchView searchViewFrag4;
     private TabLayout tabLayout;
 
 
@@ -78,6 +74,7 @@ public class FragTabSearch4 extends Fragment {
                     adapterNews = new AdapterNews(items);
                     rcvContent.setAdapter(adapterNews);
                     rcvContent.setLayoutManager(new LinearLayoutManager(G.context));
+
                     news = "news";
                     setItems();
 
@@ -104,7 +101,6 @@ public class FragTabSearch4 extends Fragment {
         prgFrag4 = (ProgressBar) view.findViewById(R.id.prgFrag1);
         prgFrag4.setVisibility(View.INVISIBLE);
         rcvContent = (RecyclerView) view.findViewById(R.id.rcvContentFrag1);
-
 
         return view;
     }
@@ -159,7 +155,7 @@ public class FragTabSearch4 extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(G.context, "متاسفانه چیزی پیدا نشد", Toast.LENGTH_SHORT).show();
+                MyToast.makeText(G.context, "متاسفانه چیزی پیدا نشد", Toast.LENGTH_SHORT).show();
                 prgFrag4.setVisibility(View.INVISIBLE);
 
             }

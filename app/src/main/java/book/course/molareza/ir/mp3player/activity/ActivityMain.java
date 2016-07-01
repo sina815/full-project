@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.PorterDuff;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
@@ -15,12 +16,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -38,6 +40,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import book.course.molareza.ir.mp3player.G;
+import book.course.molareza.ir.mp3player.MyToast;
 import book.course.molareza.ir.mp3player.R;
 import book.course.molareza.ir.mp3player.SharePref;
 import book.course.molareza.ir.mp3player.adapter.AdapterViewPager;
@@ -48,12 +51,14 @@ import book.course.molareza.ir.mp3player.fragment.FragTab1;
 import book.course.molareza.ir.mp3player.fragment.FragTab2;
 import book.course.molareza.ir.mp3player.fragment.FragTab3;
 import book.course.molareza.ir.mp3player.fragment.FragTab4;
+import book.course.molareza.ir.mp3player.otherApp.ActivityOtherApp;
 import book.course.molareza.ir.mp3player.search.ActivitySearch;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ActivityMain extends AppCompatActivity {
 
-    private SharedPreferences sharedPreferences;
+    private static final int TIME_INTERVAL = 3000; // # milliseconds, زمان مورد نیاز  برای دو پرس دکمه بازگشت.
+    private long mBackPressed;
 
     public int[] iconTabView = {
             R.mipmap.ic_music,
@@ -63,6 +68,7 @@ public class ActivityMain extends AppCompatActivity {
 
 
     };
+    private SharedPreferences sharedPreferences;
     private String id, newVersion, desc, link;
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
@@ -75,6 +81,10 @@ public class ActivityMain extends AppCompatActivity {
     private String dialogId;
     private String titleDialog;
     private String messageDialog;
+    private String linkDialog;
+
+
+    /////////////// check newVersion
 
     @Override
     protected void onResume() {
@@ -82,6 +92,9 @@ public class ActivityMain extends AppCompatActivity {
 
         G.currentActivity = this;
     }
+
+
+    ///////////////////////// check newVersion my app
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,9 +124,6 @@ public class ActivityMain extends AppCompatActivity {
 
                             case R.id.aboutMe: {
 
-//                                String title = getResources().getString(R.string.dialog_title_aboutMe);
-//                                String message = getResources().getString(R.string.dialog_message_aboutMe);
-
                                 dialogId = "1";
                                 getDataDialog();
                             }
@@ -122,10 +132,8 @@ public class ActivityMain extends AppCompatActivity {
 
                             case R.id.another_app: {
 
-//                                String title = getResources().getString(R.string.dialog_title_another_app);
-//                                String message = getResources().getString(R.string.dialog_message_another_app);
-                                dialogId = "2";
-                                getDataDialog();
+                                Intent intent1 = new Intent(ActivityMain.this, ActivityOtherApp.class);
+                                startActivity(intent1);
                             }
 
                             break;
@@ -178,8 +186,6 @@ public class ActivityMain extends AppCompatActivity {
 
     }
 
-    /////////////// check newVersion
-
     private void checkNewVersion() {
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, G.URL_VERSION, new Response.Listener<JSONObject>() {
@@ -200,11 +206,10 @@ public class ActivityMain extends AppCompatActivity {
                             desc = object.getString("desc");
                             link = object.getString("link");
 
-                            sharedPreferences = getSharedPreferences(SharePref.FILE_NAME , MODE_PRIVATE);
-                            float oldVersion = sharedPreferences.getFloat(SharePref.VERSION , 1.0f);
+                            sharedPreferences = getSharedPreferences(SharePref.FILE_NAME, MODE_PRIVATE);
+                            float oldVersion = sharedPreferences.getFloat(SharePref.VERSION, 1.0f);
 
-                            if (oldVersion < Float.parseFloat(newVersion))
-                            {
+                            if (oldVersion < Float.parseFloat(newVersion)) {
                                 checkVersion();
                             }
 
@@ -229,9 +234,6 @@ public class ActivityMain extends AppCompatActivity {
         Volley.newRequestQueue(G.context).add(objectRequest);
     }
 
-
-    ///////////////////////// check newVersion my app
-
     private void checkVersion() {
         ///// check newVersion my app
 
@@ -250,9 +252,9 @@ public class ActivityMain extends AppCompatActivity {
         float myAppVersion = Float.parseFloat(versionApp);
         float myNewVersion = Float.parseFloat(newVersion);
 
-        sharedPreferences = getSharedPreferences(SharePref.FILE_NAME , MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(SharePref.FILE_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putFloat(SharePref.VERSION ,  myNewVersion);
+        editor.putFloat(SharePref.VERSION, myNewVersion);
         editor.apply();
 
 
@@ -270,7 +272,7 @@ public class ActivityMain extends AppCompatActivity {
 
         final Dialog dialog = new Dialog(ActivityMain.this);
 
-       dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         dialog.setContentView(R.layout.alert_dialog);
 
@@ -295,7 +297,6 @@ public class ActivityMain extends AppCompatActivity {
         dialog.show();
 
     }
-
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -351,7 +352,6 @@ public class ActivityMain extends AppCompatActivity {
 
     }
 
-
     private void showDialog() {
 
         final Dialog dialog = new Dialog(ActivityMain.this);
@@ -374,6 +374,18 @@ public class ActivityMain extends AppCompatActivity {
         TextView txtMessageDialog = (TextView) dialog.findViewById(R.id.txtMessageDialog);
         txtMessageDialog.setText(messageDialog);
 
+        Button btnSite = (Button) dialog.findViewById(R.id.btnDialog);
+
+        btnSite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(linkDialog));
+                startActivity(i);
+
+            }
+        });
 
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation; //animation for dialog
 
@@ -398,7 +410,7 @@ public class ActivityMain extends AppCompatActivity {
                             JSONObject object = array.getJSONObject(i);
                             titleDialog = object.getString("title");
                             messageDialog = object.getString("message");
-                            Log.i("TAGDIALOG", "getParams: " + messageDialog);
+                            linkDialog = object.getString("link");
                         }
 
                     }
@@ -428,9 +440,19 @@ public class ActivityMain extends AppCompatActivity {
         Volley.newRequestQueue(G.context).add(stringRequest);
     }
 
+    //متد دکمه بازگشت
+    @Override
+    public void onBackPressed() {
+        if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis()) {
+            super.onBackPressed();
+            return;
+        }
+//نمایش پیغام هنگام پرس دکمه بازگشت
+        else {
+            MyToast.makeText(getBaseContext(), "برای خروج از برنامه بروی دکمه خروج  دوباره کنید!", Toast.LENGTH_SHORT).show();
+        }
 
-    /////////////////////test
-
-
+        mBackPressed = System.currentTimeMillis();
+    }
 }
 

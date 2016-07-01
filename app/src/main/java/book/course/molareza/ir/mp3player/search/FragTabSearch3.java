@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 import book.course.molareza.ir.mp3player.G;
+import book.course.molareza.ir.mp3player.MyToast;
 import book.course.molareza.ir.mp3player.R;
 import book.course.molareza.ir.mp3player.adapter.AdapterClip;
 import book.course.molareza.ir.mp3player.struct.StructClip;
@@ -79,6 +80,7 @@ public class FragTabSearch3 extends Fragment {
                         adapterClip = new AdapterClip(items);
                         rcvContent.setAdapter(adapterClip);
                         rcvContent.setLayoutManager(new GridLayoutManager(G.context, 2));
+                        adapterClip.notifyDataSetChanged();
                         clip = "clip";
                         setItems();
 
@@ -161,7 +163,7 @@ public class FragTabSearch3 extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(G.context, "متاسفانه چیزی پیدا نشد", Toast.LENGTH_SHORT).show();
+                MyToast.makeText(G.context, "متاسفانه چیزی پیدا نشد", Toast.LENGTH_SHORT).show();
                 prgFrag3.setVisibility(View.INVISIBLE);
 
             }

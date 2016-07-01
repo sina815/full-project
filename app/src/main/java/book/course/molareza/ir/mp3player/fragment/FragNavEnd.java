@@ -20,6 +20,7 @@ import android.widget.TextView;
 import book.course.molareza.ir.mp3player.G;
 import book.course.molareza.ir.mp3player.R;
 import book.course.molareza.ir.mp3player.activity.ActivityCall;
+import book.course.molareza.ir.mp3player.otherApp.ActivityOtherApp;
 import book.course.molareza.ir.mp3player.activity.ActivitySetting;
 import book.course.molareza.ir.mp3player.favorite.ActivityFavorite;
 
@@ -91,9 +92,13 @@ public class FragNavEnd extends Fragment {
             @Override
             public void onClick(View v) {
 
-                String title = getResources().getString(R.string.dialog_title_another_app);
-                String message = getResources().getString(R.string.dialog_message_another_app);
-                dialog(title, message);
+//                String title = getResources().getString(R.string.dialog_title_another_app);
+//                String message = getResources().getString(R.string.dialog_message_another_app);
+//                dialog(title, message);
+
+                Intent intent = new Intent(G.currentActivity , ActivityOtherApp.class);
+                G.currentActivity.startActivity(intent);
+
             }
         });
 
@@ -153,6 +158,7 @@ public class FragNavEnd extends Fragment {
                 int widthDrawer = drawerView.getWidth();
                 float pad = (slideOffset * widthDrawer) * (-1);
                 layoutRoot.setTranslationX(pad);
+                drawerLayout.requestLayout();
 
             }
         };

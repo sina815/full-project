@@ -45,7 +45,7 @@
                     android:theme="@style/MySearchView"
                     app:queryHint="تست"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="10dp"/>
+                    android:layout_marginRight="10dp" />
                 </RelativeLayout>
 
             </android.support.v7.widget.Toolbar>

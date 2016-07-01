@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -32,24 +34,30 @@ import book.course.molareza.ir.mp3player.struct.StructNews;
  */
 public class FragTabFavorite4 extends Fragment {
 
+    public int u;
     private AdapterNews adapterNews;
     private List<StructNews> items = new ArrayList<>();
     private ProgressBar progressBar;
-
     private boolean isReaped = true;
+    private TextView txtNotFound;
 
-    public int u;
+    private boolean isCount = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-//        G.favoriteDetailDao.deleteAll();
         View view = inflater.inflate(R.layout.frag_tab1, container, false);
+
+        txtNotFound = (TextView) view.findViewById(R.id.txtNotFound);
+        txtNotFound.setText(R.string.favorite_nothing);
+
+        if (isCount) {
+
+            txtNotFound.setVisibility(View.VISIBLE);
+        }
 
         progressBar = (ProgressBar) view.findViewById(R.id.prgFrag1);
         progressBar.setVisibility(View.INVISIBLE);
-
-        //     Toast.makeText(G.context, "ا ها پاک شد", Toast.LENGTH_SHORT).show();
 
         RecyclerView rcvContent = (RecyclerView) view.findViewById(R.id.rcvContentFrag1);
         adapterNews = new AdapterNews(items);
@@ -67,9 +75,20 @@ public class FragTabFavorite4 extends Fragment {
 
         List<FavoriteDetail> favoritesList = G.favoriteDetailDao.loadAll();
 
+        if (!favoritesList.isEmpty()) {
+
+            txtNotFound.setVisibility(View.INVISIBLE);
+            isCount = false;
+        }
+
+        if (!favoritesList.isEmpty()) {
+
+            txtNotFound.setVisibility(View.INVISIBLE);
+        }
+
+
         for (int i = 0; i < favoritesList.size(); i++) {
 
-            // Toast.makeText(G.context, "ا ها پاک شد", Toast.LENGTH_SHORT).show();
             StructNews item = new StructNews();
 
             item.setId(favoritesList.get(i).getId_item());
@@ -109,7 +128,7 @@ public class FragTabFavorite4 extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-
+                Toast.makeText(G.context, "" + R.string.error_get_pic, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -117,6 +136,3 @@ public class FragTabFavorite4 extends Fragment {
     }
 
 }
-
-
-//            Log.i("LOG123", "big: " + favoritesList.get(i).getBigImage());

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -39,15 +40,24 @@ public class FragTabFavorite2 extends Fragment {
     private boolean isReaped = true;
     public int u;
 
+    private TextView txtNotFound;
+    private boolean isCount = true;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.frag_tab1, container, false);
 
+        txtNotFound = (TextView) view.findViewById(R.id.txtNotFound);
+        txtNotFound.setText(R.string.favorite_nothing);
+
+        if (isCount){
+
+            txtNotFound.setVisibility(View.VISIBLE);
+        }
+
         progressBar = (ProgressBar) view.findViewById(R.id.prgFrag1);
         progressBar.setVisibility(View.INVISIBLE);
-
-        //     Toast.makeText(G.context, "ا ها پاک شد", Toast.LENGTH_SHORT).show();
 
         RecyclerView rcvContent = (RecyclerView) view.findViewById(R.id.rcvContentFrag1);
         adapterMusicIKhareji = new AdapterMusicIKhareji(items);
@@ -64,9 +74,14 @@ public class FragTabFavorite2 extends Fragment {
 
         List<FavoriteMusicKhareji> favoriteMusicKharejis = G.favoriteMusicKharejiDao.loadAll();
 
+        if (!favoriteMusicKharejis.isEmpty()){
+
+            txtNotFound.setVisibility(View.INVISIBLE);
+            isCount = false;
+        }
+
         for (int i = 0; i < favoriteMusicKharejis.size(); i++) {
 
-            // Toast.makeText(G.context, "ا ها پاک شد", Toast.LENGTH_SHORT).show();
             StructMusicKhareji item = new StructMusicKhareji();
 
             item.setId(favoriteMusicKharejis.get(i).getId_item());
@@ -97,6 +112,7 @@ public class FragTabFavorite2 extends Fragment {
     }
 
     private void setImage(String urlImage, final int id) {
+
 
         ImageRequest imageRequest = new ImageRequest(urlImage, new Response.Listener<Bitmap>() {
             @Override

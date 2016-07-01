@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 import book.course.molareza.ir.mp3player.G;
+import book.course.molareza.ir.mp3player.MyToast;
 import book.course.molareza.ir.mp3player.R;
 import book.course.molareza.ir.mp3player.adapter.AdapterMusicIKhareji;
 import book.course.molareza.ir.mp3player.struct.StructMusicKhareji;
@@ -85,6 +86,7 @@ public class FragTabSearch2 extends Fragment {
                         adapterMusicIKhareji = new AdapterMusicIKhareji(items);
                         rcvContent.setAdapter(adapterMusicIKhareji);
                         rcvContent.setLayoutManager(new GridLayoutManager(G.context, 2));
+                        adapterMusicIKhareji.notifyDataSetChanged();
                         khareji = "khareji";
                         setItems();
 
@@ -99,8 +101,6 @@ public class FragTabSearch2 extends Fragment {
                     }
                 });
 
-
-                Toast.makeText(G.context, "tab2", Toast.LENGTH_SHORT).show();
             } else {
                 isActive2 = false;
             }
@@ -148,6 +148,10 @@ public class FragTabSearch2 extends Fragment {
                             item.setMp3128(object.getString("mp3128"));
                             item.setCat(object.getString("cat"));
                             item.setIdcat(object.getString("idcat"));
+                            item.setLike(object.getInt("like"));
+                            item.setVisit(object.getInt("visit"));
+                            item.setShare(object.getInt("share"));
+                            item.setTable(object.getString("tbName"));
 
                             String th_url = object.getString("thumbnile");
                             setImage(th_url, up);
@@ -169,7 +173,7 @@ public class FragTabSearch2 extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(G.context, "متاسفانه چیزی پیدا نشد", Toast.LENGTH_SHORT).show();
+                MyToast.makeText(G.context, "متاسفانه چیزی پیدا نشد", Toast.LENGTH_SHORT).show();
                 prgFrag2.setVisibility(View.INVISIBLE);
 
             }
