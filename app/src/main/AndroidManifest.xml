@@ -14,51 +14,85 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.ActivityMain" />
-        <activity android:name=".activity.Splash">
+        <activity
+            android:name=".activity.Splash"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".search.ActivitySearch">
+        <activity
+            android:name=".search.ActivitySearch"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.ActivityMain" />
         </activity>
-        <activity android:name=".activity.ActivitySetting" />
-        <activity android:name=".activity.ActivityDetailNews">
+        <activity
+            android:name=".activity.ActivitySetting"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ActivityDetailNews"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.ActivityMain" />
         </activity>
-        <activity android:name=".activity.ActivityCall">
+        <activity
+            android:name=".activity.ActivityCall"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.ActivityMain" />
         </activity>
-        <activity android:name=".favorite.ActivityFavorite">
+        <activity
+            android:name=".favorite.ActivityFavorite"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.ActivityMain" />
         </activity>
-        <activity android:name=".activity.ActivityPlayer">
+        <activity
+            android:name=".activity.ActivityPlayer"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.ActivityMain" />
         </activity>
-        <activity android:name=".activity.ActivityClip">
+        <activity
+            android:name=".activity.ActivityClip"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.ActivityMain" />
         </activity>
-        <activity android:name=".activity.ActivityInternet" />
-        <activity android:name=".otherApp.ActivityOtherApp">
+        <activity
+            android:name=".activity.ActivityInternet"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".otherApp.ActivityOtherApp"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.ActivityMain" />
         </activity>
-        <activity android:name=".otherApp.ActivityOtherAppDetailes"></activity>
+        <activity
+            android:name=".otherApp.ActivityOtherAppDetailes"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="988b7ccf395749c3c914898b2a82a8ecf897bdb3" />

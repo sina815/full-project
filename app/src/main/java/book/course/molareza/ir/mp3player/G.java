@@ -10,6 +10,9 @@ import android.os.Environment;
 import android.os.Handler;
 import android.view.LayoutInflater;
 
+import org.acra.ACRA;
+import org.acra.annotation.ReportsCrashes;
+
 import java.io.File;
 
 import book.course.molareza.ir.mp3player.db.DaoMaster;
@@ -24,21 +27,20 @@ import book.course.molareza.ir.mp3player.db.LikeMusicIraniDao;
 import book.course.molareza.ir.mp3player.db.LikeMusicKharejiDao;
 import book.course.molareza.ir.mp3player.db.LikeOtherAppDao;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
-
-
+@ReportsCrashes(formUri = "http://mbaas.ir/api/acra/18c27e38")
 public class G extends Application {
 
     public static final Handler HANDLER = new Handler();
-    public static final String URL_IRANI = "http://192.168.1.35/musicbazan/irani.php";
-    public static final String URL_KHAREJI = "http://192.168.1.35/musicbazan/khareji.php";
-    public static final String URL_Clip = "http://192.168.1.35/musicbazan/clip.php";
-    public static final String URL_NEWS = "http://192.168.1.35/musicbazan/news.php";
-    public static final String URL_SEARCH = "http://192.168.1.35/musicbazan/search.php";
-    public static final String URL_CALL = "http://192.168.1.35/musicbazan/call.php";
-    public static final String URL_DIALOG = "http://192.168.1.35/musicbazan/dialog.php";
-    public static final String URL_VISIT = "http://192.168.1.35/musicbazan/visit.php";
-    public static final String URL_VERSION = "http://192.168.1.35/musicbazan/version.php";
-    public static final String URL_OTHER_APP = "http://192.168.1.35/musicbazan/otherapp.php";
+    public static final String URL_IRANI = "http://192.168.1.39/musicbazan/irani.php";
+    public static final String URL_KHAREJI = "http://192.168.1.39/musicbazan/khareji.php";
+    public static final String URL_Clip = "http://192.168.1.39/musicbazan/clip.php";
+    public static final String URL_NEWS = "http://192.168.1.39/musicbazan/news.php";
+    public static final String URL_SEARCH = "http://192.168.1.39/musicbazan/search.php";
+    public static final String URL_CALL = "http://192.168.1.39/musicbazan/call.php";
+    public static final String URL_DIALOG = "http://192.168.1.39/musicbazan/dialog.php";
+    public static final String URL_VISIT = "http://192.168.1.39/musicbazan/visit.php";
+    public static final String URL_VERSION = "http://192.168.1.39/musicbazan/version.php";
+    public static final String URL_OTHER_APP = "http://192.168.1.39/musicbazan/otherapp.php";
 
     public static final String SD_CARD = Environment.getExternalStorageDirectory().getAbsolutePath();
     public static final String DIR_MUSIC = SD_CARD + "/musicBazan";
@@ -65,6 +67,8 @@ public class G extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        ACRA.init(this);
+
         context = getApplicationContext();
         inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);

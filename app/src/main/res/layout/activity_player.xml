@@ -156,10 +156,11 @@
 
             <ImageView
                 android:id="@+id/imfRepeat"
-                android:layout_width="25dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="25dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="15dp"
                 android:src="@mipmap/repeat_off" />
 
             <ImageView
@@ -167,31 +168,34 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="15dp"
                 android:src="@mipmap/prev" />
 
             <ImageView
                 android:id="@+id/imgPlay"
-                android:layout_width="65dp"
+                android:layout_width="50dp"
+                android:layout_weight="1"
                 android:layout_height="65dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="45dp"
+                android:layout_marginLeft="25dp"
                 android:src="@mipmap/play" />
 
             <ImageView
                 android:id="@+id/imgNext"
-                android:layout_width="35dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="35dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="45dp"
+                android:layout_marginLeft="25dp"
                 android:src="@mipmap/next" />
 
             <ImageView
                 android:id="@+id/imgDownload"
-                android:layout_width="25dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="25dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="15dp"
                 android:src="@mipmap/down" />
 
         </LinearLayout>

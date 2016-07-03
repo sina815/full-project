@@ -119,6 +119,7 @@ public class ActivityMain extends AppCompatActivity {
 
                                 Intent intent = new Intent(G.currentActivity, ActivitySetting.class);
                                 startActivity(intent);
+                                finish();
 
                                 break;
 
@@ -134,6 +135,7 @@ public class ActivityMain extends AppCompatActivity {
 
                                 Intent intent1 = new Intent(ActivityMain.this, ActivityOtherApp.class);
                                 startActivity(intent1);
+                                finish();
                             }
 
                             break;
@@ -154,6 +156,7 @@ public class ActivityMain extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ActivityMain.this, ActivitySearch.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -163,6 +166,7 @@ public class ActivityMain extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ActivityMain.this, ActivityFavorite.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -351,6 +355,7 @@ public class ActivityMain extends AppCompatActivity {
         adapterViewPager.notifyDataSetChanged();
 
     }
+
 
     private void showDialog() {
 

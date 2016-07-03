@@ -14,15 +14,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import book.course.molareza.ir.mp3player.G;
 import book.course.molareza.ir.mp3player.R;
 import book.course.molareza.ir.mp3player.activity.ActivityCall;
-import book.course.molareza.ir.mp3player.otherApp.ActivityOtherApp;
 import book.course.molareza.ir.mp3player.activity.ActivitySetting;
 import book.course.molareza.ir.mp3player.favorite.ActivityFavorite;
+import book.course.molareza.ir.mp3player.otherApp.ActivityOtherApp;
 
 
 /**
@@ -34,6 +35,7 @@ public class FragNavEnd extends Fragment {
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
     private ViewGroup ltCall, ltSetting, ltDialogAbout, ltDialogAnother, ltFavorite;
+
 
     public FragNavEnd() {
         // Required empty public constructor
@@ -49,8 +51,12 @@ public class FragNavEnd extends Fragment {
         ltFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(G.currentActivity, ActivityFavorite.class);
                 startActivity(intent);
+
+                drawerLayout.closeDrawers();
+                getActivity().finish();
             }
         });
 
@@ -61,6 +67,8 @@ public class FragNavEnd extends Fragment {
 
                 Intent intent = new Intent(G.currentActivity, ActivityCall.class);
                 G.currentActivity.startActivity(intent);
+                drawerLayout.closeDrawers();
+                getActivity().finish();
             }
         });
 
@@ -70,6 +78,8 @@ public class FragNavEnd extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(G.currentActivity, ActivitySetting.class);
                 G.currentActivity.startActivity(intent);
+                drawerLayout.closeDrawers();
+                getActivity().finish();
 
             }
         });
@@ -92,12 +102,11 @@ public class FragNavEnd extends Fragment {
             @Override
             public void onClick(View v) {
 
-//                String title = getResources().getString(R.string.dialog_title_another_app);
-//                String message = getResources().getString(R.string.dialog_message_another_app);
-//                dialog(title, message);
 
-                Intent intent = new Intent(G.currentActivity , ActivityOtherApp.class);
+                Intent intent = new Intent(G.currentActivity, ActivityOtherApp.class);
                 G.currentActivity.startActivity(intent);
+                drawerLayout.closeDrawers();
+                getActivity().finish();
 
             }
         });
@@ -112,23 +121,37 @@ public class FragNavEnd extends Fragment {
 
         dialog.setContentView(R.layout.alert_dialog);
 
-        TextView txtTitle = (TextView) dialog.findViewById(R.id.txtTitleDialog);
-        txtTitle.setText(title);
-
-        TextView txtMessage = (TextView) dialog.findViewById(R.id.txtMessageDialog);
-        txtMessage.setText(message);
-
-        ImageView imgClose = (ImageView) dialog.findViewById(R.id.imgCloseDialog);
-        imgClose.setOnClickListener(new View.OnClickListener() {
+        ImageView imgCloseDialog = (ImageView) dialog.findViewById(R.id.imgCloseDialog);
+        imgCloseDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 dialog.dismiss();
             }
         });
 
-        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        TextView txtTitleDialog = (TextView) dialog.findViewById(R.id.txtTitleDialog);
+        txtTitleDialog.setText(title);
 
-        dialog.create();
+        TextView txtMessageDialog = (TextView) dialog.findViewById(R.id.txtMessageDialog);
+        txtMessageDialog.setText(message);
+
+        Button btnSite = (Button) dialog.findViewById(R.id.btnDialog);
+
+        btnSite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+//
+//                Intent i = new Intent(Intent.ACTION_VIEW);
+//                i.setData(Uri.parse(link));
+//                startActivity(i);
+
+            }
+        });
+
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation; //animation for dialog
+
         dialog.show();
 
     }

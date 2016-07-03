@@ -84,7 +84,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
                     android:background="@color/nav_background"
-                    android:text="@string/menu_irani"
+                    android:text="@string/menu_setting"
                     android:textColor="@color/nav_drawer_text2"
                     android:textSize="17sp" />
 

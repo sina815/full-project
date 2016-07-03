@@ -2,9 +2,10 @@ package book.course.molareza.ir.mp3player.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -19,6 +20,8 @@ import book.course.molareza.ir.mp3player.database.DataBase;
 
 public class ActivitySetting extends AppCompatActivity {
 
+    private Toolbar toolbarSetting;
+
     private CheckBox chkScreen;
     private SeekBar seekBar;
     private TextView txtSample;
@@ -29,11 +32,19 @@ public class ActivitySetting extends AppCompatActivity {
     private int size;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         setContentView(R.layout.activity_seting);
+
+        toolbarSetting = (Toolbar) findViewById(R.id.toolbarSetting);
+        setSupportActionBar(toolbarSetting);
+
+        if (getSupportActionBar() != null) {
+
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
+
         dataBase = new DataBase();
         size = dataBase.fetchDatabase();
 
@@ -100,11 +111,25 @@ public class ActivitySetting extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK){
-            Intent intent = new Intent(ActivitySetting.this , ActivityMain.class);
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Intent intent = new Intent(ActivitySetting.this, ActivityMain.class);
             startActivity(intent);
             finish();
         }
         return super.onKeyDown(keyCode, event);
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle arrow click here
+        if (item.getItemId() == android.R.id.home) {
+
+            Intent intent = new Intent(this, ActivityMain.class);
+            startActivity(intent);
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 }

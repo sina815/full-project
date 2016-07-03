@@ -1,6 +1,5 @@
 package book.course.molareza.ir.mp3player.activity;
 
-import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -56,7 +55,8 @@ import book.course.molareza.ir.mp3player.db.LikeMusicKharejiDao;
 public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnBufferingUpdateListener, SeekBar.OnSeekBarChangeListener
         , MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
 
-    public MediaPlayer mediaPlayer;
+    public static MediaPlayer mediaPlayer;
+
     public int po;
     long totalTime, currentTime;
     private Toolbar toolbar;
@@ -76,8 +76,6 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
     private String table = "";
     private String set = "visit";
     private int cLike = 0;
-    private Notification notification;
-
 
     @Override
     protected void onDestroy() {
@@ -96,8 +94,7 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        int result = G.audioManager.requestAudioFocus(ActivityPlayer.this, AudioManager.STREAM_MUSIC,
-                AudioManager.AUDIOFOCUS_GAIN);
+        int result = G.audioManager.requestAudioFocus(ActivityPlayer.this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
 
         imgBlur = (ImageView) findViewById(R.id.imgBlur);
         imgMain = (ImageView) findViewById(R.id.imgMain);
@@ -677,6 +674,7 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
 
         if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT) {
             // Pause
+            mediaPlayer.pause();
         } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
             // Resume
         } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {

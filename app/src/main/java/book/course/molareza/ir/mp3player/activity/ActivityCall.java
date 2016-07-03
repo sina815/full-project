@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -52,7 +53,7 @@ public class ActivityCall extends AppCompatActivity {
         if (getSupportActionBar() != null){
 
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
         edtEmail = (EditText) findViewById(R.id.edtEmailCall);
@@ -104,6 +105,20 @@ public class ActivityCall extends AppCompatActivity {
         });
 
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle arrow click here
+        if (item.getItemId() == android.R.id.home) {
+
+            Intent intent = new Intent(this , ActivityMain.class);
+            startActivity(intent);
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
     private void sendData() {
 

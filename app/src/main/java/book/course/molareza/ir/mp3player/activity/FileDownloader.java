@@ -2,8 +2,8 @@ package book.course.molareza.ir.mp3player.activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.io.File;
@@ -21,27 +21,40 @@ import book.course.molareza.ir.mp3player.MyToast;
 
 public class FileDownloader extends AsyncTask<String, Integer, String> {
 
-    public static ProgressDialog mProgres;
+    final FileDownloader me = this;
+    public boolean downloadStatus = true;
 
+    public ProgressDialog mProgress;
     private Context context;
+    private boolean isCheck;
 
-    private boolean isCheck ;
+    private String urlDownload;
+
     public FileDownloader(Context cont) {
 
         this.context = cont;
 
-        mProgres = new ProgressDialog(context);
-        mProgres.setMessage("فایل در حال دانلود می باشد");
-        mProgres.setIndeterminate(true);
-        mProgres.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        mProgres.setCancelable(true);
+
+        mProgress = new ProgressDialog(context);
+        mProgress.setMessage("فایل در حال دانلود می باشد");
+        mProgress.setIndeterminate(true);
+        mProgress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        mProgress.setCancelable(true);
+        mProgress.setButton(DialogInterface.BUTTON_NEGATIVE,
+                "Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        me.cancel(true);  //<<<<<
+                        downloadStatus = false;
+                        dialog.cancel();
+                    }
+                });
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
 
-        mProgres.show();
+        mProgress.show();
 
     }
 
@@ -49,9 +62,9 @@ public class FileDownloader extends AsyncTask<String, Integer, String> {
     protected void onProgressUpdate(Integer... values) {
         super.onProgressUpdate(values);
 
-        mProgres.setIndeterminate(false);
-        mProgres.setMax(100);
-        mProgres.setProgress(values[0]);
+        mProgress.setIndeterminate(false);
+        mProgress.setMax(100);
+        mProgress.setProgress(values[0]);
     }
 
     @Override
@@ -82,6 +95,8 @@ public class FileDownloader extends AsyncTask<String, Integer, String> {
 
                 outputStream = new FileOutputStream(params[1] + nameFile);
 
+                urlDownload = params[1] + nameFile;
+
                 byte[] buffer = new byte[4096];
 
                 long percent = 0;
@@ -89,16 +104,21 @@ public class FileDownloader extends AsyncTask<String, Integer, String> {
 
                 while ((len = inputStream.read(buffer)) != -1) {
 
-                    percent += len;
+                    if (!me.isCancelled() && downloadStatus == true && mProgress.isShowing()) {
 
-                    if (fileSize > 0) {
+                        percent += len;
 
-                        publishProgress((int) (percent * 100 / fileSize));
+                        if (fileSize > 0) {
 
-                        Log.i("TAGTAGTAG", "doInBackground: " + percent);
+                            publishProgress((int) (percent * 100 / fileSize));
+                        }
+                        outputStream.write(buffer, 0, len);
 
+                    } else {
+                        if (!mProgress.isShowing()) {
+                            me.cancel(true);
+                        }
                     }
-                    outputStream.write(buffer, 0, len);
                 }
 
 
@@ -130,7 +150,7 @@ public class FileDownloader extends AsyncTask<String, Integer, String> {
             }
 
         } else {
-           isCheck = false;
+            isCheck = false;
         }
 
         return null;
@@ -140,8 +160,8 @@ public class FileDownloader extends AsyncTask<String, Integer, String> {
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
 
-        if (isCheck){
-            mProgres.dismiss();
+        if (isCheck) {
+            mProgress.dismiss();
 
             if (s != null) {
 
@@ -150,10 +170,24 @@ public class FileDownloader extends AsyncTask<String, Integer, String> {
                 MyToast.makeText(G.context, "دانلود با موفقیت صورت گرفت", Toast.LENGTH_SHORT).show();
 
             }
-        }else {
-            mProgres.dismiss();
+        } else {
+            mProgress.dismiss();
             MyToast.makeText(G.context, "این فایل قبلا دانلود شده", Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    @Override
+    protected void onCancelled() {
+        super.onCancelled();
+        if (urlDownload != null) {
+
+
+            File dl = new File(urlDownload);
+            if (dl.exists()) {
+                dl.delete();
+                MyToast.makeText(G.context, "دانلود لغو شد", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

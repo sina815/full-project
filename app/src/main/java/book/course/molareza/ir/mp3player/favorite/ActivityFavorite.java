@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 
 import book.course.molareza.ir.mp3player.R;
 import book.course.molareza.ir.mp3player.activity.ActivityMain;
@@ -26,7 +27,6 @@ public class ActivityFavorite extends AppCompatActivity {
             R.mipmap.ic_stars,
             R.mipmap.ic_clip,
             R.mipmap.newspaper
-
 
     };
 
@@ -114,4 +114,18 @@ public class ActivityFavorite extends AppCompatActivity {
          }
         return super.onKeyDown(keyCode, event);
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle arrow click here
+        if (item.getItemId() == android.R.id.home) {
+
+            Intent intent = new Intent(this , ActivityMain.class);
+            startActivity(intent);
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 }
