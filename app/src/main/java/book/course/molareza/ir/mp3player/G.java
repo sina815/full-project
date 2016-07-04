@@ -10,6 +10,8 @@ import android.os.Environment;
 import android.os.Handler;
 import android.view.LayoutInflater;
 
+import com.onesignal.OneSignal;
+
 import org.acra.ACRA;
 import org.acra.annotation.ReportsCrashes;
 
@@ -27,6 +29,7 @@ import book.course.molareza.ir.mp3player.db.LikeMusicIraniDao;
 import book.course.molareza.ir.mp3player.db.LikeMusicKharejiDao;
 import book.course.molareza.ir.mp3player.db.LikeOtherAppDao;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+
 @ReportsCrashes(formUri = "http://mbaas.ir/api/acra/18c27e38")
 public class G extends Application {
 
@@ -68,6 +71,8 @@ public class G extends Application {
     public void onCreate() {
         super.onCreate();
         ACRA.init(this);
+
+        OneSignal.startInit(this).init();
 
         context = getApplicationContext();
         inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);

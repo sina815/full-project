@@ -65,14 +65,6 @@ public class ActivityClip extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clip);
 
-        if ( ActivityPlayer.mediaPlayer != null){
-
-            if (ActivityPlayer.mediaPlayer.isPlaying()) {
-                ActivityPlayer.mediaPlayer.stop();
-            }
-        }
-
-
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
 

@@ -55,7 +55,7 @@ import book.course.molareza.ir.mp3player.db.LikeMusicKharejiDao;
 public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnBufferingUpdateListener, SeekBar.OnSeekBarChangeListener
         , MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
 
-    public static MediaPlayer mediaPlayer;
+    public  MediaPlayer mediaPlayer;
 
     public int po;
     long totalTime, currentTime;
@@ -91,6 +91,8 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
+
+
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -333,6 +335,7 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
 
         if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
             // Play
+            mediaPlayer.reset();
             new startPlay().execute();
         }
 
@@ -655,7 +658,7 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
             seekBarPlayer.setProgress(0);
             txtCurrentTime.setText("00:00");
             imgPlay.setImageResource(R.mipmap.play);
-            MyToast.makeText(ActivityPlayer.this, "حالت نکرار خاموش شد", Toast.LENGTH_SHORT).show();
+            MyToast.makeText(ActivityPlayer.this, "حالت تکرار خاموش شد", Toast.LENGTH_SHORT).show();
 
         } else {
 
@@ -795,24 +798,16 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
     //notify if media is play and page is finish
     private void notification() {
 
-        // Using RemoteViews to bind custom layouts into Notification
         RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.custom_notification);
-        // Set Notification Title
-        // Open NotificationView Class on Notification Click
         Intent intent = new Intent(ActivityPlayer.this, ActivityMain.class);
-        // Open NotificationView.java Activity
         PendingIntent pIntent = PendingIntent.getActivity(G.context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(G.context)
-                // Set Icon
+
                 .setSmallIcon(R.mipmap.play)
-                // Set Ticker Message
                 .setTicker("پخش موزیک")
-                // Dismiss Notification
                 .setAutoCancel(true)
-                // Set PendingIntent into Notification
                 .setContentIntent(pIntent)
-                // Set RemoteViews into Notification
                 .setContent(remoteViews);
 
         imgMain.buildDrawingCache();
@@ -834,7 +829,8 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
 
             try {
                 mediaPlayer.setDataSource(urlMp3_64);
-                mediaPlayer.prepare();
+//                mediaPlayer.prepare();
+                mediaPlayer.prepareAsync();
                 //  Log.i("TAGURL", "onCreate: " + urlMp3_64);
             } catch (IOException e) {
                 e.printStackTrace();
