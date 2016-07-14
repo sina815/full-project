@@ -59,10 +59,7 @@ public class FragTabSearch1 extends Fragment {
 
     private RequestQueue requestFrag1;
 
-
     private TabLayout tabLayout;
-
-
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -75,9 +72,7 @@ public class FragTabSearch1 extends Fragment {
                     @Override
                     public boolean onQueryTextSubmit(String query) {
 
-
                         items = new ArrayList<StructMusicIrani>();
-
                         up = 0;
 
                         search = query;
@@ -100,7 +95,6 @@ public class FragTabSearch1 extends Fragment {
                     }
                 });
 
-            } else {
             }
         }
 

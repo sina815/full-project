@@ -137,7 +137,7 @@ public class FragTab2 extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                MyToast.makeText(G.context, getResources().getString(R.string.error_connect), Toast.LENGTH_SHORT).show();
+                MyToast.makeText(G.context, R.string.error_connect, Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -161,7 +161,7 @@ public class FragTab2 extends Fragment {
         }, 0, 0, ImageView.ScaleType.FIT_XY, Bitmap.Config.ARGB_8888, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                MyToast.makeText(G.context,getResources().getString(R.string.error_down_image), Toast.LENGTH_SHORT).show();
+                MyToast.makeText(G.context,R.string.error_down_image, Toast.LENGTH_SHORT).show();
             }
         });
 

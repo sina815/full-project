@@ -16,6 +16,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -58,8 +59,6 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class ActivityMain extends AppCompatActivity {
 
     private static final int TIME_INTERVAL = 3000; // # milliseconds, زمان مورد نیاز  برای دو پرس دکمه بازگشت.
-    private long mBackPressed;
-
     public int[] iconTabView = {
             R.mipmap.ic_music,
             R.mipmap.ic_stars,
@@ -68,12 +67,14 @@ public class ActivityMain extends AppCompatActivity {
 
 
     };
+
+    private long mBackPressed;
     private SharedPreferences sharedPreferences;
     private String id, newVersion, desc, link;
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private FragNavEnd fragNavEnd;
-    private ImageView menu_right, menu_left, imgSearch, imgFavorite;
+    private ImageView menu_right, menu_left, imgSearch, imgFavorite, imgInfo;
     private CoordinatorLayout layoutRoot;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -81,10 +82,13 @@ public class ActivityMain extends AppCompatActivity {
     private String dialogId;
     private String titleDialog;
     private String messageDialog;
-    private String linkDialog;
+    private TextView txtCountInfo;
 
+    private boolean isCount = true;
 
+    private String count_info;
     /////////////// check newVersion
+    private String linkDialog;
 
     @Override
     protected void onResume() {
@@ -102,8 +106,29 @@ public class ActivityMain extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         checkNewVersion();
+        if (isCount) {
+
+            checkOnlineInfoCount();
+            Log.i("TAG1234567", "ch1: " );
+        }
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        txtCountInfo = (TextView) findViewById(R.id.txtCountInfo);
+        if (txtCountInfo != null) {
+            txtCountInfo.setVisibility(View.GONE);
+        }
+        imgInfo = (ImageView) findViewById(R.id.imgInfo);
+        imgInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(ActivityMain.this, ActivityInfo.class);
+                intent.putExtra("COUNT", count_info);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         menu_left = (ImageView) findViewById(R.id.toolbar_menu_start);
         menu_left.setOnClickListener(new View.OnClickListener() {
@@ -187,6 +212,60 @@ public class ActivityMain extends AppCompatActivity {
         setupIconTabView();
 
         DataBase dataBase = new DataBase();
+
+    }
+
+    private void checkOnlineInfoCount() {
+
+        JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, G.URL_INFO, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                try {
+
+                    String count = response.getString("count");
+                    setInfoCount(count);
+                    Log.i("TAG1234567", "ch2: " + count);
+
+                    isCount = false;
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+        Volley.newRequestQueue(G.context).add(objectRequest);
+
+    }
+
+    private void setInfoCount(String count) {
+
+        count_info = count;
+
+        int co = Integer.parseInt(count);
+        Log.i("INFO123", "co: " + co);
+
+        sharedPreferences = getSharedPreferences(SharePref.FILE_NAME, MODE_PRIVATE);
+
+        int shCount = sharedPreferences.getInt(SharePref.COUNT_INFO, 0);
+
+        if (shCount < co) {
+
+            int re = (int) (co - shCount);
+            txtCountInfo.setText("" + re);
+            txtCountInfo.setVisibility(View.VISIBLE);
+
+        } else {
+            txtCountInfo.setVisibility(View.GONE);
+        }
+
 
     }
 

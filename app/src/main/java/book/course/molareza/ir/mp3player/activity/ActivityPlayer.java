@@ -55,7 +55,7 @@ import book.course.molareza.ir.mp3player.db.LikeMusicKharejiDao;
 public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnBufferingUpdateListener, SeekBar.OnSeekBarChangeListener
         , MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
 
-    public  MediaPlayer mediaPlayer;
+    public MediaPlayer mediaPlayer;
 
     public int po;
     long totalTime, currentTime;
@@ -91,8 +91,6 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
-
-
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -152,7 +150,6 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
             cLike = bundle.getInt("LIKE");
         }
 
-
         clickLike();
 
         sendVisit();
@@ -174,11 +171,6 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
         };
         G.HANDLER.postDelayed(run, 1000);
 
-//        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ninja);
-//        Bitmap blur = Helper.blur(G.context, bitmap);
-//        imgBlur.setImageBitmap(blur);
-
-
         imgPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -192,89 +184,6 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
                     imgPlay.setImageResource(R.mipmap.pause);
                     update_seekBar_timer();
 
-
-                    ////////////////////////////////////////
-//
-//                    String strtitle = "i dont now";
-//                    // Set Notification Text
-//                    String strtext = "its new for me";
-//
-//                    // Open NotificationView Class on Notification Click
-//                    Intent intent = new Intent(ActivityPlayer.this, ActivityMain.class);
-//                    // Send data to NotificationView Class
-//                    intent.putExtra("title", strtitle);
-//                    intent.putExtra("text", strtext);
-//
-//                    PendingIntent pIntent = PendingIntent.getActivity(ActivityPlayer.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-//
-//                    NotificationCompat.Builder builder = new NotificationCompat.Builder(G.context)
-//                            // Set Icon
-//                            .setSmallIcon(R.mipmap.play)
-//                            // Set Ticker Message
-//                            .setTicker("Ticker")
-//                            // Set Title
-//                            .setContentTitle(name)
-//                            // Set Text
-//                            .setContentText(album)
-//                            // Add an Action Button below Notification
-//                            .addAction(R.mipmap.pause, "Action Button", pIntent)
-//                            // Set PendingIntent into Notification
-//                            .setContentIntent(pIntent)
-//                            // Dismiss Notification
-//                            .setAutoCancel(true);
-//
-//                    // Create Notification Manager
-//                    NotificationManager notificationmanager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-//                    // Build Notification with Notification Manager
-//                    notificationmanager.notify(0, builder.build());
-
-
-//                 	// Using RemoteViews to bind custom layouts into Notification
-//                    RemoteViews remoteViews = new RemoteViews(getPackageName(),
-//                            R.layout.custom_notification);
-////
-////                    // Set Notification Title
-//
-//                    String strtitle = "i dont now";
-//                    // Set Notification Text
-//                    String strtext = "its new for me";
-//
-//                    // Open NotificationView Class on Notification Click
-//                    Intent intent = new Intent(ActivityPlayer.this, ActivityMain.class);
-//                    // Send data to NotificationView Class
-//                    intent.putExtra("title", strtitle);
-//                    intent.putExtra("text", strtext);
-//                    // Open NotificationView.java Activity
-//                    PendingIntent pIntent = PendingIntent.getActivity(G.context, 0, intent,
-//                            PendingIntent.FLAG_UPDATE_CURRENT);
-////
-//                    NotificationCompat.Builder builder = new NotificationCompat.Builder(G.context)
-//                            // Set Icon
-//                            .setSmallIcon(R.mipmap.down)
-//                            // Set Ticker Message
-//                            .setTicker("ticker")
-//                            // Dismiss Notification
-//                            .setAutoCancel(true)
-//                            // Set PendingIntent into Notification
-//                            .setContentIntent(pIntent)
-//                            // Set RemoteViews into Notification
-//                            .setContent(remoteViews);
-//
-//                    // Locate and set the Image into customnotificationtext.xml ImageViews
-//               //     remoteViews.setImageViewResource(R.id.notification_button_play,R.mipmap.play);
-//               //     remoteViews.setImageViewResource(R.id.notification_button_close,R.mipmap.close);
-//
-//                    // Locate and set the Text into customnotificationtext.xml TextViews
-//                    remoteViews.setTextViewText(R.id.title,"setText1");
-//                    remoteViews.setTextViewText(R.id.text,"setText2");
-//
-//                    // Create Notification Manager
-//                    NotificationManager notificationmanager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-//                    // Build Notification with Notification Manager
-//                    notificationmanager.notify(0, builder.build());
-
-
-                    //////////////////////////////////
                 }
             }
         });
@@ -744,9 +653,6 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
 
                             }
 
-                            //   AdapterMusicKhareji ad = new AdapterMusicKhareji(null);
-                            //  ad.items.get(po).setVisit(vPlus);
-
                         } else {
 
                             if (table.equals("irani")) {
@@ -758,10 +664,7 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
                                 AdapterMusicIKhareji.items.get(po).setVisit(vPlus);
 
                             }
-
                         }
-
-
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -799,7 +702,17 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
     private void notification() {
 
         RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.custom_notification);
-        Intent intent = new Intent(ActivityPlayer.this, ActivityMain.class);
+        Intent intent = new Intent(ActivityPlayer.this, ActivityPlayer.class);
+        intent.putExtra("NAME", name);
+        intent.putExtra("ALBUM", album);
+        intent.putExtra("URL_BIG_IMAGE", urlBigImage);
+        intent.putExtra("URL_TH_IMAGE", urlThImage);
+        intent.putExtra("URL_MP3_64", urlMp3_64);
+        intent.putExtra("URL_MP3_128", urlMp3_128);
+        intent.putExtra("ID", id);
+        intent.putExtra("po", po);
+        intent.putExtra("TABLE", table);
+        intent.putExtra("LICK", cLike);
         PendingIntent pIntent = PendingIntent.getActivity(G.context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(G.context)
@@ -807,8 +720,8 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
                 .setSmallIcon(R.mipmap.play)
                 .setTicker("پخش موزیک")
                 .setAutoCancel(true)
-                .setContentIntent(pIntent)
-                .setContent(remoteViews);
+                .setContent(remoteViews)
+                .setContentIntent(pIntent);
 
         imgMain.buildDrawingCache();
         Bitmap bt = imgMain.getDrawingCache();

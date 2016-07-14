@@ -34,24 +34,12 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 public class G extends Application {
 
     public static final Handler HANDLER = new Handler();
-    public static final String URL_IRANI = "http://192.168.1.39/musicbazan/irani.php";
-    public static final String URL_KHAREJI = "http://192.168.1.39/musicbazan/khareji.php";
-    public static final String URL_Clip = "http://192.168.1.39/musicbazan/clip.php";
-    public static final String URL_NEWS = "http://192.168.1.39/musicbazan/news.php";
-    public static final String URL_SEARCH = "http://192.168.1.39/musicbazan/search.php";
-    public static final String URL_CALL = "http://192.168.1.39/musicbazan/call.php";
-    public static final String URL_DIALOG = "http://192.168.1.39/musicbazan/dialog.php";
-    public static final String URL_VISIT = "http://192.168.1.39/musicbazan/visit.php";
-    public static final String URL_VERSION = "http://192.168.1.39/musicbazan/version.php";
-    public static final String URL_OTHER_APP = "http://192.168.1.39/musicbazan/otherapp.php";
-
     public static final String SD_CARD = Environment.getExternalStorageDirectory().getAbsolutePath();
     public static final String DIR_MUSIC = SD_CARD + "/musicBazan";
     public static final String DIR_CLIP = DIR_MUSIC + "/clip/";
     public static final String DIR_IRANI = DIR_MUSIC + "/irani/";
     public static final String DIR_KHAREJI = DIR_MUSIC + "/khareji/";
     public static final String DIR_APP = DIR_MUSIC + "/app/";
-
     public static Context context;
     public static LayoutInflater inflater;
     public static Activity currentActivity;
@@ -66,6 +54,20 @@ public class G extends Application {
     public static LikeMusicKharejiDao likeMusicKharejiDao;
     public static LikeClipDao likeClipDao;
     public static LikeOtherAppDao likeOtherAppDao;
+
+
+    private static String url = "http://192.168.1.36";
+    public static final String URL_IRANI = url + "/musicbazan/irani.php";
+    public static final String URL_KHAREJI = url + "/musicbazan/khareji.php";
+    public static final String URL_Clip = url + "/musicbazan/clip.php";
+    public static final String URL_NEWS = url + "/musicbazan/news.php";
+    public static final String URL_SEARCH = url + "/musicbazan/search.php";
+    public static final String URL_CALL = url + "/musicbazan/call.php";
+    public static final String URL_DIALOG = url + "/musicbazan/dialog.php";
+    public static final String URL_VISIT = url + "/musicbazan/visit.php";
+    public static final String URL_VERSION = url + "/musicbazan/version.php";
+    public static final String URL_OTHER_APP = url + "/musicbazan/otherapp.php";
+    public static final String URL_INFO = url + "/musicbazan/info.php";
 
     @Override
     public void onCreate() {

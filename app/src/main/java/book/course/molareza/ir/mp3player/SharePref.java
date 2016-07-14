@@ -7,6 +7,7 @@ public class SharePref {
 
     public static final String FILE_NAME = "setting";
     public static final String VERSION = "version";
+    public static final String COUNT_INFO = "count_info";
 
 
 }

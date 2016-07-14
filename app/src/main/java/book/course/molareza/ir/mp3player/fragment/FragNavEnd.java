@@ -21,6 +21,7 @@ import android.widget.TextView;
 import book.course.molareza.ir.mp3player.G;
 import book.course.molareza.ir.mp3player.R;
 import book.course.molareza.ir.mp3player.activity.ActivityCall;
+import book.course.molareza.ir.mp3player.activity.ActivityInfo;
 import book.course.molareza.ir.mp3player.activity.ActivitySetting;
 import book.course.molareza.ir.mp3player.favorite.ActivityFavorite;
 import book.course.molareza.ir.mp3player.otherApp.ActivityOtherApp;
@@ -34,7 +35,7 @@ public class FragNavEnd extends Fragment {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
-    private ViewGroup ltCall, ltSetting, ltDialogAbout, ltDialogAnother, ltFavorite;
+    private ViewGroup ltCall, ltSetting, ltDialogAbout, ltDialogAnother, ltFavorite , ltInfo;
 
 
     public FragNavEnd() {
@@ -57,6 +58,19 @@ public class FragNavEnd extends Fragment {
 
                 drawerLayout.closeDrawers();
                 getActivity().finish();
+            }
+        });
+
+        ltInfo = (ViewGroup) view.findViewById(R.id.ltInfo);
+        ltInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(G.currentActivity , ActivityInfo.class);
+                G.currentActivity.startActivity(intent);
+                drawerLayout.closeDrawers();
+                getActivity().finish();
+
             }
         });
 

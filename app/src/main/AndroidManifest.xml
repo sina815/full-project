@@ -99,6 +99,9 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="988b7ccf395749c3c914898b2a82a8ecf897bdb3" />
+
+        <activity android:name=".activity.ActivityInfo"></activity>
+
     </application>
 
 </manifest>

@@ -85,4 +85,11 @@
     <!--favorite-->
     <string name="favorite_nothing">هنوز موردی به علاقه مندی ها اضافه نشده !</string>
 
+
+    <!--info-->
+    <string name="info">اطلاعیه</string>
+
+
+
+
 </resources>

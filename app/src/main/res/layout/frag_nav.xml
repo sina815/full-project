@@ -18,8 +18,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:background="@color/dark"
-            android:layout_gravity="bottom"/>
+            android:layout_gravity="bottom"
+            android:background="@color/dark" />
 
     </FrameLayout>
 
@@ -31,8 +31,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="25dp">
+            android:layout_marginTop="25dp"
+            android:orientation="vertical">
 
 
             <LinearLayout
@@ -40,9 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="10dp"
-                >
-
+                android:padding="10dp">
 
                 <TextView
 
@@ -66,6 +64,37 @@
 
 
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ltInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|end"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:background="@color/nav_background"
+                    android:text="@string/info"
+                    android:textColor="@color/cardView_border"
+                    android:textSize="17sp" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/info"
+                    android:tint="@color/cardView_border" />
+
+
+            </LinearLayout>
+
 
             <LinearLayout
                 android:id="@+id/ltSetting"

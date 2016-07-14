@@ -18,7 +18,6 @@ import java.net.URL;
 import book.course.molareza.ir.mp3player.G;
 import book.course.molareza.ir.mp3player.MyToast;
 
-
 public class FileDownloader extends AsyncTask<String, Integer, String> {
 
     final FileDownloader me = this;
@@ -33,7 +32,6 @@ public class FileDownloader extends AsyncTask<String, Integer, String> {
     public FileDownloader(Context cont) {
 
         this.context = cont;
-
 
         mProgress = new ProgressDialog(context);
         mProgress.setMessage("فایل در حال دانلود می باشد");
@@ -132,7 +130,6 @@ public class FileDownloader extends AsyncTask<String, Integer, String> {
                     if (outputStream != null) {
                         outputStream.flush();
                         outputStream.close();
-
                     }
                     if (inputStream != null) {
 
@@ -191,3 +188,5 @@ public class FileDownloader extends AsyncTask<String, Integer, String> {
         }
     }
 }
+
+
