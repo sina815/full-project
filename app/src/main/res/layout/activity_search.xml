@@ -43,9 +43,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:theme="@style/MySearchView"
-                    app:queryHint="تست"
+                    app:queryHint="نام خاننده ، نام آلبوم و ..."
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="10dp" />
+                    android:layout_marginRight="10dp"
+                    />
                 </RelativeLayout>
 
             </android.support.v7.widget.Toolbar>

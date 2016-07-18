@@ -38,7 +38,7 @@ import book.course.molareza.ir.mp3player.db.FavoriteClipDao;
 import book.course.molareza.ir.mp3player.db.LikeClip;
 import book.course.molareza.ir.mp3player.db.LikeClipDao;
 
-public class ActivityClip extends AppCompatActivity {
+public class ActivityClipOnline extends AppCompatActivity {
 
     private Toolbar toolbar;
 
@@ -64,6 +64,11 @@ public class ActivityClip extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clip);
+
+
+        if (ActivityPlayerOnline.mediaPlayer != null && ActivityPlayerOnline.mediaPlayer.isPlaying()) {
+            ActivityPlayerOnline.mediaPlayer.stop();
+        }
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -119,7 +124,7 @@ public class ActivityClip extends AppCompatActivity {
 
                     isFav = false;
 
-                    MyToast.makeText(ActivityClip.this, "این مطلب از لیست علاقه مندی ها پاک شد", Toast.LENGTH_SHORT).show();
+                    MyToast.makeText(ActivityClipOnline.this, "این مطلب از لیست علاقه مندی ها پاک شد", Toast.LENGTH_SHORT).show();
 
                 } else {
 
@@ -137,7 +142,7 @@ public class ActivityClip extends AppCompatActivity {
 
                     isFav = true;
 
-                    MyToast.makeText(ActivityClip.this, "این مطلب به علاقه مندی ها اضافه شد", Toast.LENGTH_SHORT).show();
+                    MyToast.makeText(ActivityClipOnline.this, "این مطلب به علاقه مندی ها اضافه شد", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -193,20 +198,21 @@ public class ActivityClip extends AppCompatActivity {
 
         videoView = (VideoView) findViewById(R.id.videoView);
 
-        pDialog = new ProgressDialog(ActivityClip.this);
+        pDialog = new ProgressDialog(ActivityClipOnline.this);
 // افزودن عنوان به پروسس دیالوگ
         pDialog.setTitle("پخش ویدیو از آدرس اینترنتی");
 // افزودن پیام برای پروسس دیالوگ
         pDialog.setMessage("در حال بارگذاری ویدیو...");
         pDialog.setIndeterminate(false);
         pDialog.setCancelable(false);
+        pDialog.setCancelable(true);
 // نمایش پروسس دیالوگ
         pDialog.show();
 
         try {
 // شروع کار مدیاکنترل
             MediaController mediacontroller = new MediaController(
-                    ActivityClip.this);
+                    ActivityClipOnline.this);
             mediacontroller.setAnchorView(videoView);
 // دریافت فایل ویدیوی از آدرس اینترنتی
             Uri video = Uri.parse(urlClip);
@@ -232,7 +238,7 @@ public class ActivityClip extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                FileDownloader fileDownloader = new FileDownloader(ActivityClip.this);
+                FileDownloader fileDownloader = new FileDownloader(ActivityClipOnline.this , name ,album , big_image , "clip");
                 fileDownloader.execute(urlClip, G.DIR_CLIP);
             }
         });

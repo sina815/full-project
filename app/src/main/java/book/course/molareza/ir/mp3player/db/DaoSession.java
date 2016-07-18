@@ -13,6 +13,7 @@ import book.course.molareza.ir.mp3player.db.FavoriteDetail;
 import book.course.molareza.ir.mp3player.db.FavoriteMusicIrani;
 import book.course.molareza.ir.mp3player.db.FavoriteMusicKhareji;
 import book.course.molareza.ir.mp3player.db.FavoriteClip;
+import book.course.molareza.ir.mp3player.db.ListDownload;
 import book.course.molareza.ir.mp3player.db.LikeDetail;
 import book.course.molareza.ir.mp3player.db.LikeMusicIrani;
 import book.course.molareza.ir.mp3player.db.LikeMusicKhareji;
@@ -23,6 +24,7 @@ import book.course.molareza.ir.mp3player.db.FavoriteDetailDao;
 import book.course.molareza.ir.mp3player.db.FavoriteMusicIraniDao;
 import book.course.molareza.ir.mp3player.db.FavoriteMusicKharejiDao;
 import book.course.molareza.ir.mp3player.db.FavoriteClipDao;
+import book.course.molareza.ir.mp3player.db.ListDownloadDao;
 import book.course.molareza.ir.mp3player.db.LikeDetailDao;
 import book.course.molareza.ir.mp3player.db.LikeMusicIraniDao;
 import book.course.molareza.ir.mp3player.db.LikeMusicKharejiDao;
@@ -42,6 +44,7 @@ public class DaoSession extends AbstractDaoSession {
     private final DaoConfig favoriteMusicIraniDaoConfig;
     private final DaoConfig favoriteMusicKharejiDaoConfig;
     private final DaoConfig favoriteClipDaoConfig;
+    private final DaoConfig listDownloadDaoConfig;
     private final DaoConfig likeDetailDaoConfig;
     private final DaoConfig likeMusicIraniDaoConfig;
     private final DaoConfig likeMusicKharejiDaoConfig;
@@ -52,6 +55,7 @@ public class DaoSession extends AbstractDaoSession {
     private final FavoriteMusicIraniDao favoriteMusicIraniDao;
     private final FavoriteMusicKharejiDao favoriteMusicKharejiDao;
     private final FavoriteClipDao favoriteClipDao;
+    private final ListDownloadDao listDownloadDao;
     private final LikeDetailDao likeDetailDao;
     private final LikeMusicIraniDao likeMusicIraniDao;
     private final LikeMusicKharejiDao likeMusicKharejiDao;
@@ -74,6 +78,9 @@ public class DaoSession extends AbstractDaoSession {
         favoriteClipDaoConfig = daoConfigMap.get(FavoriteClipDao.class).clone();
         favoriteClipDaoConfig.initIdentityScope(type);
 
+        listDownloadDaoConfig = daoConfigMap.get(ListDownloadDao.class).clone();
+        listDownloadDaoConfig.initIdentityScope(type);
+
         likeDetailDaoConfig = daoConfigMap.get(LikeDetailDao.class).clone();
         likeDetailDaoConfig.initIdentityScope(type);
 
@@ -93,6 +100,7 @@ public class DaoSession extends AbstractDaoSession {
         favoriteMusicIraniDao = new FavoriteMusicIraniDao(favoriteMusicIraniDaoConfig, this);
         favoriteMusicKharejiDao = new FavoriteMusicKharejiDao(favoriteMusicKharejiDaoConfig, this);
         favoriteClipDao = new FavoriteClipDao(favoriteClipDaoConfig, this);
+        listDownloadDao = new ListDownloadDao(listDownloadDaoConfig, this);
         likeDetailDao = new LikeDetailDao(likeDetailDaoConfig, this);
         likeMusicIraniDao = new LikeMusicIraniDao(likeMusicIraniDaoConfig, this);
         likeMusicKharejiDao = new LikeMusicKharejiDao(likeMusicKharejiDaoConfig, this);
@@ -103,6 +111,7 @@ public class DaoSession extends AbstractDaoSession {
         registerDao(FavoriteMusicIrani.class, favoriteMusicIraniDao);
         registerDao(FavoriteMusicKhareji.class, favoriteMusicKharejiDao);
         registerDao(FavoriteClip.class, favoriteClipDao);
+        registerDao(ListDownload.class, listDownloadDao);
         registerDao(LikeDetail.class, likeDetailDao);
         registerDao(LikeMusicIrani.class, likeMusicIraniDao);
         registerDao(LikeMusicKhareji.class, likeMusicKharejiDao);
@@ -115,6 +124,7 @@ public class DaoSession extends AbstractDaoSession {
         favoriteMusicIraniDaoConfig.getIdentityScope().clear();
         favoriteMusicKharejiDaoConfig.getIdentityScope().clear();
         favoriteClipDaoConfig.getIdentityScope().clear();
+        listDownloadDaoConfig.getIdentityScope().clear();
         likeDetailDaoConfig.getIdentityScope().clear();
         likeMusicIraniDaoConfig.getIdentityScope().clear();
         likeMusicKharejiDaoConfig.getIdentityScope().clear();
@@ -136,6 +146,10 @@ public class DaoSession extends AbstractDaoSession {
 
     public FavoriteClipDao getFavoriteClipDao() {
         return favoriteClipDao;
+    }
+
+    public ListDownloadDao getListDownloadDao() {
+        return listDownloadDao;
     }
 
     public LikeDetailDao getLikeDetailDao() {

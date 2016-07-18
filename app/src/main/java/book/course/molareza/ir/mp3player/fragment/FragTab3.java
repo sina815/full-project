@@ -50,6 +50,8 @@ public class FragTab3 extends Fragment {
 
     private int u;
 
+    private ViewGroup layoutRefreshAgain;
+
     @Override
     public void onResume() {
         super.onResume();
@@ -65,6 +67,9 @@ public class FragTab3 extends Fragment {
         View view = inflater.inflate(R.layout.frag_tab1, container, false);
 
         prgFrag3 = (ProgressBar) view.findViewById(R.id.prgFrag1);
+
+        layoutRefreshAgain = (ViewGroup) view.findViewById(R.id.layoutRefreshAgain);
+        layoutRefreshAgain.setVisibility(View.GONE);
 
         rcvContent = (RecyclerView) view.findViewById(R.id.rcvContentFrag1);
         adapterClip = new AdapterClip(items);
@@ -114,8 +119,8 @@ public class FragTab3 extends Fragment {
                             int id = Integer.parseInt(object.getString("id"));
                             if (id <=1){
                                 isPage = false;
-                            }
 
+                            }
                             String image = object.getString("thumbnile");
                             imageDownloader(image, u);
                             u++;
@@ -127,6 +132,7 @@ public class FragTab3 extends Fragment {
 
                     prgFrag3.setVisibility(View.GONE);
                     adapterClip.notifyDataSetChanged();
+                    layoutRefreshAgain.setVisibility(View.GONE);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -137,7 +143,17 @@ public class FragTab3 extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                MyToast.makeText(G.context, R.string.error_connect, Toast.LENGTH_SHORT).show();
+                MyToast.makeText(G.context, "متاسفانه ارتباط با سرور برقرار نشد", Toast.LENGTH_SHORT).show();
+                prgFrag3.setVisibility(View.INVISIBLE);
+                layoutRefreshAgain.setVisibility(View.VISIBLE);
+                layoutRefreshAgain.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        setItem();
+                        layoutRefreshAgain.setVisibility(View.GONE);
+                        prgFrag3.setVisibility(View.VISIBLE);
+                    }
+                });
             }
         });
 
@@ -158,7 +174,7 @@ public class FragTab3 extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                MyToast.makeText(G.context,R.string.error_down_image, Toast.LENGTH_SHORT).show();
+                MyToast.makeText(G.context, "متاسفانه مشکلی در دریافت عکس ها ازسمت سرور به وجود آمده !", Toast.LENGTH_SHORT).show();
 
             }
         });

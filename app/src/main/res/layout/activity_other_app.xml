@@ -2,10 +2,10 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".otherApp.ActivityOtherApp"
-    android:id="@+id/coordinator">
+    tools:context=".otherApp.ActivityOtherApp">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbarOtherApp"
@@ -44,21 +44,49 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rcvContentOtherApp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/main_rcv_background" />
+
+        <ProgressBar
+            android:id="@+id/prgOtherApp"
+            style="?android:attr/progressBarStyleLargeInverse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+
+        <RelativeLayout
+            android:id="@+id/vgRefreshAgainOtherApp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/prgOtherApp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/refresh"
+                android:tint="@color/tab_text_title"
+                android:layout_gravity="center" android:layout_centerInParent="true"/>
+
+            <TextView
+                android:id="@+id/txtRefreshAgain"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/refreshAgain"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/tab_text_title"
+                android:layout_below="@id/imageView"
+                android:layout_marginTop="50dp"/>
 
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rcvContentOtherApp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/main_rcv_background" />
-
-    <ProgressBar
-        android:id="@+id/prgOtherApp"
-        style="?android:attr/progressBarStyleLargeInverse"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"/>
-
+        </RelativeLayout>
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

@@ -21,7 +21,9 @@ import android.widget.TextView;
 import book.course.molareza.ir.mp3player.G;
 import book.course.molareza.ir.mp3player.R;
 import book.course.molareza.ir.mp3player.activity.ActivityCall;
+import book.course.molareza.ir.mp3player.activity.ActivityDownload;
 import book.course.molareza.ir.mp3player.activity.ActivityInfo;
+import book.course.molareza.ir.mp3player.activity.ActivityMain;
 import book.course.molareza.ir.mp3player.activity.ActivitySetting;
 import book.course.molareza.ir.mp3player.favorite.ActivityFavorite;
 import book.course.molareza.ir.mp3player.otherApp.ActivityOtherApp;
@@ -35,8 +37,9 @@ public class FragNavEnd extends Fragment {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
-    private ViewGroup ltCall, ltSetting, ltDialogAbout, ltDialogAnother, ltFavorite , ltInfo;
+    private ViewGroup ltCall, ltSetting, ltDialogAbout, ltDialogAnother, ltFavorite , ltInfo , ltExit , ltDownload;
 
+    private int count = ActivityMain.intCount;
 
     public FragNavEnd() {
         // Required empty public constructor
@@ -61,12 +64,25 @@ public class FragNavEnd extends Fragment {
             }
         });
 
+        ltDownload = (ViewGroup) view.findViewById(R.id.ltDownload);
+        ltDownload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(G.currentActivity , ActivityDownload.class);
+                G.currentActivity.startActivity(intent);
+                drawerLayout.closeDrawers();
+
+            }
+        });
+
         ltInfo = (ViewGroup) view.findViewById(R.id.ltInfo);
         ltInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Intent intent = new Intent(G.currentActivity , ActivityInfo.class);
+                intent.putExtra("COUNT", count);
                 G.currentActivity.startActivity(intent);
                 drawerLayout.closeDrawers();
                 getActivity().finish();
@@ -121,6 +137,16 @@ public class FragNavEnd extends Fragment {
                 G.currentActivity.startActivity(intent);
                 drawerLayout.closeDrawers();
                 getActivity().finish();
+
+            }
+        });
+
+        ltExit = (ViewGroup) view.findViewById(R.id.ltExit);
+        ltExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                System.exit(0);
 
             }
         });

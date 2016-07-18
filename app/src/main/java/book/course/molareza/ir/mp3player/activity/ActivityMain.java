@@ -16,7 +16,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -58,14 +57,12 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ActivityMain extends AppCompatActivity {
 
-    private static final int TIME_INTERVAL = 3000; // # milliseconds, زمان مورد نیاز  برای دو پرس دکمه بازگشت.
+    private static final int TIME_INTERVAL = 2000; // # milliseconds, زمان مورد نیاز  برای دو پرس دکمه بازگشت.
     public int[] iconTabView = {
             R.mipmap.ic_music,
             R.mipmap.ic_stars,
             R.mipmap.ic_clip,
             R.mipmap.newspaper
-
-
     };
 
     private long mBackPressed;
@@ -87,6 +84,7 @@ public class ActivityMain extends AppCompatActivity {
     private boolean isCount = true;
 
     private String count_info;
+    public static int intCount;
     /////////////// check newVersion
     private String linkDialog;
 
@@ -109,7 +107,7 @@ public class ActivityMain extends AppCompatActivity {
         if (isCount) {
 
             checkOnlineInfoCount();
-            Log.i("TAG1234567", "ch1: " );
+
         }
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -220,12 +218,9 @@ public class ActivityMain extends AppCompatActivity {
         JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, G.URL_INFO, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-
                 try {
-
                     String count = response.getString("count");
                     setInfoCount(count);
-                    Log.i("TAG1234567", "ch2: " + count);
 
                     isCount = false;
 
@@ -250,7 +245,7 @@ public class ActivityMain extends AppCompatActivity {
         count_info = count;
 
         int co = Integer.parseInt(count);
-        Log.i("INFO123", "co: " + co);
+        intCount = co;
 
         sharedPreferences = getSharedPreferences(SharePref.FILE_NAME, MODE_PRIVATE);
 
@@ -524,14 +519,13 @@ public class ActivityMain extends AppCompatActivity {
         Volley.newRequestQueue(G.context).add(stringRequest);
     }
 
-    //متد دکمه بازگشت
     @Override
     public void onBackPressed() {
         if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis()) {
             super.onBackPressed();
             return;
         }
-//نمایش پیغام هنگام پرس دکمه بازگشت
+
         else {
             MyToast.makeText(getBaseContext(), "برای خروج از برنامه بروی دکمه خروج  دوباره کنید!", Toast.LENGTH_SHORT).show();
         }

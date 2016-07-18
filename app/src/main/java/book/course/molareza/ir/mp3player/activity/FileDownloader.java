@@ -24,12 +24,22 @@ public class FileDownloader extends AsyncTask<String, Integer, String> {
     public boolean downloadStatus = true;
 
     public ProgressDialog mProgress;
+
+    public String name;
+    public String album;
+    public String image;
+    public String type;
+
     private Context context;
     private boolean isCheck;
-
     private String urlDownload;
 
-    public FileDownloader(Context cont) {
+    public FileDownloader(Context cont, String name, String album, String image , String type) {
+
+        this.name = name;
+        this.album = album;
+        this.image = image;
+        this.type = type;
 
         this.context = cont;
 
@@ -165,6 +175,10 @@ public class FileDownloader extends AsyncTask<String, Integer, String> {
                 MyToast.makeText(G.context, "خطا در حین دانلود", Toast.LENGTH_SHORT).show();
             } else {
                 MyToast.makeText(G.context, "دانلود با موفقیت صورت گرفت", Toast.LENGTH_SHORT).show();
+
+                ImageDownloader imageDownloader = new ImageDownloader(urlDownload, name, album , type);
+                imageDownloader.execute(image);
+
 
             }
         } else {

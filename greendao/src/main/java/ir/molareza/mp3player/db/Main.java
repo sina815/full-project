@@ -50,6 +50,14 @@ public class Main {
         favoriteClip.addStringProperty("bigImage");
         favoriteClip.addStringProperty("clip");
 
+        Entity listDownload = schema.addEntity("ListDownload");
+        listDownload.addIdProperty().primaryKey();
+        listDownload.addStringProperty("name");
+        listDownload.addStringProperty("album");
+        listDownload.addStringProperty("mp3");
+        listDownload.addStringProperty("image");
+        listDownload.addStringProperty("type");
+
 
         Entity likeDetail = schema.addEntity("LikeDetail");
         likeDetail.addIdProperty().primaryKey();

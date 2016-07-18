@@ -12,6 +12,7 @@ import book.course.molareza.ir.mp3player.db.FavoriteDetailDao;
 import book.course.molareza.ir.mp3player.db.FavoriteMusicIraniDao;
 import book.course.molareza.ir.mp3player.db.FavoriteMusicKharejiDao;
 import book.course.molareza.ir.mp3player.db.FavoriteClipDao;
+import book.course.molareza.ir.mp3player.db.ListDownloadDao;
 import book.course.molareza.ir.mp3player.db.LikeDetailDao;
 import book.course.molareza.ir.mp3player.db.LikeMusicIraniDao;
 import book.course.molareza.ir.mp3player.db.LikeMusicKharejiDao;
@@ -31,6 +32,7 @@ public class DaoMaster extends AbstractDaoMaster {
         FavoriteMusicIraniDao.createTable(db, ifNotExists);
         FavoriteMusicKharejiDao.createTable(db, ifNotExists);
         FavoriteClipDao.createTable(db, ifNotExists);
+        ListDownloadDao.createTable(db, ifNotExists);
         LikeDetailDao.createTable(db, ifNotExists);
         LikeMusicIraniDao.createTable(db, ifNotExists);
         LikeMusicKharejiDao.createTable(db, ifNotExists);
@@ -44,6 +46,7 @@ public class DaoMaster extends AbstractDaoMaster {
         FavoriteMusicIraniDao.dropTable(db, ifExists);
         FavoriteMusicKharejiDao.dropTable(db, ifExists);
         FavoriteClipDao.dropTable(db, ifExists);
+        ListDownloadDao.dropTable(db, ifExists);
         LikeDetailDao.dropTable(db, ifExists);
         LikeMusicIraniDao.dropTable(db, ifExists);
         LikeMusicKharejiDao.dropTable(db, ifExists);
@@ -84,6 +87,7 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(FavoriteMusicIraniDao.class);
         registerDaoClass(FavoriteMusicKharejiDao.class);
         registerDaoClass(FavoriteClipDao.class);
+        registerDaoClass(ListDownloadDao.class);
         registerDaoClass(LikeDetailDao.class);
         registerDaoClass(LikeMusicIraniDao.class);
         registerDaoClass(LikeMusicKharejiDao.class);

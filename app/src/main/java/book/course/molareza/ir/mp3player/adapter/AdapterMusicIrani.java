@@ -7,22 +7,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.List;
 
 import book.course.molareza.ir.mp3player.G;
 import book.course.molareza.ir.mp3player.R;
-import book.course.molareza.ir.mp3player.activity.ActivityPlayer;
+import book.course.molareza.ir.mp3player.activity.ActivityPlayerOnline;
 import book.course.molareza.ir.mp3player.struct.StructMusicIrani;
 
 
-public class AdapterMusicKhareji extends RecyclerView.Adapter<AdapterMusicKhareji.ViewHolder> {
+public class AdapterMusicIrani extends RecyclerView.Adapter<AdapterMusicIrani.ViewHolder> {
 
 
     public static List<StructMusicIrani> items;
 
-    public AdapterMusicKhareji(List<StructMusicIrani> items) {
+    public AdapterMusicIrani(List<StructMusicIrani> items) {
         this.items = items;
     }
 
@@ -38,6 +39,8 @@ public class AdapterMusicKhareji extends RecyclerView.Adapter<AdapterMusicKharej
     public void onBindViewHolder(ViewHolder holder, int position) {
         StructMusicIrani item = items.get(position);
 
+        holder.prgSmallMusic.setVisibility(View.VISIBLE);
+
         holder.txtSinger.setText(item.getName());
         holder.txtAlbum.setText(item.getAlbum());
         holder.txtLike.setText("" + item.getLike());
@@ -46,9 +49,11 @@ public class AdapterMusicKhareji extends RecyclerView.Adapter<AdapterMusicKharej
         if (item.thBitmap != null) {
 
             holder.imgSinger.setImageBitmap(item.thBitmap);
+            holder.prgSmallMusic.setVisibility(View.INVISIBLE);
 
         } else {
             holder.imgSinger.setImageResource(R.mipmap.splash);
+            holder.prgSmallMusic.setVisibility(View.INVISIBLE);
         }
 
     }
@@ -61,13 +66,15 @@ public class AdapterMusicKhareji extends RecyclerView.Adapter<AdapterMusicKharej
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView imgSinger;
-
         private TextView txtSinger, txtAlbum, txtLike, txtVisit, txtShare;
-
         private CardView cardView;
+
+        private ProgressBar prgSmallMusic;
 
         public ViewHolder(View itemView) {
             super(itemView);
+
+            prgSmallMusic = (ProgressBar) itemView.findViewById(R.id.prgSmallMusic);
 
             imgSinger = (ImageView) itemView.findViewById(R.id.imgSinger);
             txtLike = (TextView) itemView.findViewById(R.id.txtLike);
@@ -81,7 +88,7 @@ public class AdapterMusicKhareji extends RecyclerView.Adapter<AdapterMusicKharej
                 public void onClick(View v) {
                     StructMusicIrani item = items.get(getPosition());
 
-                    Intent intent = new Intent(G.currentActivity, ActivityPlayer.class);
+                    Intent intent = new Intent(G.currentActivity, ActivityPlayerOnline.class);
                     intent.putExtra("URL_BIG_IMAGE", item.getBigimage());
                     intent.putExtra("URL_TH_IMAGE", item.getThumbnile());
                     intent.putExtra("URL_MP3_64", item.getMp364());

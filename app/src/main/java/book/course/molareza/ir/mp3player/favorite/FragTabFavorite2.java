@@ -43,10 +43,15 @@ public class FragTabFavorite2 extends Fragment {
     private TextView txtNotFound;
     private boolean isCount = true;
 
+    private ViewGroup layoutRefreshAgain;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.frag_tab1, container, false);
+
+        layoutRefreshAgain = (ViewGroup) view.findViewById(R.id.layoutRefreshAgain);
+        layoutRefreshAgain.setVisibility(View.GONE);
 
         txtNotFound = (TextView) view.findViewById(R.id.txtNotFound);
         txtNotFound.setText(R.string.favorite_nothing);

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -46,6 +47,8 @@ public class ActivityOtherApp extends AppCompatActivity {
     private boolean isPage = true;
     private int u;
 
+    private ViewGroup vgRefreshAgainOtherApp;
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -57,9 +60,14 @@ public class ActivityOtherApp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_other_app);
 
+        vgRefreshAgainOtherApp = (ViewGroup) findViewById(R.id.vgRefreshAgainOtherApp);
+        if (vgRefreshAgainOtherApp != null) {
+            vgRefreshAgainOtherApp.setVisibility(View.INVISIBLE);
+        }
+
         toolbar = (Toolbar) findViewById(R.id.toolbarOtherApp);
         setSupportActionBar(toolbar);
-        if (getSupportActionBar() !=null){
+        if (getSupportActionBar() != null) {
 
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
@@ -87,7 +95,7 @@ public class ActivityOtherApp extends AppCompatActivity {
 
                     JSONArray array = response.getJSONArray("app");
 
-                    if (array !=null){
+                    if (array != null) {
                         for (int i = 0; i < array.length(); i++) {
 
                             StructOtherApp item = new StructOtherApp();
@@ -105,7 +113,7 @@ public class ActivityOtherApp extends AppCompatActivity {
                             item.setTable(object.getString("tbName"));
 
                             int id = Integer.parseInt(object.getString("id"));
-                            if (id <=1){
+                            if (id <= 1) {
                                 isPage = false;
                             }
 
@@ -129,9 +137,21 @@ public class ActivityOtherApp extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                MyToast.makeText(G.context, "متاسفانه ارتباط با سرور برقرار نشد", Toast.LENGTH_SHORT).show();
+                prgBar.setVisibility(View.INVISIBLE);
+                vgRefreshAgainOtherApp.setVisibility(View.VISIBLE);
+                vgRefreshAgainOtherApp.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        setItems();
+                        vgRefreshAgainOtherApp.setVisibility(View.INVISIBLE);
+                        prgBar.setVisibility(View.VISIBLE);
 
-
+                    }
+                });
             }
+
+
         });
 
         Volley.newRequestQueue(G.context).add(objectRequest);
@@ -161,8 +181,8 @@ public class ActivityOtherApp extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK){
-            Intent intent = new Intent(ActivityOtherApp.this , ActivityMain.class);
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Intent intent = new Intent(ActivityOtherApp.this, ActivityMain.class);
             startActivity(intent);
             finish();
         }
@@ -174,7 +194,7 @@ public class ActivityOtherApp extends AppCompatActivity {
         // handle arrow click here
         if (item.getItemId() == android.R.id.home) {
 
-            Intent intent = new Intent(this , ActivityMain.class);
+            Intent intent = new Intent(this, ActivityMain.class);
             startActivity(intent);
             finish();
         }

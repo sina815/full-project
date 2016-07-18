@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -45,21 +46,21 @@ import book.course.molareza.ir.mp3player.struct.StructClip;
  */
 public class FragTabSearch3 extends Fragment {
 
-    private boolean isActive3;
-
-    private RecyclerView rcvContent;
-    private AdapterClip adapterClip;
-    private List<StructClip> items ;
-
-    private ProgressBar prgFrag3;
-
     public int up;
     public String search;
     public String clip;
-
+    private boolean isActive3;
+    private RecyclerView rcvContent;
+    private AdapterClip adapterClip;
+    private List<StructClip> items;
+    private ProgressBar prgFrag3;
     private SearchView searchViewFrag3;
 
     private TabLayout tabLayout;
+
+    private ViewGroup layoutRefreshAgain;
+
+    private TextView txtNotFound;
 
 
     @Override
@@ -68,42 +69,50 @@ public class FragTabSearch3 extends Fragment {
 
         if (isVisibleToUser) {
 
-                searchViewFrag3 = (SearchView) getActivity().findViewById(R.id.searchView);
-                searchViewFrag3.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                    @Override
-                    public boolean onQueryTextSubmit(String query) {
+            searchViewFrag3 = (SearchView) getActivity().findViewById(R.id.searchView);
+            searchViewFrag3.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
 
-                        items = new ArrayList<StructClip>();
-                        up = 0;
-                        search = query;
-                        prgFrag3.setVisibility(View.VISIBLE);
-                        adapterClip = new AdapterClip(items);
-                        rcvContent.setAdapter(adapterClip);
-                        rcvContent.setLayoutManager(new GridLayoutManager(G.context, 2));
-                        adapterClip.notifyDataSetChanged();
-                        clip = "clip";
-                        setItems();
+                    txtNotFound.setVisibility(View.GONE);
+                    items = new ArrayList<StructClip>();
+                    up = 0;
+                    search = query;
+                    prgFrag3.setVisibility(View.VISIBLE);
+                    adapterClip = new AdapterClip(items);
+                    rcvContent.setAdapter(adapterClip);
+                    rcvContent.setLayoutManager(new GridLayoutManager(G.context, 2));
+                    adapterClip.notifyDataSetChanged();
+                    clip = "clip";
+                    setItems();
 
-                        return false;
-                    }
+                    return false;
+                }
 
-                    @Override
-                    public boolean onQueryTextChange(String newText) {
+                @Override
+                public boolean onQueryTextChange(String newText) {
 
 
-                        return false;
-                    }
-                });
+                    return false;
+                }
+            });
 
-            }
         }
+    }
 
 
-        @Override
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 
         View view = inflater.inflate(R.layout.frag_tab1, container, false);
+
+        layoutRefreshAgain = (ViewGroup) view.findViewById(R.id.layoutRefreshAgain);
+        layoutRefreshAgain.setVisibility(View.GONE);
+
+        txtNotFound = (TextView) view.findViewById(R.id.txtNotFound);
+        txtNotFound.setVisibility(View.VISIBLE);
+        txtNotFound.setText(R.string.search_nothing);
 
         prgFrag3 = (ProgressBar) view.findViewById(R.id.prgFrag1);
         prgFrag3.setVisibility(View.INVISIBLE);
@@ -112,7 +121,6 @@ public class FragTabSearch3 extends Fragment {
         return view;
 
     }
-
 
 
     private void setItems() {
@@ -128,26 +136,36 @@ public class FragTabSearch3 extends Fragment {
 
                     if (array != null) {
 
-                        for (int i = 0; i < array.length(); i++) {
-                            StructClip item = new StructClip();
-                            JSONObject object = array.getJSONObject(i);
+                        if (array.length() == 0){
+                            txtNotFound.setVisibility(View.VISIBLE);
+                            txtNotFound.setText(R.string.search_nothing2);
+                            prgFrag3.setVisibility(View.INVISIBLE);
+                            return;
 
-                            item.setId(object.getString("id"));
-                            item.setName(object.getString("name"));
-                            item.setAlbum(object.getString("album"));
-                            item.setThumbnile(object.getString("thumbnile"));
-                            item.setBigImage(object.getString("bigimage"));
-                            item.setClip(object.getString("clip"));
-                            item.setCat(object.getString("cat"));
-                            item.setIdCat(object.getString("idcat"));
-                            item.setLike(object.getString("like"));
-                            item.setVisit(object.getString("visit"));
+                        }else {
 
-                            String th_url = object.getString("thumbnile");
-                            setImage(th_url, up);
-                            up++;
-                            Log.i("TAG4321", "onQueryTextSubmit: " + th_url);
-                            items.add(item);
+                            for (int i = 0; i < array.length(); i++) {
+                                StructClip item = new StructClip();
+                                JSONObject object = array.getJSONObject(i);
+
+                                item.setId(object.getString("id"));
+                                item.setName(object.getString("name"));
+                                item.setAlbum(object.getString("album"));
+                                item.setThumbnile(object.getString("thumbnile"));
+                                item.setBigImage(object.getString("bigimage"));
+                                item.setClip(object.getString("clip"));
+                                item.setCat(object.getString("cat"));
+                                item.setIdCat(object.getString("idcat"));
+                                item.setLike(object.getString("like"));
+                                item.setVisit(object.getString("visit"));
+
+                                String th_url = object.getString("thumbnile");
+                                setImage(th_url, up);
+                                up++;
+                                Log.i("TAG4321", "onQueryTextSubmit: " + th_url);
+                                items.add(item);
+                            }
+
                         }
 
                     }
@@ -158,6 +176,8 @@ public class FragTabSearch3 extends Fragment {
                 }
                 adapterClip.notifyDataSetChanged();
                 prgFrag3.setVisibility(View.INVISIBLE);
+                layoutRefreshAgain.setVisibility(View.GONE);
+                txtNotFound.setVisibility(View.GONE);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -175,7 +195,7 @@ public class FragTabSearch3 extends Fragment {
 
                 paramss.put("search", search);
                 paramss.put("table", clip);
-                Log.i("TAG87654321", "params3: " + clip  + search);
+
                 return paramss;
             }
         };

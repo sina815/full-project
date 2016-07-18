@@ -14,7 +14,7 @@ import java.util.List;
 
 import book.course.molareza.ir.mp3player.G;
 import book.course.molareza.ir.mp3player.R;
-import book.course.molareza.ir.mp3player.activity.ActivityClip;
+import book.course.molareza.ir.mp3player.activity.ActivityClipOnline;
 import book.course.molareza.ir.mp3player.struct.StructClip;
 
 /**
@@ -81,7 +81,7 @@ public class AdapterClip extends RecyclerView.Adapter<AdapterClip.ViewHolder> {
                 public void onClick(View v) {
 
                     StructClip item = items.get(getPosition());
-                    Intent intent = new Intent(G.currentActivity, ActivityClip.class);
+                    Intent intent = new Intent(G.currentActivity, ActivityClipOnline.class);
                     intent.putExtra("NAME", item.getName());
                     intent.putExtra("ALBUM", item.getAlbum());
                     intent.putExtra("TH_IMAGE", item.getThumbnile());

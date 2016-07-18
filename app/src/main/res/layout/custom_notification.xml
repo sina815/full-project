@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/main_rcv_background"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:id="@+id/layoutRootNotify">
 
     <ImageView
         android:id="@+id/imgNotify"
@@ -13,8 +14,9 @@
         android:src="@mipmap/splash" />
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
 
         <TextView
             android:id="@+id/textView2"
@@ -74,6 +76,14 @@
             android:textSize="14sp" />
 
     </RelativeLayout>
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:id="@+id/imgPauseNotify"
+        android:layout_weight=".2"
+        android:src="@mipmap/pause"
+        android:layout_gravity="center"/>
 
 
 </LinearLayout>

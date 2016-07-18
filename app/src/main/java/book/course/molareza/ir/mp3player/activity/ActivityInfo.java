@@ -8,10 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -53,10 +53,17 @@ public class ActivityInfo extends AppCompatActivity {
     private String count;
     private int intCount;
 
+    private ViewGroup vgInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
+
+        vgInfo = (ViewGroup) findViewById(R.id.vgInfo);
+        if (vgInfo != null) {
+            vgInfo.setVisibility(View.INVISIBLE);
+        }
 
         Bundle bundle = getIntent().getExtras();
 
@@ -66,10 +73,11 @@ public class ActivityInfo extends AppCompatActivity {
 
         }
 
-
-        intCount = Integer.parseInt(count);
-        Log.i("INFO1234567", "onCreate: " + intCount);
-
+        if (count != null) {
+            intCount = Integer.parseInt(count);
+        } else {
+            intCount = ActivityMain.intCount;
+        }
         SharedPreferences sharedPreferences = getSharedPreferences(SharePref.FILE_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(SharePref.COUNT_INFO, intCount);
@@ -89,7 +97,6 @@ public class ActivityInfo extends AppCompatActivity {
         rcvContent.setAdapter(adapterOtherApp);
         rcvContent.setLayoutManager(new LinearLayoutManager(G.context));
         setItems();
-
 
     }
 
@@ -146,6 +153,17 @@ public class ActivityInfo extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
 
+                prgBar.setVisibility(View.INVISIBLE);
+                vgInfo.setVisibility(View.VISIBLE);
+                vgInfo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        setItems();
+                        vgInfo.setVisibility(View.GONE);
+                        prgBar.setVisibility(View.VISIBLE);
+                    }
+                });
+
             }
         });
 
@@ -186,7 +204,6 @@ public class ActivityInfo extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // handle arrow click here
         if (item.getItemId() == android.R.id.home) {
 
             Intent intent = new Intent(this, ActivityMain.class);

@@ -43,11 +43,13 @@ public class FragTab2 extends Fragment {
     private AdapterMusicIKhareji adapterMusicKhareji;
     private List<StructMusicKhareji> items = new ArrayList<>();
 
-    private ProgressBar prgFrag2;
+    private ProgressBar prgFrag2 ;
 
     public int up;
 
     private RequestQueue requestQueue;
+
+    private ViewGroup layoutRefreshAgain;
 
     @Override
     public void onResume() {
@@ -61,6 +63,9 @@ public class FragTab2 extends Fragment {
         View view = inflater.inflate(R.layout.frag_tab1, container, false);
 
         prgFrag2 = (ProgressBar) view.findViewById(R.id.prgFrag1);
+
+        layoutRefreshAgain = (ViewGroup) view.findViewById(R.id.layoutRefreshAgain);
+        layoutRefreshAgain.setVisibility(View.GONE);
 
         rcvContent = (RecyclerView) view.findViewById(R.id.rcvContentFrag1);
         adapterMusicKhareji = new AdapterMusicIKhareji(items);
@@ -131,13 +136,24 @@ public class FragTab2 extends Fragment {
 
                 adapterMusicKhareji.notifyDataSetChanged();
                 prgFrag2.setVisibility(View.INVISIBLE);
+                layoutRefreshAgain.setVisibility(View.GONE);
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                MyToast.makeText(G.context, R.string.error_connect, Toast.LENGTH_SHORT).show();
+                MyToast.makeText(G.context, "متاسفانه ارتباط با سرور برقرار نشد", Toast.LENGTH_SHORT).show();
+                layoutRefreshAgain.setVisibility(View.VISIBLE);
+                prgFrag2.setVisibility(View.INVISIBLE);
+                layoutRefreshAgain.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        setItem();
+                        layoutRefreshAgain.setVisibility(View.GONE);
+                        prgFrag2.setVisibility(View.VISIBLE);
+                    }
+                });
 
             }
         });
@@ -157,11 +173,12 @@ public class FragTab2 extends Fragment {
                 adapterMusicKhareji.items.get(position).thBitmap = response;
                 adapterMusicKhareji.notifyDataSetChanged();
 
+
             }
         }, 0, 0, ImageView.ScaleType.FIT_XY, Bitmap.Config.ARGB_8888, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                MyToast.makeText(G.context,R.string.error_down_image, Toast.LENGTH_SHORT).show();
+                MyToast.makeText(G.context, "متاسفانه مشکلی در دریافت عکس ها ازسمت سرور به وجود آمده !", Toast.LENGTH_SHORT).show();
             }
         });
 

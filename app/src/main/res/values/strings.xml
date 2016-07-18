@@ -22,6 +22,7 @@
     <string name="menu_setting">تنظیمات</string>
     <string name="menu_About_me">در باره ما</string>
     <string name="menu_another_app">سایر برنامه ها</string>
+    <string name="menu_exit">خروج از برنامه</string>
 
     <string name="menu_new">مرتب سازی براساس جدیدترین ها</string>
     <string name="menu_top_like">مرتب سازی براساس بالاترین امتیاز</string>
@@ -84,12 +85,15 @@
 
     <!--favorite-->
     <string name="favorite_nothing">هنوز موردی به علاقه مندی ها اضافه نشده !</string>
+    <string name="search_nothing">برای جستجو برروی آیکن سرچ کلیک کنید</string>
+    <string name="search_nothing2">هیچی یافت نشد !</string>
 
 
     <!--info-->
     <string name="info">اطلاعیه</string>
+    <string name="refreshAgain">تلاش مجدد</string>
 
-
+    <string name="list_download">آهنگ های دانلود شده</string>
 
 
 </resources>

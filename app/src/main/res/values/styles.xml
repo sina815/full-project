@@ -43,7 +43,8 @@
 
 
     <style name="MySearchView" >
-        <item name="android:textColor">@color/nav_drawer_text2</item>
+
+        <item name="android:textColor">@color/colorAccent</item>
         <item name="android:editTextColor">@color/nav_drawer_text2</item>
         <item name="android:textColorHint">@color/search_text_color</item>
         <item name="colorAccent">@color/nav_drawer_text2</item>

@@ -30,7 +30,7 @@ import java.util.List;
 import book.course.molareza.ir.mp3player.G;
 import book.course.molareza.ir.mp3player.MyToast;
 import book.course.molareza.ir.mp3player.R;
-import book.course.molareza.ir.mp3player.adapter.AdapterMusicKhareji;
+import book.course.molareza.ir.mp3player.adapter.AdapterMusicIrani;
 import book.course.molareza.ir.mp3player.struct.StructMusicIrani;
 
 public class FragTab1 extends Fragment {
@@ -38,10 +38,13 @@ public class FragTab1 extends Fragment {
     public int page = 0;
     public int up;
     private RecyclerView rcvContent;
-    private AdapterMusicKhareji adapterMusicIrani;
+    private AdapterMusicIrani adapterMusicIrani;
     private List<StructMusicIrani> items = new ArrayList<>();
     private ProgressBar prgFrag1;
     private boolean isPage = true;
+
+    private ViewGroup layoutRefreshAgain;
+
 
     @Override
     public void onResume() {
@@ -57,15 +60,19 @@ public class FragTab1 extends Fragment {
 
         prgFrag1 = (ProgressBar) view.findViewById(R.id.prgFrag1);
 
+        layoutRefreshAgain = (ViewGroup) view.findViewById(R.id.layoutRefreshAgain);
+        layoutRefreshAgain.setVisibility(View.GONE);
+
         rcvContent = (RecyclerView) view.findViewById(R.id.rcvContentFrag1);
-        adapterMusicIrani = new AdapterMusicKhareji(items);
+        adapterMusicIrani = new AdapterMusicIrani(items);
         rcvContent.setAdapter(adapterMusicIrani);
         rcvContent.setLayoutManager(new GridLayoutManager(G.context, 2));
         adapterMusicIrani.notifyDataSetChanged();
-        if (isPage) {
 
+        if (isPage) {
             prgFrag1.setVisibility(View.VISIBLE);
             setItem();
+
         } else {
             prgFrag1.setVisibility(View.INVISIBLE);
         }
@@ -124,13 +131,25 @@ public class FragTab1 extends Fragment {
 
                 adapterMusicIrani.notifyDataSetChanged();
                 prgFrag1.setVisibility(View.INVISIBLE);
+                layoutRefreshAgain.setVisibility(View.GONE);
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                MyToast.makeText(G.context, R.string.error_connect, Toast.LENGTH_SHORT).show();
+                MyToast.makeText(G.context, "متاسفانه ارتباط با سرور برقرار نشد", Toast.LENGTH_SHORT).show();
+                prgFrag1.setVisibility(View.INVISIBLE);
+                layoutRefreshAgain.setVisibility(View.VISIBLE);
+                layoutRefreshAgain.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        setItem();
+                        layoutRefreshAgain.setVisibility(View.GONE);
+                        prgFrag1.setVisibility(View.VISIBLE);
+                    }
+                });
+
 
             }
         });
@@ -154,7 +173,7 @@ public class FragTab1 extends Fragment {
         }, 0, 0, ImageView.ScaleType.FIT_XY, Bitmap.Config.ARGB_8888, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                MyToast.makeText(G.context, R.string.error_down_image, Toast.LENGTH_SHORT).show();
+                MyToast.makeText(G.context, "متاسفانه مشکلی در دریافت عکس ها ازسمت سرور به وجود آمده !", Toast.LENGTH_SHORT).show();
             }
         });
 

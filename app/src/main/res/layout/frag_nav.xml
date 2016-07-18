@@ -66,6 +66,36 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ltDownload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|end"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:background="@color/nav_background"
+                    android:text="@string/list_download"
+                    android:textColor="@color/nav_drawer_text3"
+                    android:textSize="17sp" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/down"
+                    android:tint="@color/nav_drawer_text3" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/ltInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -214,6 +244,37 @@
                     android:layout_marginRight="10dp"
                     android:src="@mipmap/ic_phone"
                     android:tint="@color/nav_drawer_text2" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ltExit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+
+                <TextView
+
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:background="@color/nav_background"
+                    android:text="@string/menu_exit"
+                    android:textColor="@color/nav_drawer_text1"
+                    android:textSize="17sp" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/exit"
+                    android:tint="@color/nav_drawer_text1" />
 
 
             </LinearLayout>

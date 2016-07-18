@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -56,6 +57,10 @@ public class FragTabSearch4 extends Fragment {
     private SearchView searchViewFrag4;
     private TabLayout tabLayout;
 
+    private ViewGroup layoutRefreshAgain;
+
+    private TextView txtNotFound;
+
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -66,6 +71,8 @@ public class FragTabSearch4 extends Fragment {
             searchViewFrag4.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(String query) {
+
+                    txtNotFound.setVisibility(View.GONE);
 
                     up = 0;
                     items = new ArrayList<StructNews>();
@@ -98,6 +105,13 @@ public class FragTabSearch4 extends Fragment {
 
         View view = inflater.inflate(R.layout.frag_tab1, container, false);
 
+        layoutRefreshAgain = (ViewGroup) view.findViewById(R.id.layoutRefreshAgain);
+        layoutRefreshAgain.setVisibility(View.GONE);
+
+        txtNotFound = (TextView) view.findViewById(R.id.txtNotFound);
+        txtNotFound.setVisibility(View.VISIBLE);
+        txtNotFound.setText(R.string.search_nothing);
+
         prgFrag4 = (ProgressBar) view.findViewById(R.id.prgFrag1);
         prgFrag4.setVisibility(View.INVISIBLE);
         rcvContent = (RecyclerView) view.findViewById(R.id.rcvContentFrag1);
@@ -116,30 +130,36 @@ public class FragTabSearch4 extends Fragment {
                     JSONArray array = jsonObject.getJSONArray("search");
                     if (array != null) {
 
-                        for (int i = 0; i < array.length(); i++) {
-                            StructNews item = new StructNews();
-                            JSONObject object = array.getJSONObject(i);
-                            Log.i("TAGGQWER", "array: " + object);
+                        if (array.length() == 0) {
+                            txtNotFound.setVisibility(View.VISIBLE);
+                            txtNotFound.setText(R.string.search_nothing2);
+                            prgFrag4.setVisibility(View.INVISIBLE);
+                            return;
+                        } else {
 
-                            item.setId(object.getString("id"));
-                            item.setTitle(object.getString("title"));
-                            item.setDesc(object.getString("desc"));
-                            item.setText(object.getString("text"));
-                            item.setThumbnil(object.getString("thumbnil"));
-                            item.setBigImage(object.getString("bigimage"));
-                            item.setLike(object.getInt("like"));
-                            item.setVisit(object.getInt("visit"));
-                            item.setShare(object.getInt("share"));
+                            for (int i = 0; i < array.length(); i++) {
+                                StructNews item = new StructNews();
+                                JSONObject object = array.getJSONObject(i);
+                                Log.i("TAGGQWER", "array: " + object);
 
-                            String urlImage = object.getString("thumbnil");
+                                item.setId(object.getString("id"));
+                                item.setTitle(object.getString("title"));
+                                item.setDesc(object.getString("desc"));
+                                item.setText(object.getString("text"));
+                                item.setThumbnil(object.getString("thumbnil"));
+                                item.setBigImage(object.getString("bigimage"));
+                                item.setLike(object.getInt("like"));
+                                item.setVisit(object.getInt("visit"));
+                                item.setShare(object.getInt("share"));
 
-                            setImage(urlImage, up);
-                            up++;
-                            items.add(item);
+                                String urlImage = object.getString("thumbnil");
+
+                                setImage(urlImage, up);
+                                up++;
+                                items.add(item);
+                            }
+
                         }
-
-                    } else {
-                        Log.i("TAGGQWER", "error: ");
                     }
 
 
@@ -150,6 +170,8 @@ public class FragTabSearch4 extends Fragment {
                 }
                 adapterNews.notifyDataSetChanged();
                 prgFrag4.setVisibility(View.INVISIBLE);
+                layoutRefreshAgain.setVisibility(View.GONE);
+                txtNotFound.setVisibility(View.GONE);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -167,7 +189,7 @@ public class FragTabSearch4 extends Fragment {
 
                 paramss.put("search", search);
                 paramss.put("table", news);
-                Log.i("TAG4321", "params4: " + news + "    search: " + search);
+
                 return paramss;
             }
         };

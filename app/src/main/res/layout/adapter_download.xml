@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cardView"
+    android:id="@+id/cardView_download"
     android:layout_width="match_parent"
-    android:layout_height="280dp"
+    android:layout_height="wrap_content"
     android:layout_margin="5dp"
     android:orientation="vertical"
     card_view:cardElevation="3dp">
@@ -12,14 +12,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/cardView_background"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="15dp">
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
             <ProgressBar
-                android:id="@+id/prgSmallMusic"
+                android:id="@+id/prgSmall_download"
                 style="?android:attr/progressBarStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -27,13 +28,34 @@
                 android:layout_centerVertical="true" />
 
             <ImageView
-                android:id="@+id/imgSinger"
+                android:id="@+id/imgSinger_download"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:scaleType="fitXY"
                 android:src="@mipmap/splash" />
 
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/txtType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_toRightOf="@+id/txtAlbumClip"
+            android:paddingLeft="5dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:text="@string/nSinger"
+            android:textColor="@color/cardView_border"
+            android:textSize="13sp"
+            android:paddingBottom="5dp"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/toolbar_border_bottom"
+            />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -42,7 +64,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/txtSinger"
+                android:id="@+id/txtSinger_download"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="10dp"
@@ -72,7 +94,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/txtAlbum"
+                android:id="@+id/txtAlbum_download"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
@@ -91,78 +113,6 @@
                 android:text="@string/nAlbum"
                 android:textColor="@color/cardView_text_color_nAlbum"
                 android:textSize="13sp" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="6dp"
-            android:background="@color/toolbar_border_bottom" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight=".5"
-                android:paddingLeft="15dp"
-                android:paddingRight="5dp">
-
-                <ImageView
-
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@mipmap/like"
-                    android:tint="@color/cardView_like" />
-
-                <TextView
-                    android:id="@+id/txtLike"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:paddingTop="2dp"
-                    android:text="541+"
-                    android:textColor="@color/cardView_like"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight=".5"
-                android:paddingLeft="15dp"
-                android:paddingRight="5dp">
-
-
-                <ImageView
-
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginStart="5dp"
-                    android:src="@mipmap/eyebrow"
-                    android:tint="@color/cardView_visit" />
-
-                <TextView
-                    android:id="@+id/txtVisit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="8dp"
-                    android:gravity="center"
-                    android:paddingTop="2dp"
-                    android:text="541+"
-                    android:textColor="@color/cardView_visit"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
 
         </LinearLayout>
 

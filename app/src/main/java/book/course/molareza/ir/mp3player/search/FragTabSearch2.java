@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -46,22 +47,22 @@ import book.course.molareza.ir.mp3player.struct.StructMusicKhareji;
  */
 public class FragTabSearch2 extends Fragment {
 
-    private boolean isActive2;
-
-    private RecyclerView rcvContent;
-    private AdapterMusicIKhareji adapterMusicIKhareji;
-    private List<StructMusicKhareji> items;
-
-    private ProgressBar prgFrag2;
-
     public int up;
     public String search;
     public String khareji;
-
+    private boolean isActive2;
+    private RecyclerView rcvContent;
+    private AdapterMusicIKhareji adapterMusicIKhareji;
+    private List<StructMusicKhareji> items;
+    private ProgressBar prgFrag2;
     private RequestQueue requestFrag2;
     private SearchView searchViewFrag2;
 
     private TabLayout tabLayout;
+
+    private ViewGroup layoutRefreshAgain;
+
+    private TextView txtNotFound;
 
 
     @Override
@@ -70,42 +71,42 @@ public class FragTabSearch2 extends Fragment {
 
         if (isVisibleToUser) {
 
-                searchViewFrag2 = (SearchView) getActivity().findViewById(R.id.searchView);
-                searchViewFrag2.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                    @Override
-                    public boolean onQueryTextSubmit(String query) {
+            searchViewFrag2 = (SearchView) getActivity().findViewById(R.id.searchView);
+            searchViewFrag2.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+
+                    txtNotFound.setVisibility(View.GONE);
+
+                    items = new ArrayList<>();
+
+                    up = 0;
+
+                    search = query;
+
+                    prgFrag2.setVisibility(View.VISIBLE);
+                    adapterMusicIKhareji = new AdapterMusicIKhareji(items);
+                    rcvContent.setAdapter(adapterMusicIKhareji);
+                    rcvContent.setLayoutManager(new GridLayoutManager(G.context, 2));
+                    adapterMusicIKhareji.notifyDataSetChanged();
+                    khareji = "khareji";
+                    setItems();
+
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
 
 
-                        items = new ArrayList<>();
+                    return false;
+                }
+            });
 
-                        up = 0;
-
-                        search = query;
-
-                        prgFrag2.setVisibility(View.VISIBLE);
-                        adapterMusicIKhareji = new AdapterMusicIKhareji(items);
-                        rcvContent.setAdapter(adapterMusicIKhareji);
-                        rcvContent.setLayoutManager(new GridLayoutManager(G.context, 2));
-                        adapterMusicIKhareji.notifyDataSetChanged();
-                        khareji = "khareji";
-                        setItems();
-
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onQueryTextChange(String newText) {
-
-
-                        return false;
-                    }
-                });
-
-            } else {
-                isActive2 = false;
-            }
+        } else {
+            isActive2 = false;
         }
-
+    }
 
 
     @Override
@@ -113,6 +114,13 @@ public class FragTabSearch2 extends Fragment {
 
 
         View view = inflater.inflate(R.layout.frag_tab1, container, false);
+
+        layoutRefreshAgain = (ViewGroup) view.findViewById(R.id.layoutRefreshAgain);
+        layoutRefreshAgain.setVisibility(View.GONE);
+
+        txtNotFound = (TextView) view.findViewById(R.id.txtNotFound);
+        txtNotFound.setVisibility(View.VISIBLE);
+        txtNotFound.setText(R.string.search_nothing);
 
         prgFrag2 = (ProgressBar) view.findViewById(R.id.prgFrag1);
         prgFrag2.setVisibility(View.INVISIBLE);
@@ -135,31 +143,39 @@ public class FragTabSearch2 extends Fragment {
 
                     if (array != null) {
 
-                        for (int i = 0; i < array.length(); i++) {
-                            StructMusicKhareji item = new StructMusicKhareji();
-                            JSONObject object = array.getJSONObject(i);
+                        if (array.length() == 0) {
+                            txtNotFound.setVisibility(View.VISIBLE);
+                            txtNotFound.setText(R.string.search_nothing2);
+                            prgFrag2.setVisibility(View.INVISIBLE);
+                            return;
+                        } else {
 
-                            item.setId(object.getString("id"));
-                            item.setName(object.getString("name"));
-                            item.setAlbum(object.getString("album"));
-                            item.setThumbnile(object.getString("thumbnile"));
-                            item.setBigimage(object.getString("bigimage"));
-                            item.setMp364(object.getString("mp364"));
-                            item.setMp3128(object.getString("mp3128"));
-                            item.setCat(object.getString("cat"));
-                            item.setIdcat(object.getString("idcat"));
-                            item.setLike(object.getInt("like"));
-                            item.setVisit(object.getInt("visit"));
-                            item.setShare(object.getInt("share"));
-                            item.setTable(object.getString("tbName"));
+                            for (int i = 0; i < array.length(); i++) {
+                                StructMusicKhareji item = new StructMusicKhareji();
+                                JSONObject object = array.getJSONObject(i);
 
-                            String th_url = object.getString("thumbnile");
-                            setImage(th_url, up);
-                            up++;
-                            Log.i("TAG4321", "onQueryTextSubmit: " + th_url);
-                            items.add(item);
+                                item.setId(object.getString("id"));
+                                item.setName(object.getString("name"));
+                                item.setAlbum(object.getString("album"));
+                                item.setThumbnile(object.getString("thumbnile"));
+                                item.setBigimage(object.getString("bigimage"));
+                                item.setMp364(object.getString("mp364"));
+                                item.setMp3128(object.getString("mp3128"));
+                                item.setCat(object.getString("cat"));
+                                item.setIdcat(object.getString("idcat"));
+                                item.setLike(object.getInt("like"));
+                                item.setVisit(object.getInt("visit"));
+                                item.setShare(object.getInt("share"));
+                                item.setTable(object.getString("tbName"));
+
+                                String th_url = object.getString("thumbnile");
+                                setImage(th_url, up);
+                                up++;
+                                Log.i("TAG4321", "onQueryTextSubmit: " + th_url);
+                                items.add(item);
+                            }
+
                         }
-
                     }
 
 
@@ -168,6 +184,8 @@ public class FragTabSearch2 extends Fragment {
                 }
                 adapterMusicIKhareji.notifyDataSetChanged();
                 prgFrag2.setVisibility(View.INVISIBLE);
+                layoutRefreshAgain.setVisibility(View.GONE);
+                txtNotFound.setVisibility(View.GONE);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -185,7 +203,7 @@ public class FragTabSearch2 extends Fragment {
 
                 paramss.put("search", search);
                 paramss.put("table", khareji);
-                Log.i("TAG87654321", "params2: " + khareji);
+
                 return paramss;
             }
         };

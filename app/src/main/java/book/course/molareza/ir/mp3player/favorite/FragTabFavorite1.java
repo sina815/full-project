@@ -23,14 +23,14 @@ import java.util.List;
 
 import book.course.molareza.ir.mp3player.G;
 import book.course.molareza.ir.mp3player.R;
-import book.course.molareza.ir.mp3player.adapter.AdapterMusicKhareji;
+import book.course.molareza.ir.mp3player.adapter.AdapterMusicIrani;
 import book.course.molareza.ir.mp3player.db.FavoriteMusicIrani;
 import book.course.molareza.ir.mp3player.struct.StructMusicIrani;
 
 
 public class FragTabFavorite1 extends Fragment {
 
-    private AdapterMusicKhareji adapterMusic;
+    private AdapterMusicIrani adapterMusic;
     private List<StructMusicIrani> items = new ArrayList<>();
     private ProgressBar progressBar;
 
@@ -40,12 +40,17 @@ public class FragTabFavorite1 extends Fragment {
 
     public int u;
 
+    private ViewGroup layoutRefreshAgain;
+
     private boolean isCount = true;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 
         View view = inflater.inflate(R.layout.frag_tab1, container, false);
+
+        layoutRefreshAgain = (ViewGroup) view.findViewById(R.id.layoutRefreshAgain);
+        layoutRefreshAgain.setVisibility(View.GONE);
 
         txtNotFound = (TextView) view.findViewById(R.id.txtNotFound);
         txtNotFound.setText(R.string.favorite_nothing);
@@ -58,7 +63,7 @@ public class FragTabFavorite1 extends Fragment {
         progressBar.setVisibility(View.INVISIBLE);
 
         RecyclerView rcvContent = (RecyclerView) view.findViewById(R.id.rcvContentFrag1);
-        adapterMusic = new AdapterMusicKhareji(items);
+        adapterMusic = new AdapterMusicIrani(items);
         rcvContent.setAdapter(adapterMusic);
         rcvContent.setLayoutManager(new GridLayoutManager(G.context, 2));
 
@@ -117,7 +122,7 @@ public class FragTabFavorite1 extends Fragment {
             @Override
             public void onResponse(Bitmap response) {
 
-                AdapterMusicKhareji.items.get(id).thBitmap = response;
+                AdapterMusicIrani.items.get(id).thBitmap = response;
                 adapterMusic.notifyDataSetChanged();
 
             }

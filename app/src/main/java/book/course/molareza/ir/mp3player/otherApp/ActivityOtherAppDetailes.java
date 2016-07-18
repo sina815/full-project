@@ -170,7 +170,7 @@ public class ActivityOtherAppDetailes extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                FileDownloader fileDownloader = new FileDownloader(ActivityOtherAppDetailes.this);
+                FileDownloader fileDownloader = new FileDownloader(ActivityOtherAppDetailes.this, "test", "test1", "test3", "test4");
                 fileDownloader.execute(link, G.DIR_APP);
             }
         });

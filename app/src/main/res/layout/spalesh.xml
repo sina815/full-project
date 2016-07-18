@@ -11,5 +11,4 @@
         android:src="@mipmap/splash"
         android:scaleType="fitXY"/>
 
-
 </RelativeLayout>

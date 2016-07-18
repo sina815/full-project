@@ -61,6 +61,36 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"/>
 
+        <RelativeLayout
+            android:id="@+id/vgInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/prgInfo"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/refresh"
+                android:tint="@color/tab_text_title"
+                android:layout_gravity="center" android:layout_centerInParent="true"/>
+
+            <TextView
+                android:id="@+id/txtRefreshAgain"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/refreshAgain"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/tab_text_title"
+                android:layout_below="@id/imageView"
+                android:layout_marginTop="50dp"/>
+
+
+        </RelativeLayout>
+
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>
 

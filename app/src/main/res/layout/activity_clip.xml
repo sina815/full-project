@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/tab_background"
     android:orientation="vertical"
-    tools:context="book.course.molareza.ir.mp3player.activity.ActivityClip">
+    tools:context=".activity.ActivityClipOnline">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbarClip"

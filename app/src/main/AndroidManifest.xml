@@ -64,7 +64,7 @@
                 android:value=".activity.ActivityMain" />
         </activity>
         <activity
-            android:name=".activity.ActivityPlayer"
+            android:name=".activity.ActivityPlayerOnline"
             android:configChanges="keyboard|keyboardHidden|orientation"
             android:screenOrientation="portrait">
             <meta-data
@@ -72,7 +72,7 @@
                 android:value=".activity.ActivityMain" />
         </activity>
         <activity
-            android:name=".activity.ActivityClip"
+            android:name=".activity.ActivityClipOnline"
             android:configChanges="keyboard|keyboardHidden|orientation"
             android:screenOrientation="portrait">
             <meta-data
@@ -100,8 +100,17 @@
             android:name="io.fabric.ApiKey"
             android:value="988b7ccf395749c3c914898b2a82a8ecf897bdb3" />
 
-        <activity android:name=".activity.ActivityInfo"></activity>
+        <activity
+            android:name=".activity.ActivityInfo"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
 
+        <receiver android:name=".activity.ActivityPlayerOnline$NotificationPlayButtonHandler" />
+        <receiver android:name=".activity.ActivityPlayerOffline$NotificationPlayButtonHandler" />
+
+        <activity android:name=".activity.ActivityDownload" />
+        <activity android:name=".activity.ActivityPlayerOffline" />
+        <activity android:name=".activity.ActivityClipOffline"></activity>
     </application>
 
 </manifest>

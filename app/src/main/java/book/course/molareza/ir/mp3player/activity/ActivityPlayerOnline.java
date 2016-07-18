@@ -1,6 +1,8 @@
 package book.course.molareza.ir.mp3player.activity;
 
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
@@ -42,7 +44,7 @@ import book.course.molareza.ir.mp3player.Helper;
 import book.course.molareza.ir.mp3player.MyToast;
 import book.course.molareza.ir.mp3player.R;
 import book.course.molareza.ir.mp3player.adapter.AdapterMusicIKhareji;
-import book.course.molareza.ir.mp3player.adapter.AdapterMusicKhareji;
+import book.course.molareza.ir.mp3player.adapter.AdapterMusicIrani;
 import book.course.molareza.ir.mp3player.db.FavoriteMusicIrani;
 import book.course.molareza.ir.mp3player.db.FavoriteMusicIraniDao;
 import book.course.molareza.ir.mp3player.db.FavoriteMusicKhareji;
@@ -52,13 +54,13 @@ import book.course.molareza.ir.mp3player.db.LikeMusicIraniDao;
 import book.course.molareza.ir.mp3player.db.LikeMusicKhareji;
 import book.course.molareza.ir.mp3player.db.LikeMusicKharejiDao;
 
-public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnBufferingUpdateListener, SeekBar.OnSeekBarChangeListener
+public class ActivityPlayerOnline extends AppCompatActivity implements MediaPlayer.OnBufferingUpdateListener, SeekBar.OnSeekBarChangeListener
         , MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
 
-    public MediaPlayer mediaPlayer;
+    public static MediaPlayer mediaPlayer;
 
     public int po;
-    long totalTime, currentTime;
+    private long totalTime, currentTime;
     private Toolbar toolbar;
     private ImageView imgBlur, imgMain, imgRepeat, imgPrev, imgPlay, imgNext, imgDownload, imgLikeMusic;
     private TextView txtCurrentTime, txtTotalTime, txtSingerPlayer, txtLikeMusic;
@@ -77,24 +79,32 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
     private String set = "visit";
     private int cLike = 0;
 
+    private boolean isresume = false;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        G.currentActivity = this;
+
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         if (mediaPlayer.isPlaying()) {
 
             notification();
+
         }
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        int result = G.audioManager.requestAudioFocus(ActivityPlayer.this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+        int result = G.audioManager.requestAudioFocus(ActivityPlayerOnline.this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
 
         imgBlur = (ImageView) findViewById(R.id.imgBlur);
         imgMain = (ImageView) findViewById(R.id.imgMain);
@@ -113,11 +123,27 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
         imgFavorite = (ImageView) findViewById(R.id.imgFavoriteMusic);
         imgDownload = (ImageView) findViewById(R.id.imgDownload);
 
+        if (!isresume) {
+
+            mediaPlayer = new MediaPlayer();
+        }
+
         if (seekBarPlayer != null) {
 
             seekBarPlayer.setOnSeekBarChangeListener(this);
         }
-        mediaPlayer = new MediaPlayer();
+
+        if (mediaPlayer.isPlaying()) {
+
+            update_seekBar_timer();
+            int cur = mediaPlayer.getCurrentPosition();
+            int to = mediaPlayer.getDuration();
+
+            Log.i("TOTALTOTAL", "cur: "+ cur);
+            Log.i("TOTALTOTAL", "to: "+ to);
+        }
+
+
         mediaPlayer.setOnBufferingUpdateListener(this);
         mediaPlayer.setOnCompletionListener(this);
 
@@ -148,7 +174,21 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
             po = bundle.getInt("PO");
             table = bundle.getString("TABLE");
             cLike = bundle.getInt("LIKE");
+            isresume = bundle.getBoolean("RESUME");
         }
+
+        if (mediaPlayer != null && mediaPlayer.isPlaying() && !isresume) {
+            mediaPlayer.stop();
+            G.notificationManager.cancel(0);
+        }
+
+        if (!isresume) {
+
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        } else {
+            result = 0;
+        }
+
 
         clickLike();
 
@@ -157,6 +197,7 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
         isState();
 
         txtSingerPlayer.setText(name + "  " + "آلبوم" + "  " + album);
+
 
         Picasso.with(G.context).load(urlBigImage).into(imgMain);
 
@@ -169,7 +210,14 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
                 imgBlur.setImageBitmap(Helper.blur(G.context, mainBlur));
             }
         };
-        G.HANDLER.postDelayed(run, 1000);
+        G.HANDLER.postDelayed(run, 2500);
+
+        if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+            // Play
+            mediaPlayer.reset();
+            new startPlay().execute();
+
+        }
 
         imgPlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,12 +225,16 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
                 if (mediaPlayer.isPlaying()) {
                     mediaPlayer.pause();
                     imgPlay.setImageResource(R.mipmap.play);
+                    imgPrev.setEnabled(false);
+                    imgNext.setEnabled(false);
 
                 } else {
 
                     mediaPlayer.start();
                     imgPlay.setImageResource(R.mipmap.pause);
                     update_seekBar_timer();
+                    imgPrev.setEnabled(true);
+                    imgNext.setEnabled(true);
 
                 }
             }
@@ -192,15 +244,16 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
             @Override
             public void onClick(View v) {
 
+                int totalTime = mediaPlayer.getDuration();
+
                 int currentTime = mediaPlayer.getCurrentPosition();
 
-                if (currentTime + 5000 <= mediaPlayer.getDuration()) {
+                if (currentTime + 5000 >= totalTime) {
 
-                    mediaPlayer.seekTo(currentTime + 5000);
+                    mediaPlayer.seekTo(totalTime);
 
                 } else {
-
-                    mediaPlayer.seekTo(0);
+                    mediaPlayer.seekTo(currentTime + 5000);
                 }
 
             }
@@ -230,23 +283,18 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
 
                     isRepeat = true;
                     imgRepeat.setColorFilter(getResources().getColor(R.color.tab_text_title), PorterDuff.Mode.SRC_IN);
-                    MyToast.makeText(ActivityPlayer.this, "حالت تکرار فعال شد", Toast.LENGTH_SHORT).show();
+                    MyToast.makeText(ActivityPlayerOnline.this, "حالت تکرار فعال شد", Toast.LENGTH_SHORT).show();
 
                 } else {
 
                     isRepeat = false;
                     imgRepeat.setColorFilter(getResources().getColor(R.color.tab_text_select), PorterDuff.Mode.SRC_IN);
-                    MyToast.makeText(ActivityPlayer.this, "حالت تکرار غیرفعال شد", Toast.LENGTH_SHORT).show();
+                    MyToast.makeText(ActivityPlayerOnline.this, "حالت تکرار غیرفعال شد", Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
 
-        if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-            // Play
-            mediaPlayer.reset();
-            new startPlay().execute();
-        }
 
         // favorite button
 
@@ -265,7 +313,7 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
                         imgFavorite.setImageResource(R.mipmap.ic_favorite_border_black_48dp);
                         imgFavorite.setColorFilter(getResources().getColor(R.color.tab_text_select));
                         isFav = false;
-                        MyToast.makeText(ActivityPlayer.this, "این مطلب از لیست علاقه مندی ها پاک شد", Toast.LENGTH_SHORT).show();
+                        MyToast.makeText(ActivityPlayerOnline.this, "این مطلب از لیست علاقه مندی ها پاک شد", Toast.LENGTH_SHORT).show();
 
                     } else {
 
@@ -285,7 +333,7 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
                         imgFavorite.setColorFilter(getResources().getColor(R.color.tab_text_title));
                         isFav = true;
 
-                        MyToast.makeText(ActivityPlayer.this, "این مطلب به علاقه مندی ها اضافه شد", Toast.LENGTH_SHORT).show();
+                        MyToast.makeText(ActivityPlayerOnline.this, "این مطلب به علاقه مندی ها اضافه شد", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     if (isFav) {
@@ -404,10 +452,10 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
 
                 if (table.equals("irani")) {
 
-                    FileDownloader fileDownloader = new FileDownloader(ActivityPlayer.this);
+                    FileDownloader fileDownloader = new FileDownloader(ActivityPlayerOnline.this, name, album, urlBigImage, table);
                     fileDownloader.execute(urlMp3_64, G.DIR_IRANI);
                 } else {
-                    FileDownloader fileDownloader = new FileDownloader(ActivityPlayer.this);
+                    FileDownloader fileDownloader = new FileDownloader(ActivityPlayerOnline.this, name, album, urlBigImage, table);
                     fileDownloader.execute(urlMp3_64, G.DIR_KHAREJI);
                 }
 
@@ -562,23 +610,24 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
     @Override
     public void onCompletion(MediaPlayer mp) {
 
-        if (!isRepeat) {
+        if (!mp.isPlaying()) {
+            if (!isRepeat) {
+                seekBarPlayer.setProgress(0);
+                txtCurrentTime.setText("00:00");
+                imgPlay.setImageResource(R.mipmap.play);
+                imgPrev.setEnabled(false);
+                imgNext.setEnabled(false);
+                MyToast.makeText(ActivityPlayerOnline.this, "برای اجرای متوالی حالت تکرار را فعال کنید", Toast.LENGTH_SHORT).show();
 
-            seekBarPlayer.setProgress(0);
-            txtCurrentTime.setText("00:00");
-            imgPlay.setImageResource(R.mipmap.play);
-            MyToast.makeText(ActivityPlayer.this, "حالت تکرار خاموش شد", Toast.LENGTH_SHORT).show();
+            } else {
 
-        } else {
-
-            seekBarPlayer.setProgress(0);
-            txtCurrentTime.setText("00:00");
-            mediaPlayer.setLooping(true);
-            // update_seekBar_timer();
-            MyToast.makeText(ActivityPlayer.this, "حالت تکرار روشن شد", Toast.LENGTH_SHORT).show();
+                seekBarPlayer.setProgress(0);
+                txtCurrentTime.setText("00:00");
+                mediaPlayer.start();
+                update_seekBar_timer();
+                MyToast.makeText(ActivityPlayerOnline.this, "تکرار آهنگ", Toast.LENGTH_SHORT).show();
+            }
         }
-
-
     }
 
     @Override
@@ -645,7 +694,7 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
 
                             if (table.equals("irani")) {
 
-                                AdapterMusicKhareji.items.get(po).setVisit(vPlus);
+                                AdapterMusicIrani.items.get(po).setVisit(vPlus);
 
                             } else {
 
@@ -657,7 +706,7 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
 
                             if (table.equals("irani")) {
 
-                                AdapterMusicKhareji.items.get(po).setLike(vPlus);
+                                AdapterMusicIrani.items.get(po).setLike(vPlus);
 
                             } else {
 
@@ -702,7 +751,7 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
     private void notification() {
 
         RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.custom_notification);
-        Intent intent = new Intent(ActivityPlayer.this, ActivityPlayer.class);
+        Intent intent = new Intent(ActivityPlayerOnline.this, ActivityPlayerOnline.class);
         intent.putExtra("NAME", name);
         intent.putExtra("ALBUM", album);
         intent.putExtra("URL_BIG_IMAGE", urlBigImage);
@@ -713,17 +762,23 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
         intent.putExtra("po", po);
         intent.putExtra("TABLE", table);
         intent.putExtra("LICK", cLike);
+        intent.putExtra("RESUME", true);
         PendingIntent pIntent = PendingIntent.getActivity(G.context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Intent buttonPlayIntent = new Intent(this, NotificationPlayButtonHandler.class);
+        PendingIntent buttonPlayPendingIntent = PendingIntent.getBroadcast(this, 0, buttonPlayIntent, 0);
+        remoteViews.setOnClickPendingIntent(R.id.imgPauseNotify, buttonPlayPendingIntent);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(G.context)
 
                 .setSmallIcon(R.mipmap.play)
-                .setTicker("پخش موزیک")
+                .setTicker(name)
                 .setAutoCancel(true)
                 .setContent(remoteViews)
                 .setContentIntent(pIntent);
 
-        imgMain.buildDrawingCache();
+
+        //  imgMain.buildDrawingCache();
         Bitmap bt = imgMain.getDrawingCache();
 
         remoteViews.setTextViewText(R.id.txtSingerNotify, name);
@@ -734,6 +789,23 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
 
     }
 
+    /**
+     * Called when user clicks the "play/pause" button on the on-going system Notification.
+     */
+    public static class NotificationPlayButtonHandler extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+//
+//            G.currentActivity.finish();
+//            Intent intent1 = new Intent(G.currentActivity, ActivityMain.class);
+//            G.currentActivity.startActivity(intent1);
+            G.notificationManager.cancel(0);
+            mediaPlayer.stop();
+            MyToast.makeText(context, "پخش موزیک متوقف شد", Toast.LENGTH_SHORT).show();
+
+        }
+    }
 
     private class startPlay extends AsyncTask {
 
@@ -742,9 +814,8 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
 
             try {
                 mediaPlayer.setDataSource(urlMp3_64);
-//                mediaPlayer.prepare();
+                //   mediaPlayer.prepare();
                 mediaPlayer.prepareAsync();
-                //  Log.i("TAGURL", "onCreate: " + urlMp3_64);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -766,9 +837,10 @@ public class ActivityPlayer extends AppCompatActivity implements MediaPlayer.OnB
 
             update_seekBar_timer();
 
-
         }
+
     }
-
-
 }
+
+
+
