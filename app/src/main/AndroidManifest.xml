@@ -105,12 +105,15 @@
             android:configChanges="keyboard|keyboardHidden|orientation"
             android:screenOrientation="portrait" />
 
-        <receiver android:name=".activity.ActivityPlayerOnline$NotificationPlayButtonHandler" />
-        <receiver android:name=".activity.ActivityPlayerOffline$NotificationPlayButtonHandler" />
-
         <activity android:name=".activity.ActivityDownload" />
         <activity android:name=".activity.ActivityPlayerOffline" />
         <activity android:name=".activity.ActivityClipOffline"></activity>
+
+        <receiver android:name=".activity.ActivityPlayerOnline$NotificationPlayButtonHandler" />
+        <receiver android:name=".activity.ActivityPlayerOffline$NotificationPlayButtonHandler" />
+
+        <service android:name=".ServicePlayer"/>
+
     </application>
 
 </manifest>

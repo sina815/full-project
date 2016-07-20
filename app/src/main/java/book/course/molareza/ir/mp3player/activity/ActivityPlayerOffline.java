@@ -241,7 +241,7 @@ public class ActivityPlayerOffline extends AppCompatActivity implements MediaPla
 //            seekBarPlayer.setProgress(0);
 //            txtCurrentTime.setText("00:00");
 //            mediaPlayer.start();
-//            update_seekBar_timer();
+//            update_seekbar();
 //            MyToast.makeText(ActivityPlayerOffline.this, "تکرار آهنگ", Toast.LENGTH_SHORT).show();
 //        }
 

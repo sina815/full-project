@@ -173,11 +173,11 @@
 
             <ImageView
                 android:id="@+id/imgPlay"
-                android:layout_width="50dp"
+                android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="65dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="25dp"
+                android:layout_marginLeft="30dp"
                 android:src="@mipmap/play" />
 
             <ImageView

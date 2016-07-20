@@ -7,13 +7,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -34,7 +32,6 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +40,7 @@ import book.course.molareza.ir.mp3player.G;
 import book.course.molareza.ir.mp3player.Helper;
 import book.course.molareza.ir.mp3player.MyToast;
 import book.course.molareza.ir.mp3player.R;
+import book.course.molareza.ir.mp3player.ServicePlayer;
 import book.course.molareza.ir.mp3player.adapter.AdapterMusicIKhareji;
 import book.course.molareza.ir.mp3player.adapter.AdapterMusicIrani;
 import book.course.molareza.ir.mp3player.db.FavoriteMusicIrani;
@@ -54,22 +52,25 @@ import book.course.molareza.ir.mp3player.db.LikeMusicIraniDao;
 import book.course.molareza.ir.mp3player.db.LikeMusicKhareji;
 import book.course.molareza.ir.mp3player.db.LikeMusicKharejiDao;
 
-public class ActivityPlayerOnline extends AppCompatActivity implements MediaPlayer.OnBufferingUpdateListener, SeekBar.OnSeekBarChangeListener
-        , MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
+public class ActivityPlayerOnline extends AppCompatActivity
+        implements
+        SeekBar.OnSeekBarChangeListener
+        , AudioManager.OnAudioFocusChangeListener {
 
-    public static MediaPlayer mediaPlayer;
-
+    public static ImageView imgPlay;
+    public static TextView txtCurrentTime, txtTotalTime;
+    public static SeekBar seekBarPlayer;
+    public static boolean isComplete = false;
+    private static long totalTime, currentTime;
+    private static boolean isRepeat = false;
     public int po;
-    private long totalTime, currentTime;
     private Toolbar toolbar;
-    private ImageView imgBlur, imgMain, imgRepeat, imgPrev, imgPlay, imgNext, imgDownload, imgLikeMusic;
-    private TextView txtCurrentTime, txtTotalTime, txtSingerPlayer, txtLikeMusic;
-    private SeekBar seekBarPlayer;
+    private ImageView imgBlur, imgMain, imgRepeat, imgPrev, imgNext, imgDownload, imgLikeMusic;
+    private TextView txtSingerPlayer, txtLikeMusic;
     private ViewGroup layoutLike;
     private ImageView imgFavorite;
     private boolean isFav = false;
     private boolean isLike = false;
-    private boolean isRepeat = false;
     private String urlBigImage, urlThImage, name, album, urlMp3_64, urlMp3_128;
     private String id = "";
     //send Item
@@ -79,22 +80,55 @@ public class ActivityPlayerOnline extends AppCompatActivity implements MediaPlay
     private String set = "visit";
     private int cLike = 0;
 
-    private boolean isresume = false;
+    private boolean isResume = false;
+
+    public static void get_percent_seekBar(int cTime, int tTime) {
+
+        currentTime = cTime;
+        totalTime = tTime;
+
+        update_seekBar_timer();
+
+    }
+
+    private static void update_seekBar_timer() {
+
+        if (ServicePlayer.mediaPlayer.isPlaying()) {
+
+            txtTotalTime.setText("" + Helper.milliSecondsToTimer(totalTime));
+            txtCurrentTime.setText("" + Helper.milliSecondsToTimer(currentTime));
+
+            int progress = Helper.getProgressPercentage(currentTime, totalTime);
+            seekBarPlayer.setProgress(progress);
+
+            Runnable notif = new Runnable() {
+                @Override
+                public void run() {
+                    update_seekBar_timer();
+                }
+            };
+            G.HANDLER.postDelayed(notif, 1);
+
+        }
+    }
 
     @Override
     protected void onResume() {
         super.onResume();
 
         G.currentActivity = this;
+        G.notificationManager.cancel(0);
 
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mediaPlayer.isPlaying()) {
+
+        if (ServicePlayer.mediaPlayer.isPlaying()) {
 
             notification();
+
 
         }
     }
@@ -123,29 +157,10 @@ public class ActivityPlayerOnline extends AppCompatActivity implements MediaPlay
         imgFavorite = (ImageView) findViewById(R.id.imgFavoriteMusic);
         imgDownload = (ImageView) findViewById(R.id.imgDownload);
 
-        if (!isresume) {
-
-            mediaPlayer = new MediaPlayer();
-        }
-
         if (seekBarPlayer != null) {
 
             seekBarPlayer.setOnSeekBarChangeListener(this);
         }
-
-        if (mediaPlayer.isPlaying()) {
-
-            update_seekBar_timer();
-            int cur = mediaPlayer.getCurrentPosition();
-            int to = mediaPlayer.getDuration();
-
-            Log.i("TOTALTOTAL", "cur: "+ cur);
-            Log.i("TOTALTOTAL", "to: "+ to);
-        }
-
-
-        mediaPlayer.setOnBufferingUpdateListener(this);
-        mediaPlayer.setOnCompletionListener(this);
 
         imgRepeat.setEnabled(false);
         imgPrev.setEnabled(false);
@@ -174,21 +189,21 @@ public class ActivityPlayerOnline extends AppCompatActivity implements MediaPlay
             po = bundle.getInt("PO");
             table = bundle.getString("TABLE");
             cLike = bundle.getInt("LIKE");
-            isresume = bundle.getBoolean("RESUME");
+            isResume = bundle.getBoolean("RESUME");
         }
 
-        if (mediaPlayer != null && mediaPlayer.isPlaying() && !isresume) {
-            mediaPlayer.stop();
-            G.notificationManager.cancel(0);
-        }
-
-        if (!isresume) {
+        if (!isResume) {
 
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         } else {
             result = 0;
+            imgRepeat.setEnabled(true);
+            imgPrev.setEnabled(true);
+            imgPlay.setEnabled(true);
+            imgNext.setEnabled(true);
+            imgDownload.setEnabled(true);
+            imgPlay.setImageResource(R.mipmap.pause);
         }
-
 
         clickLike();
 
@@ -210,29 +225,59 @@ public class ActivityPlayerOnline extends AppCompatActivity implements MediaPlay
                 imgBlur.setImageBitmap(Helper.blur(G.context, mainBlur));
             }
         };
-        G.HANDLER.postDelayed(run, 2500);
+        G.HANDLER.postDelayed(run, 1200);
 
         if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
             // Play
-            mediaPlayer.reset();
-            new startPlay().execute();
+
+            Intent intent = new Intent(this, ServicePlayer.class);
+            if (ServicePlayer.mediaPlayer != null && ServicePlayer.mediaPlayer.isPlaying()) {
+                stopService(intent);
+                if (isRepeat) {
+                    isRepeat = false;
+                }
+            }
+
+            intent.putExtra("URL_MP3_64", urlMp3_64);
+            startService(intent);
+
+
+            imgRepeat.setEnabled(true);
+            imgPrev.setEnabled(true);
+            imgPlay.setEnabled(true);
+            imgNext.setEnabled(true);
+            imgDownload.setEnabled(true);
+            imgPlay.setImageResource(R.mipmap.pause);
+
 
         }
 
         imgPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mediaPlayer.isPlaying()) {
-                    mediaPlayer.pause();
+                if (ServicePlayer.mediaPlayer.isPlaying()) {
+                    ServicePlayer.mediaPlayer.pause();
                     imgPlay.setImageResource(R.mipmap.play);
                     imgPrev.setEnabled(false);
                     imgNext.setEnabled(false);
 
                 } else {
 
-                    mediaPlayer.start();
+                    if (isComplete) {
+
+                        // txtCurrentTime.setText("00:00");
+                        // TODO: 7/20/2016  3 second delay need for player can good work ( seekbar cant work )
+                        ServicePlayer.playMusic();
+
+                        imgPlay.setImageResource(R.mipmap.pause);
+                        imgPrev.setEnabled(true);
+                        imgNext.setEnabled(true);
+                        isComplete = false;
+
+                        return;
+                    }
+                    ServicePlayer.mediaPlayer.start();
                     imgPlay.setImageResource(R.mipmap.pause);
-                    update_seekBar_timer();
                     imgPrev.setEnabled(true);
                     imgNext.setEnabled(true);
 
@@ -244,16 +289,15 @@ public class ActivityPlayerOnline extends AppCompatActivity implements MediaPlay
             @Override
             public void onClick(View v) {
 
-                int totalTime = mediaPlayer.getDuration();
-
-                int currentTime = mediaPlayer.getCurrentPosition();
+                int totalTime = ServicePlayer.mediaPlayer.getDuration();
+                int currentTime = ServicePlayer.mediaPlayer.getCurrentPosition();
 
                 if (currentTime + 5000 >= totalTime) {
 
-                    mediaPlayer.seekTo(totalTime);
+                    ServicePlayer.mediaPlayer.seekTo(totalTime);
 
                 } else {
-                    mediaPlayer.seekTo(currentTime + 5000);
+                    ServicePlayer.mediaPlayer.seekTo(currentTime + 5000);
                 }
 
             }
@@ -262,15 +306,15 @@ public class ActivityPlayerOnline extends AppCompatActivity implements MediaPlay
         imgPrev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int currentTime = mediaPlayer.getCurrentPosition();
+                int currentTime = ServicePlayer.mediaPlayer.getCurrentPosition();
 
                 if (currentTime - 5000 >= 0) {
 
-                    mediaPlayer.seekTo(currentTime - 5000);
+                    ServicePlayer.mediaPlayer.seekTo(currentTime - 5000);
 
                 } else {
 
-                    mediaPlayer.seekTo(0);
+                    ServicePlayer.mediaPlayer.seekTo(0);
                 }
             }
         });
@@ -539,7 +583,6 @@ public class ActivityPlayerOnline extends AppCompatActivity implements MediaPlay
             for (LikeMusicIrani lk : likeMusicIranis) {
 
                 if (lk.getItem_id() != null) {
-                    Log.i("LOGLOG", "out: " + lk.getItem_id());
                     isLike = true;
 
                 } else {
@@ -557,7 +600,6 @@ public class ActivityPlayerOnline extends AppCompatActivity implements MediaPlay
 
                 if (fav.getId_item() != null) {
 
-                    Log.i("LOGLOG", "out: " + fav.getId_item());
                     isFav = true;
                 } else {
                     isFav = false;
@@ -582,8 +624,8 @@ public class ActivityPlayerOnline extends AppCompatActivity implements MediaPlay
         }
     }
 
-    @Override
-    public void onBufferingUpdate(MediaPlayer mp, int percent) {
+
+    public void onBufferingUpdate(int percent) {
         seekBarPlayer.setSecondaryProgress(percent);
     }
 
@@ -600,34 +642,30 @@ public class ActivityPlayerOnline extends AppCompatActivity implements MediaPlay
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
 
-        int totalTime = mediaPlayer.getDuration();
+        int totalTime = ServicePlayer.mediaPlayer.getDuration();
         int curentProgressSeekBar = Helper.progressToTimer(seekBar.getProgress(), totalTime);
-        mediaPlayer.seekTo(curentProgressSeekBar);
-        update_seekBar_timer();
+        ServicePlayer.mediaPlayer.seekTo(curentProgressSeekBar);
 
     }
 
-    @Override
-    public void onCompletion(MediaPlayer mp) {
 
-        if (!mp.isPlaying()) {
-            if (!isRepeat) {
-                seekBarPlayer.setProgress(0);
-                txtCurrentTime.setText("00:00");
-                imgPlay.setImageResource(R.mipmap.play);
-                imgPrev.setEnabled(false);
-                imgNext.setEnabled(false);
-                MyToast.makeText(ActivityPlayerOnline.this, "برای اجرای متوالی حالت تکرار را فعال کنید", Toast.LENGTH_SHORT).show();
+    public boolean onCompletion() {
 
-            } else {
 
-                seekBarPlayer.setProgress(0);
-                txtCurrentTime.setText("00:00");
-                mediaPlayer.start();
-                update_seekBar_timer();
-                MyToast.makeText(ActivityPlayerOnline.this, "تکرار آهنگ", Toast.LENGTH_SHORT).show();
-            }
+        if (!isRepeat) {
+            seekBarPlayer.setProgress(0);
+            txtCurrentTime.setText("00:00");
+            isComplete = true;
+
+            return false;
+
+        } else {
+
+            seekBarPlayer.setProgress(0);
+            txtCurrentTime.setText("00:00");
+            return true;
         }
+
     }
 
     @Override
@@ -635,40 +673,12 @@ public class ActivityPlayerOnline extends AppCompatActivity implements MediaPlay
 
         if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT) {
             // Pause
-            mediaPlayer.pause();
+            //  mediaPlayer.pause();
         } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
             // Resume
         } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
             // Stop or pause depending on your need
-            mediaPlayer.stop();
-        }
-    }
-
-    private void update_seekBar_timer() {
-
-        if (mediaPlayer.isPlaying()) {
-            currentTime = mediaPlayer.getCurrentPosition();
-            totalTime = mediaPlayer.getDuration();
-
-            txtTotalTime.setText("" + Helper.milliSecondsToTimer(totalTime));
-            txtCurrentTime.setText("" + Helper.milliSecondsToTimer(currentTime));
-
-            int progress = Helper.getProgressPercentage(currentTime, totalTime);
-            seekBarPlayer.setProgress(progress);
-
-            Runnable notif = new Runnable() {
-                @Override
-                public void run() {
-                    update_seekBar_timer();
-                }
-            };
-            G.HANDLER.postDelayed(notif, 1000);
-
-
-            if (!isRepeat && currentTime >= totalTime) {
-                imgPlay.setImageResource(R.mipmap.pause);
-                mediaPlayer.stop();
-            }
+            //  ServicePlayer.mediaPlayer.stop();
         }
     }
 
@@ -748,44 +758,68 @@ public class ActivityPlayerOnline extends AppCompatActivity implements MediaPlay
     }
 
     //notify if media is play and page is finish
-    private void notification() {
+    public void notification() {
 
-        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.custom_notification);
-        Intent intent = new Intent(ActivityPlayerOnline.this, ActivityPlayerOnline.class);
-        intent.putExtra("NAME", name);
-        intent.putExtra("ALBUM", album);
-        intent.putExtra("URL_BIG_IMAGE", urlBigImage);
-        intent.putExtra("URL_TH_IMAGE", urlThImage);
-        intent.putExtra("URL_MP3_64", urlMp3_64);
-        intent.putExtra("URL_MP3_128", urlMp3_128);
-        intent.putExtra("ID", id);
-        intent.putExtra("po", po);
-        intent.putExtra("TABLE", table);
-        intent.putExtra("LICK", cLike);
-        intent.putExtra("RESUME", true);
-        PendingIntent pIntent = PendingIntent.getActivity(G.context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
 
-        Intent buttonPlayIntent = new Intent(this, NotificationPlayButtonHandler.class);
-        PendingIntent buttonPlayPendingIntent = PendingIntent.getBroadcast(this, 0, buttonPlayIntent, 0);
-        remoteViews.setOnClickPendingIntent(R.id.imgPauseNotify, buttonPlayPendingIntent);
+                final RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.custom_notification);
+                Intent intent = new Intent(ActivityPlayerOnline.this, ActivityPlayerOnline.class);
+                intent.putExtra("NAME", name);
+                intent.putExtra("ALBUM", album);
+                intent.putExtra("URL_BIG_IMAGE", urlBigImage);
+                intent.putExtra("URL_TH_IMAGE", urlThImage);
+                intent.putExtra("URL_MP3_64", urlMp3_64);
+                intent.putExtra("URL_MP3_128", urlMp3_128);
+                intent.putExtra("ID", id);
+                intent.putExtra("po", po);
+                intent.putExtra("TABLE", table);
+                intent.putExtra("LICK", cLike);
+                intent.putExtra("RESUME", true);
+                final PendingIntent pIntent = PendingIntent.getActivity(G.context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(G.context)
+                Intent buttonPlayIntent = new Intent(ActivityPlayerOnline.this, NotificationPlayButtonHandler.class);
+                PendingIntent buttonPlayPendingIntent = PendingIntent.getBroadcast(ActivityPlayerOnline.this, 0, buttonPlayIntent, 0);
+                remoteViews.setOnClickPendingIntent(R.id.imgPauseNotify, buttonPlayPendingIntent);
 
-                .setSmallIcon(R.mipmap.play)
-                .setTicker(name)
-                .setAutoCancel(true)
-                .setContent(remoteViews)
-                .setContentIntent(pIntent);
+                final NotificationCompat.Builder builder = new NotificationCompat.Builder(G.context)
+
+                        .setSmallIcon(R.mipmap.play)
+                        .setTicker(name)
+                        .setAutoCancel(true)
+                        .setContent(remoteViews)
+                        .setContentIntent(pIntent);
 
 
-        //  imgMain.buildDrawingCache();
-        Bitmap bt = imgMain.getDrawingCache();
+                imgMain.buildDrawingCache();
+                Bitmap bt = imgMain.getDrawingCache();
 
-        remoteViews.setTextViewText(R.id.txtSingerNotify, name);
-        remoteViews.setTextViewText(R.id.txtAlbumNotify, album);
-        remoteViews.setImageViewBitmap(R.id.imgNotify, bt);
+                remoteViews.setTextViewText(R.id.txtSingerNotify, name);
+                remoteViews.setTextViewText(R.id.txtAlbumNotify, album);
+                remoteViews.setImageViewBitmap(R.id.imgNotify, bt);
 
-        G.notificationManager.notify(0, builder.build());
+                G.notificationManager.notify(0, builder.build());
+            }
+        });
+
+        thread.start();
+
+
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+
+            Intent intent = new Intent(ActivityPlayerOnline.this, ActivityMain.class);
+            startActivity(intent);
+            finish();
+
+        }
+
+        return super.onKeyDown(keyCode, event);
 
     }
 
@@ -797,48 +831,14 @@ public class ActivityPlayerOnline extends AppCompatActivity implements MediaPlay
         @Override
         public void onReceive(Context context, Intent intent) {
 //
-//            G.currentActivity.finish();
-//            Intent intent1 = new Intent(G.currentActivity, ActivityMain.class);
-//            G.currentActivity.startActivity(intent1);
+            G.currentActivity.finish();
+            Intent intent1 = new Intent(G.currentActivity, ActivityMain.class);
+            G.currentActivity.startActivity(intent1);
             G.notificationManager.cancel(0);
-            mediaPlayer.stop();
+            ServicePlayer.mediaPlayer.stop();
             MyToast.makeText(context, "پخش موزیک متوقف شد", Toast.LENGTH_SHORT).show();
 
         }
-    }
-
-    private class startPlay extends AsyncTask {
-
-        @Override
-        protected Object doInBackground(Object[] params) {
-
-            try {
-                mediaPlayer.setDataSource(urlMp3_64);
-                //   mediaPlayer.prepare();
-                mediaPlayer.prepareAsync();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Object o) {
-            super.onPostExecute(o);
-
-            mediaPlayer.start();
-            imgRepeat.setEnabled(true);
-            imgPrev.setEnabled(true);
-            imgPlay.setEnabled(true);
-            imgNext.setEnabled(true);
-            imgDownload.setEnabled(true);
-            imgPlay.setImageResource(R.mipmap.pause);
-
-            update_seekBar_timer();
-
-        }
-
     }
 }
 
