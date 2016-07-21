@@ -41,8 +41,30 @@ public class AdapterNews extends RecyclerView.Adapter<AdapterNews.ViewHolder> {
         StructNews item = items.get(position);
 
         holder.txtDescc.setText(Html.fromHtml(item.getDesc()));
-        holder.txtLikeNews.setText("" + item.getLike());
-        holder.txtVisitNews.setText("" + item.visit);
+
+        if (item.getLike() > 1000){
+            int cLike = item.getLike()/1000;
+            holder.txtLikeNews.setText("" + cLike +" "+ "k");
+        }else if (item.getLike() > 1000000){
+            int cLike = item.getLike()/1000000;
+            holder.txtLikeNews.setText("" + cLike +" "+ "kk");
+        }else {
+
+            holder.txtLikeNews.setText("" + item.getLike());
+        }
+
+
+
+        if (item.getVisit() > 1000){
+            int cVisit = item.getVisit()/1000;
+            holder.txtVisitNews.setText("" + cVisit +" "+ "k");
+        }else if (item.getVisit() > 1000000){
+            int cVisit = item.getVisit()/1000000;
+            holder.txtVisitNews.setText("" + cVisit +" "+ "kk");
+        }else {
+
+            holder.txtVisitNews.setText("" + item.getVisit());
+        }
 
         if (item.thBitmap != null) {
             holder.imgNews.setImageBitmap(item.getThBitmap());

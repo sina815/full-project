@@ -44,8 +44,35 @@ public class AdapterClip extends RecyclerView.Adapter<AdapterClip.ViewHolder> {
         Log.i("URL", "onCreate: " + item.getClip());
         holder.txtSingerClip.setText(item.getName());
         holder.txtAlbumClip.setText(item.getAlbum());
-        holder.txtLikeClip.setText(item.getLike());
-        holder.txtVisitClip.setText(item.getVisit());
+
+        int cLikeParse = Integer.parseInt(item.getLike());
+        int cVisitParse = Integer.parseInt(item.getVisit());
+
+
+        if (cLikeParse > 1000){
+            int cLike = cLikeParse/1000;
+            holder.txtLikeClip.setText("" + cLike +" "+ "k");
+        }else if (cLikeParse > 1000000){
+            int cLike = cLikeParse/1000000;
+            holder.txtLikeClip.setText("" + cLike +" "+ "kk");
+        }else {
+
+            holder.txtLikeClip.setText("" + item.getLike());
+        }
+
+
+
+        if (cVisitParse > 1000){
+            int cVisit = cVisitParse/1000;
+            holder.txtVisitClip.setText("" + cVisit +" "+ "k");
+        }else if (cVisitParse > 1000000){
+            int cVisit = cVisitParse/1000000;
+            holder.txtVisitClip.setText("" + cVisit +" "+ "kk");
+        }else {
+
+            holder.txtVisitClip.setText("" + item.getVisit());
+        }
+
 
         if (item.thBitmap != null) {
             holder.imgSinger.setImageBitmap(item.thBitmap);

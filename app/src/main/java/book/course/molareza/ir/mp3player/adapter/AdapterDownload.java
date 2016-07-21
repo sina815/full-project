@@ -15,7 +15,7 @@ import java.util.List;
 
 import book.course.molareza.ir.mp3player.G;
 import book.course.molareza.ir.mp3player.R;
-import book.course.molareza.ir.mp3player.activity.ActivityClipOnline;
+import book.course.molareza.ir.mp3player.activity.ActivityClipOffline;
 import book.course.molareza.ir.mp3player.activity.ActivityPlayerOffline;
 import book.course.molareza.ir.mp3player.struct.StructDownload;
 
@@ -102,7 +102,12 @@ public class AdapterDownload extends RecyclerView.Adapter<AdapterDownload.ViewHo
 
                     } else if (item.getType().equals("clip")) {
 
-                        Intent intent = new Intent(G.currentActivity, ActivityClipOnline.class);
+                        Intent intent = new Intent(G.currentActivity, ActivityClipOffline.class);
+
+                        intent.putExtra("NAME", item.getName());
+                        intent.putExtra("ALBUM", item.getAlbum());
+                        intent.putExtra("URL_CLIP", item.getPathfile());
+
                         G.currentActivity.startActivity(intent);
 
                     } else {

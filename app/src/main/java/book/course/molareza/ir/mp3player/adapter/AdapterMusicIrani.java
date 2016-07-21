@@ -43,8 +43,34 @@ public class AdapterMusicIrani extends RecyclerView.Adapter<AdapterMusicIrani.Vi
 
         holder.txtSinger.setText(item.getName());
         holder.txtAlbum.setText(item.getAlbum());
-        holder.txtLike.setText("" + item.getLike());
-        holder.txtVisit.setText("" + item.getVisit());
+
+        if (item.getLike() > 1000){
+            int cLike = item.getLike()/1000;
+            holder.txtLike.setText("" + cLike +" "+ "k");
+        }else if (item.getLike() > 1000000){
+            int cLike = item.getLike()/1000000;
+            holder.txtLike.setText("" + cLike +" "+ "kk");
+        }else {
+
+            holder.txtLike.setText("" + item.getLike());
+        }
+
+
+
+        if (item.getVisit() > 1000){
+            int cVisit = item.getVisit()/1000;
+            holder.txtVisit.setText("" + cVisit +" "+ "k");
+        }else if (item.getVisit() > 1000000){
+            int cVisit = item.getVisit()/1000000;
+            holder.txtVisit.setText("" + cVisit +" "+ "kk");
+        }else {
+
+            holder.txtVisit.setText("" + item.getVisit());
+        }
+
+
+
+
 
         if (item.thBitmap != null) {
 

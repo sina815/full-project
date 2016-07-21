@@ -112,7 +112,8 @@
         <receiver android:name=".activity.ActivityPlayerOnline$NotificationPlayButtonHandler" />
         <receiver android:name=".activity.ActivityPlayerOffline$NotificationPlayButtonHandler" />
 
-        <service android:name=".ServicePlayer"/>
+        <service android:name=".ServicePlayerOnline"/>
+        <service android:name=".ServicePlayerOffline"/>
 
     </application>
 

@@ -1,7 +1,6 @@
 package book.course.molareza.ir.mp3player.activity;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -33,7 +32,6 @@ import java.util.Map;
 import book.course.molareza.ir.mp3player.G;
 import book.course.molareza.ir.mp3player.MyToast;
 import book.course.molareza.ir.mp3player.R;
-import book.course.molareza.ir.mp3player.ServicePlayer;
 import book.course.molareza.ir.mp3player.adapter.AdapterClip;
 import book.course.molareza.ir.mp3player.db.FavoriteClip;
 import book.course.molareza.ir.mp3player.db.FavoriteClipDao;
@@ -67,12 +65,14 @@ public class ActivityClipOnline extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clip);
 
+        G.notificationManager.cancelAll();
 
-        if (ServicePlayer.mediaPlayer != null && ServicePlayer.mediaPlayer.isPlaying()) {
-            Intent intent = new Intent(this , ServicePlayer.class);
-            stopService(intent);
-            G.notificationManager.cancel(0);
-        }
+//        if (se.mediaPlayer != null && ServicePlayerOnline.mediaPlayer.isPlaying()) {
+//            Intent intent = new Intent(this , ServicePlayerOnline.class);
+//            stopService(intent);
+//            G.notificationManager.cancel(0);
+//            G.notificationManager.cancel(1);
+//        }
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {

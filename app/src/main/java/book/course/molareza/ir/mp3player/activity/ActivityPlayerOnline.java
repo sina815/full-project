@@ -40,7 +40,7 @@ import book.course.molareza.ir.mp3player.G;
 import book.course.molareza.ir.mp3player.Helper;
 import book.course.molareza.ir.mp3player.MyToast;
 import book.course.molareza.ir.mp3player.R;
-import book.course.molareza.ir.mp3player.ServicePlayer;
+import book.course.molareza.ir.mp3player.ServicePlayerOnline;
 import book.course.molareza.ir.mp3player.adapter.AdapterMusicIKhareji;
 import book.course.molareza.ir.mp3player.adapter.AdapterMusicIrani;
 import book.course.molareza.ir.mp3player.db.FavoriteMusicIrani;
@@ -93,7 +93,7 @@ public class ActivityPlayerOnline extends AppCompatActivity
 
     private static void update_seekBar_timer() {
 
-        if (ServicePlayer.mediaPlayer.isPlaying()) {
+        if (ServicePlayerOnline.mediaPlayer.isPlaying()) {
 
             txtTotalTime.setText("" + Helper.milliSecondsToTimer(totalTime));
             txtCurrentTime.setText("" + Helper.milliSecondsToTimer(currentTime));
@@ -107,7 +107,7 @@ public class ActivityPlayerOnline extends AppCompatActivity
                     update_seekBar_timer();
                 }
             };
-            G.HANDLER.postDelayed(notif, 1);
+            G.HANDLER.postDelayed(notif, 1000);
 
         }
     }
@@ -125,9 +125,9 @@ public class ActivityPlayerOnline extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
 
-        if (ServicePlayer.mediaPlayer.isPlaying()) {
+        if (ServicePlayerOnline.mediaPlayer.isPlaying()) {
 
-            notification();
+         //   notification();
 
 
         }
@@ -216,30 +216,38 @@ public class ActivityPlayerOnline extends AppCompatActivity
 
         Picasso.with(G.context).load(urlBigImage).into(imgMain);
 
-        Runnable run = new Runnable() {
+        Runnable runBlur = new Runnable() {
             @Override
             public void run() {
+                try {
+                    imgMain.buildDrawingCache();
+                    Bitmap mainBlur = imgMain.getDrawingCache();
 
-                imgMain.buildDrawingCache();
-                Bitmap mainBlur = imgMain.getDrawingCache();
-                imgBlur.setImageBitmap(Helper.blur(G.context, mainBlur));
+                    imgBlur.setImageBitmap(Helper.blur(G.context, mainBlur));
+
+                } catch (Exception e) {
+                    e.getStackTrace();
+                }
             }
         };
-        G.HANDLER.postDelayed(run, 1200);
+        G.HANDLER.postDelayed(runBlur, 2500);
+
 
         if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
             // Play
 
-            Intent intent = new Intent(this, ServicePlayer.class);
-            if (ServicePlayer.mediaPlayer != null && ServicePlayer.mediaPlayer.isPlaying()) {
+            final Intent intent = new Intent(this, ServicePlayerOnline.class);
+            if (ServicePlayerOnline.mediaPlayer != null && ServicePlayerOnline.mediaPlayer.isPlaying()) {
                 stopService(intent);
                 if (isRepeat) {
                     isRepeat = false;
                 }
             }
-
-            intent.putExtra("URL_MP3_64", urlMp3_64);
+//
+           intent.putExtra("URL_MP3_64", urlMp3_64);
             startService(intent);
+
+
 
 
             imgRepeat.setEnabled(true);
@@ -255,8 +263,8 @@ public class ActivityPlayerOnline extends AppCompatActivity
         imgPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ServicePlayer.mediaPlayer.isPlaying()) {
-                    ServicePlayer.mediaPlayer.pause();
+                if (ServicePlayerOnline.mediaPlayer.isPlaying()) {
+                    ServicePlayerOnline.mediaPlayer.pause();
                     imgPlay.setImageResource(R.mipmap.play);
                     imgPrev.setEnabled(false);
                     imgNext.setEnabled(false);
@@ -267,7 +275,7 @@ public class ActivityPlayerOnline extends AppCompatActivity
 
                         // txtCurrentTime.setText("00:00");
                         // TODO: 7/20/2016  3 second delay need for player can good work ( seekbar cant work )
-                        ServicePlayer.playMusic();
+                 //       ServicePlayerOnline.playMusic();
 
                         imgPlay.setImageResource(R.mipmap.pause);
                         imgPrev.setEnabled(true);
@@ -276,7 +284,7 @@ public class ActivityPlayerOnline extends AppCompatActivity
 
                         return;
                     }
-                    ServicePlayer.mediaPlayer.start();
+                    ServicePlayerOnline.mediaPlayer.start();
                     imgPlay.setImageResource(R.mipmap.pause);
                     imgPrev.setEnabled(true);
                     imgNext.setEnabled(true);
@@ -289,15 +297,15 @@ public class ActivityPlayerOnline extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
-                int totalTime = ServicePlayer.mediaPlayer.getDuration();
-                int currentTime = ServicePlayer.mediaPlayer.getCurrentPosition();
+                int totalTime = ServicePlayerOnline.mediaPlayer.getDuration();
+                int currentTime = ServicePlayerOnline.mediaPlayer.getCurrentPosition();
 
                 if (currentTime + 5000 >= totalTime) {
 
-                    ServicePlayer.mediaPlayer.seekTo(totalTime);
+                    ServicePlayerOnline.mediaPlayer.seekTo(totalTime);
 
                 } else {
-                    ServicePlayer.mediaPlayer.seekTo(currentTime + 5000);
+                    ServicePlayerOnline.mediaPlayer.seekTo(currentTime + 5000);
                 }
 
             }
@@ -306,15 +314,15 @@ public class ActivityPlayerOnline extends AppCompatActivity
         imgPrev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int currentTime = ServicePlayer.mediaPlayer.getCurrentPosition();
+                int currentTime = ServicePlayerOnline.mediaPlayer.getCurrentPosition();
 
                 if (currentTime - 5000 >= 0) {
 
-                    ServicePlayer.mediaPlayer.seekTo(currentTime - 5000);
+                    ServicePlayerOnline.mediaPlayer.seekTo(currentTime - 5000);
 
                 } else {
 
-                    ServicePlayer.mediaPlayer.seekTo(0);
+                    ServicePlayerOnline.mediaPlayer.seekTo(0);
                 }
             }
         });
@@ -505,6 +513,7 @@ public class ActivityPlayerOnline extends AppCompatActivity
 
             }
         });
+
     }
 
     private void clickLike() {
@@ -642,9 +651,9 @@ public class ActivityPlayerOnline extends AppCompatActivity
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
 
-        int totalTime = ServicePlayer.mediaPlayer.getDuration();
+        int totalTime = ServicePlayerOnline.mediaPlayer.getDuration();
         int curentProgressSeekBar = Helper.progressToTimer(seekBar.getProgress(), totalTime);
-        ServicePlayer.mediaPlayer.seekTo(curentProgressSeekBar);
+        ServicePlayerOnline.mediaPlayer.seekTo(curentProgressSeekBar);
 
     }
 
@@ -678,7 +687,7 @@ public class ActivityPlayerOnline extends AppCompatActivity
             // Resume
         } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
             // Stop or pause depending on your need
-            //  ServicePlayer.mediaPlayer.stop();
+            //  ServicePlayerOnline.mediaPlayer.stop();
         }
     }
 
@@ -835,7 +844,7 @@ public class ActivityPlayerOnline extends AppCompatActivity
             Intent intent1 = new Intent(G.currentActivity, ActivityMain.class);
             G.currentActivity.startActivity(intent1);
             G.notificationManager.cancel(0);
-            ServicePlayer.mediaPlayer.stop();
+            ServicePlayerOnline.mediaPlayer.stop();
             MyToast.makeText(context, "پخش موزیک متوقف شد", Toast.LENGTH_SHORT).show();
 
         }

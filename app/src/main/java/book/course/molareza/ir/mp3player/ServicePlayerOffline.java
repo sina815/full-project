@@ -7,13 +7,14 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import java.io.IOException;
 
-import book.course.molareza.ir.mp3player.activity.ActivityPlayerOnline;
+import book.course.molareza.ir.mp3player.activity.ActivityPlayerOffline;
 
 
-public class ServicePlayer extends Service
+public class ServicePlayerOffline extends Service
         implements
         MediaPlayer.OnBufferingUpdateListener
         , MediaPlayer.OnCompletionListener {
@@ -24,7 +25,7 @@ public class ServicePlayer extends Service
     private static int totalTime;
     private static String urlMp3_64;
 
-    private ActivityPlayerOnline activityPlayerOnline;
+    private ActivityPlayerOffline activityPlayerOffline;
 
     public static void update_seekBar_timer() {
 
@@ -35,7 +36,7 @@ public class ServicePlayer extends Service
             public void run() {
                 currentTime = mediaPlayer.getCurrentPosition();
                 int percent = Helper.getProgressPercentage(currentTime, totalTime);
-                ActivityPlayerOnline.get_percent_seekBar(currentTime, totalTime);
+                ActivityPlayerOffline.get_percent_seekBar(currentTime, totalTime);
 
                 if (percent == 100) {
                     return;
@@ -84,15 +85,17 @@ public class ServicePlayer extends Service
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
-        activityPlayerOnline = new ActivityPlayerOnline();
+        Log.i("OFFLINE", "2: " );
+        activityPlayerOffline = new ActivityPlayerOffline();
         mediaPlayer = new MediaPlayer();
 
         if (intent.getExtras() != null) {
 
             Bundle bundle = intent.getExtras();
-            urlMp3_64 = bundle.getString("URL_MP3_64");
+            urlMp3_64 = bundle.getString("MP3");
         }
+
+        Log.i("OFFLINE", "3: " + urlMp3_64);
         try {
             mediaPlayer.setDataSource(urlMp3_64);
             mediaPlayer.prepare();
@@ -120,15 +123,15 @@ public class ServicePlayer extends Service
     @Override
     public void onBufferingUpdate(MediaPlayer mp, int percent) {
 
-        activityPlayerOnline.onBufferingUpdate(percent);
+        activityPlayerOffline.onBufferingUpdate(percent);
     }
 
     @Override
     public void onCompletion(MediaPlayer mp) {
 
-        activityPlayerOnline = new ActivityPlayerOnline();
+        activityPlayerOffline = new ActivityPlayerOffline();
 
-        boolean isRepeat = activityPlayerOnline.onCompletion();
+        boolean isRepeat = activityPlayerOffline.onCompletion();
 
 
         if (isRepeat) {
@@ -138,14 +141,14 @@ public class ServicePlayer extends Service
         } else {
             mediaPlayer.pause();
             mediaPlayer.seekTo(0);
-            ActivityPlayerOnline.seekBarPlayer.setProgress(0);
-            ActivityPlayerOnline.imgPlay.setImageResource(R.mipmap.play);
-            ActivityPlayerOnline.imgPlay.setEnabled(false);
+            ActivityPlayerOffline.seekBarPlayer.setProgress(0);
+            ActivityPlayerOffline.imgPlay.setImageResource(R.mipmap.play);
+            ActivityPlayerOffline.imgPlay.setEnabled(false);
 
             Runnable run = new Runnable() {
                 @Override
                 public void run() {
-                    ActivityPlayerOnline.imgPlay.setEnabled(true);
+                    ActivityPlayerOffline.imgPlay.setEnabled(true);
                 }
             };
 
