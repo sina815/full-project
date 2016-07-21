@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +34,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,12 +58,15 @@ import book.course.molareza.ir.mp3player.db.LikeMusicKharejiDao;
 public class ActivityPlayerOnline extends AppCompatActivity
         implements
         SeekBar.OnSeekBarChangeListener
-        , AudioManager.OnAudioFocusChangeListener {
+        , AudioManager.OnAudioFocusChangeListener
+        , MediaPlayer.OnBufferingUpdateListener
+        , MediaPlayer.OnCompletionListener {
 
     public static ImageView imgPlay;
     public static TextView txtCurrentTime, txtTotalTime;
     public static SeekBar seekBarPlayer;
     public static boolean isComplete = false;
+    public static MediaPlayer mediaPlayer;
     private static long totalTime, currentTime;
     private static boolean isRepeat = false;
     public int po;
@@ -72,28 +78,22 @@ public class ActivityPlayerOnline extends AppCompatActivity
     private boolean isFav = false;
     private boolean isLike = false;
     private String urlBigImage, urlThImage, name, album, urlMp3_64, urlMp3_128;
-    private String id = "";
     //send Item
-
+    private String id = "";
     private String num = "1";
     private String table = "";
     private String set = "visit";
     private int cLike = 0;
-
     private boolean isResume = false;
 
-    public static void get_percent_seekBar(int cTime, int tTime) {
-
-        currentTime = cTime;
-        totalTime = tTime;
-
-        update_seekBar_timer();
-
-    }
 
     private static void update_seekBar_timer() {
 
-        if (ServicePlayerOnline.mediaPlayer.isPlaying()) {
+        totalTime = mediaPlayer.getDuration();
+        currentTime = mediaPlayer.getCurrentPosition();
+
+
+        if (mediaPlayer.isPlaying()) {
 
             txtTotalTime.setText("" + Helper.milliSecondsToTimer(totalTime));
             txtCurrentTime.setText("" + Helper.milliSecondsToTimer(currentTime));
@@ -104,10 +104,50 @@ public class ActivityPlayerOnline extends AppCompatActivity
             Runnable notif = new Runnable() {
                 @Override
                 public void run() {
+                    int percent = Helper.getProgressPercentage(currentTime, totalTime);
+                    if (percent == 100) {
+                        return;
+                    }
+
                     update_seekBar_timer();
                 }
             };
             G.HANDLER.postDelayed(notif, 1000);
+
+        }
+    }
+
+
+    @Override
+    public void onBufferingUpdate(MediaPlayer mp, int percent) {
+
+        seekBarPlayer.setProgress(percent);
+    }
+
+    @Override
+    public void onCompletion(MediaPlayer mp) {
+
+        if (isRepeat) {
+            seekBarPlayer.setProgress(0);
+            txtCurrentTime.setText("00:00");
+            mediaPlayer.setLooping(true);
+            mediaPlayer.start();
+            update_seekBar_timer();
+        } else {
+            seekBarPlayer.setProgress(0);
+            txtCurrentTime.setText("00:00");
+            mediaPlayer.pause();
+            imgPlay.setImageResource(R.mipmap.play);
+            imgPlay.setEnabled(false);
+
+            Runnable run = new Runnable() {
+                @Override
+                public void run() {
+                    imgPlay.setEnabled(true);
+                }
+            };
+
+            G.HANDLER.postDelayed(run, 4000);
 
         }
     }
@@ -125,9 +165,9 @@ public class ActivityPlayerOnline extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
 
-        if (ServicePlayerOnline.mediaPlayer.isPlaying()) {
+        if (mediaPlayer.isPlaying()) {
 
-         //   notification();
+            notification();
 
 
         }
@@ -137,6 +177,7 @@ public class ActivityPlayerOnline extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
+
 
         int result = G.audioManager.requestAudioFocus(ActivityPlayerOnline.this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
 
@@ -237,18 +278,14 @@ public class ActivityPlayerOnline extends AppCompatActivity
             // Play
 
             final Intent intent = new Intent(this, ServicePlayerOnline.class);
-            if (ServicePlayerOnline.mediaPlayer != null && ServicePlayerOnline.mediaPlayer.isPlaying()) {
+            if (mediaPlayer != null && mediaPlayer.isPlaying()) {
                 stopService(intent);
                 if (isRepeat) {
                     isRepeat = false;
                 }
             }
 //
-           intent.putExtra("URL_MP3_64", urlMp3_64);
-            startService(intent);
-
-
-
+            new DoPlayMusic().execute();
 
             imgRepeat.setEnabled(true);
             imgPrev.setEnabled(true);
@@ -263,8 +300,8 @@ public class ActivityPlayerOnline extends AppCompatActivity
         imgPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ServicePlayerOnline.mediaPlayer.isPlaying()) {
-                    ServicePlayerOnline.mediaPlayer.pause();
+                if (mediaPlayer.isPlaying()) {
+                    mediaPlayer.pause();
                     imgPlay.setImageResource(R.mipmap.play);
                     imgPrev.setEnabled(false);
                     imgNext.setEnabled(false);
@@ -275,7 +312,7 @@ public class ActivityPlayerOnline extends AppCompatActivity
 
                         // txtCurrentTime.setText("00:00");
                         // TODO: 7/20/2016  3 second delay need for player can good work ( seekbar cant work )
-                 //       ServicePlayerOnline.playMusic();
+                        //       ServicePlayerOnline.playMusic();
 
                         imgPlay.setImageResource(R.mipmap.pause);
                         imgPrev.setEnabled(true);
@@ -284,7 +321,7 @@ public class ActivityPlayerOnline extends AppCompatActivity
 
                         return;
                     }
-                    ServicePlayerOnline.mediaPlayer.start();
+                    mediaPlayer.start();
                     imgPlay.setImageResource(R.mipmap.pause);
                     imgPrev.setEnabled(true);
                     imgNext.setEnabled(true);
@@ -297,15 +334,15 @@ public class ActivityPlayerOnline extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
-                int totalTime = ServicePlayerOnline.mediaPlayer.getDuration();
-                int currentTime = ServicePlayerOnline.mediaPlayer.getCurrentPosition();
+                int totalTime = mediaPlayer.getDuration();
+                int currentTime = mediaPlayer.getCurrentPosition();
 
                 if (currentTime + 5000 >= totalTime) {
 
-                    ServicePlayerOnline.mediaPlayer.seekTo(totalTime);
+                    mediaPlayer.seekTo(totalTime);
 
                 } else {
-                    ServicePlayerOnline.mediaPlayer.seekTo(currentTime + 5000);
+                    mediaPlayer.seekTo(currentTime + 5000);
                 }
 
             }
@@ -314,15 +351,15 @@ public class ActivityPlayerOnline extends AppCompatActivity
         imgPrev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int currentTime = ServicePlayerOnline.mediaPlayer.getCurrentPosition();
+                int currentTime = mediaPlayer.getCurrentPosition();
 
                 if (currentTime - 5000 >= 0) {
 
-                    ServicePlayerOnline.mediaPlayer.seekTo(currentTime - 5000);
+                    mediaPlayer.seekTo(currentTime - 5000);
 
                 } else {
 
-                    ServicePlayerOnline.mediaPlayer.seekTo(0);
+                    mediaPlayer.seekTo(0);
                 }
             }
         });
@@ -522,6 +559,9 @@ public class ActivityPlayerOnline extends AppCompatActivity
 
     }
 
+
+    //seekBar change listener
+
     private void isState() {
 
         if (table.equals("irani")) {
@@ -566,9 +606,6 @@ public class ActivityPlayerOnline extends AppCompatActivity
 
 
     }
-
-
-    //seekBar change listener
 
     private void checkFavoriteAndLike() {
 
@@ -633,7 +670,6 @@ public class ActivityPlayerOnline extends AppCompatActivity
         }
     }
 
-
     public void onBufferingUpdate(int percent) {
         seekBarPlayer.setSecondaryProgress(percent);
     }
@@ -651,29 +687,9 @@ public class ActivityPlayerOnline extends AppCompatActivity
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
 
-        int totalTime = ServicePlayerOnline.mediaPlayer.getDuration();
+        int totalTime = mediaPlayer.getDuration();
         int curentProgressSeekBar = Helper.progressToTimer(seekBar.getProgress(), totalTime);
-        ServicePlayerOnline.mediaPlayer.seekTo(curentProgressSeekBar);
-
-    }
-
-
-    public boolean onCompletion() {
-
-
-        if (!isRepeat) {
-            seekBarPlayer.setProgress(0);
-            txtCurrentTime.setText("00:00");
-            isComplete = true;
-
-            return false;
-
-        } else {
-
-            seekBarPlayer.setProgress(0);
-            txtCurrentTime.setText("00:00");
-            return true;
-        }
+        mediaPlayer.seekTo(curentProgressSeekBar);
 
     }
 
@@ -690,7 +706,6 @@ public class ActivityPlayerOnline extends AppCompatActivity
             //  ServicePlayerOnline.mediaPlayer.stop();
         }
     }
-
 
     private void sendVisit() {
 
@@ -844,8 +859,67 @@ public class ActivityPlayerOnline extends AppCompatActivity
             Intent intent1 = new Intent(G.currentActivity, ActivityMain.class);
             G.currentActivity.startActivity(intent1);
             G.notificationManager.cancel(0);
-            ServicePlayerOnline.mediaPlayer.stop();
+            mediaPlayer.stop();
             MyToast.makeText(context, "پخش موزیک متوقف شد", Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
+    public class DoPlayMusic extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            mediaPlayer = new MediaPlayer();
+            if (urlMp3_64 != null) {
+                try {
+
+                    mediaPlayer.reset();
+                    mediaPlayer.setDataSource(urlMp3_64);
+                    mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            playMusic();
+            mediaPlayer.setOnBufferingUpdateListener(ActivityPlayerOnline.this);
+            mediaPlayer.setOnCompletionListener(ActivityPlayerOnline.this);
+        }
+    }
+
+    public static void playMusic() {
+//
+        if (mediaPlayer != null) {
+
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        mediaPlayer.prepare();
+                        mediaPlayer.start();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            thread.start();
+
+
+
+
+
+
+            if (mediaPlayer.isPlaying()) {
+                update_seekBar_timer();
+            }
 
         }
     }
