@@ -126,7 +126,7 @@
                 android:id="@+id/txtCurrentTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="3:25"
+                android:text="0:00"
                 android:textColor="@color/textColor_sefid"
                 android:textSize="16sp" />
 

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/tools"
     android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="2dp"
-    card_view:cardElevation="15dp">
+    android:layout_margin="3dp"
+    android:layout_marginRight="6dp"
+    card_view:cardElevation="15dp"
+    card_view:cardPreventCornerOverlap="false">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,8 +43,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:layout_toRightOf="@+id/txtSingerClip"
-                android:paddingRight="10dp"
                 android:paddingLeft="5dp"
+                android:paddingRight="10dp"
                 android:paddingTop="10dp"
                 android:text="@string/nSinger"
                 android:textColor="@color/cardView_text_color_nSinger"
@@ -71,8 +72,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:layout_toRightOf="@+id/txtAlbumClip"
-                android:paddingRight="10dp"
                 android:paddingLeft="5dp"
+                android:paddingRight="10dp"
                 android:paddingTop="5dp"
                 android:text="@string/nAlbum"
                 android:textColor="@color/cardView_text_color_nAlbum"
@@ -103,8 +104,8 @@
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:layout_gravity="center"
-                    android:layout_marginRight="10dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="10dp"
                     android:src="@mipmap/like"
                     android:tint="@color/cardView_like" />
 

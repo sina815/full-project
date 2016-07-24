@@ -63,12 +63,6 @@ public class ServicePlayerOffline extends Service
 
     }
 
-//    private static void sendMessageToActivity(String msg) {
-//        Intent intent = new Intent("GPSLocationUpdates");
-//        // You can also include some extra data.
-//        intent.putExtra("Status", msg);
-//        LocalBroadcastManager.getInstance(G.context).sendBroadcast(intent);
-//    }
 
     @Nullable
     @Override
@@ -76,12 +70,6 @@ public class ServicePlayerOffline extends Service
         return null;
     }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        //   sendMessageToActivity("amir");
-    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -97,9 +85,9 @@ public class ServicePlayerOffline extends Service
 
         Log.i("OFFLINE", "3: " + urlMp3_64);
         try {
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mediaPlayer.setDataSource(urlMp3_64);
             mediaPlayer.prepare();
-            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -107,7 +95,6 @@ public class ServicePlayerOffline extends Service
 
         mediaPlayer.setOnBufferingUpdateListener(this);
         mediaPlayer.setOnCompletionListener(this);
-
 
         return super.onStartCommand(intent, flags, startId);
     }

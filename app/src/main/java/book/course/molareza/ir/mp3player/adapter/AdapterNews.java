@@ -42,26 +42,25 @@ public class AdapterNews extends RecyclerView.Adapter<AdapterNews.ViewHolder> {
 
         holder.txtDescc.setText(Html.fromHtml(item.getDesc()));
 
-        if (item.getLike() > 1000){
-            int cLike = item.getLike()/1000;
-            holder.txtLikeNews.setText("" + cLike +" "+ "k");
-        }else if (item.getLike() > 1000000){
-            int cLike = item.getLike()/1000000;
-            holder.txtLikeNews.setText("" + cLike +" "+ "kk");
-        }else {
+        if (item.getLike() > 1000) {
+            int cLike = item.getLike() / 1000;
+            holder.txtLikeNews.setText("" + cLike + " " + "k");
+        } else if (item.getLike() > 1000000) {
+            int cLike = item.getLike() / 1000000;
+            holder.txtLikeNews.setText("" + cLike + " " + "kk");
+        } else {
 
             holder.txtLikeNews.setText("" + item.getLike());
         }
 
 
-
-        if (item.getVisit() > 1000){
-            int cVisit = item.getVisit()/1000;
-            holder.txtVisitNews.setText("" + cVisit +" "+ "k");
-        }else if (item.getVisit() > 1000000){
-            int cVisit = item.getVisit()/1000000;
-            holder.txtVisitNews.setText("" + cVisit +" "+ "kk");
-        }else {
+        if (item.getVisit() > 1000) {
+            int cVisit = item.getVisit() / 1000;
+            holder.txtVisitNews.setText("" + cVisit + " " + "k");
+        } else if (item.getVisit() > 1000000) {
+            int cVisit = item.getVisit() / 1000000;
+            holder.txtVisitNews.setText("" + cVisit + " " + "kk");
+        } else {
 
             holder.txtVisitNews.setText("" + item.getVisit());
         }
@@ -99,7 +98,7 @@ public class AdapterNews extends RecyclerView.Adapter<AdapterNews.ViewHolder> {
                 public void onClick(View v) {
 
                     StructNews item = items.get(getPosition());
-                    Intent intent = new Intent(G.currentActivity, ActivityDetailNews.class);
+                    final Intent intent = new Intent(G.currentActivity, ActivityDetailNews.class);
                     intent.putExtra("TITLE", item.getTitle());
                     intent.putExtra("DESC", item.getDesc());
                     intent.putExtra("TEXT", item.getText());
@@ -108,7 +107,17 @@ public class AdapterNews extends RecyclerView.Adapter<AdapterNews.ViewHolder> {
                     intent.putExtra("ID", item.id);
                     intent.putExtra("LIKE", item.getLike());
                     intent.putExtra("PO", getPosition());
-                    G.currentActivity.startActivity(intent);
+
+                    Thread thread = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            G.currentActivity.startActivity(intent);
+                        }
+                    });
+
+                    thread.start();
+
                 }
             });
         }

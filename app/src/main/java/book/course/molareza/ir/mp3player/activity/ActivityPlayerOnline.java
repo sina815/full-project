@@ -7,13 +7,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -34,7 +33,6 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,15 +56,13 @@ import book.course.molareza.ir.mp3player.db.LikeMusicKharejiDao;
 public class ActivityPlayerOnline extends AppCompatActivity
         implements
         SeekBar.OnSeekBarChangeListener
-        , AudioManager.OnAudioFocusChangeListener
-        , MediaPlayer.OnBufferingUpdateListener
-        , MediaPlayer.OnCompletionListener {
+        , AudioManager.OnAudioFocusChangeListener {
 
     public static ImageView imgPlay;
     public static TextView txtCurrentTime, txtTotalTime;
     public static SeekBar seekBarPlayer;
     public static boolean isComplete = false;
-    public static MediaPlayer mediaPlayer;
+    public static boolean isStopTime = false;
     private static long totalTime, currentTime;
     private static boolean isRepeat = false;
     public int po;
@@ -86,69 +82,42 @@ public class ActivityPlayerOnline extends AppCompatActivity
     private int cLike = 0;
     private boolean isResume = false;
 
+    public static void get_percent_seekBar(int cTime, int tTime) {
+
+        currentTime = cTime;
+        totalTime = tTime;
+
+        if (!isStopTime ) {
+            update_seekBar_timer();
+            //     Log.i("URL1234", "currentTime222: " + isStopTime);
+        }
+
+    }
 
     private static void update_seekBar_timer() {
 
-        totalTime = mediaPlayer.getDuration();
-        currentTime = mediaPlayer.getCurrentPosition();
+        if (ServicePlayerOnline.mediaPlayer !=null) {
+            if (ServicePlayerOnline.mediaPlayer.isPlaying()) {
+                Runnable run = new Runnable() {
+                    @Override
+                    public void run() {
+                        if (txtTotalTime != null && txtCurrentTime != null) {
 
+                            txtTotalTime.setText("" + Helper.milliSecondsToTimer(totalTime));
+                            txtCurrentTime.setText("" + Helper.milliSecondsToTimer(currentTime));
+                        }
+                        int progress = Helper.getProgressPercentage(currentTime, totalTime);
+                        if (seekBarPlayer != null && currentTime > 0) {
 
-        if (mediaPlayer.isPlaying()) {
-
-            txtTotalTime.setText("" + Helper.milliSecondsToTimer(totalTime));
-            txtCurrentTime.setText("" + Helper.milliSecondsToTimer(currentTime));
-
-            int progress = Helper.getProgressPercentage(currentTime, totalTime);
-            seekBarPlayer.setProgress(progress);
-
-            Runnable notif = new Runnable() {
-                @Override
-                public void run() {
-                    int percent = Helper.getProgressPercentage(currentTime, totalTime);
-                    if (percent == 100) {
-                        return;
+                            seekBarPlayer.setProgress(progress);
+                        }
+                        update_seekBar_timer();
                     }
+                };
 
-                    update_seekBar_timer();
-                }
-            };
-            G.HANDLER.postDelayed(notif, 1000);
+                G.HANDLER.postDelayed(run, 1);
 
-        }
-    }
-
-
-    @Override
-    public void onBufferingUpdate(MediaPlayer mp, int percent) {
-
-        seekBarPlayer.setProgress(percent);
-    }
-
-    @Override
-    public void onCompletion(MediaPlayer mp) {
-
-        if (isRepeat) {
-            seekBarPlayer.setProgress(0);
-            txtCurrentTime.setText("00:00");
-            mediaPlayer.setLooping(true);
-            mediaPlayer.start();
-            update_seekBar_timer();
-        } else {
-            seekBarPlayer.setProgress(0);
-            txtCurrentTime.setText("00:00");
-            mediaPlayer.pause();
-            imgPlay.setImageResource(R.mipmap.play);
-            imgPlay.setEnabled(false);
-
-            Runnable run = new Runnable() {
-                @Override
-                public void run() {
-                    imgPlay.setEnabled(true);
-                }
-            };
-
-            G.HANDLER.postDelayed(run, 4000);
-
+            }
         }
     }
 
@@ -158,6 +127,7 @@ public class ActivityPlayerOnline extends AppCompatActivity
 
         G.currentActivity = this;
         G.notificationManager.cancel(0);
+        G.notificationManager.cancelAll();
 
     }
 
@@ -165,11 +135,9 @@ public class ActivityPlayerOnline extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
 
-        if (mediaPlayer.isPlaying()) {
+        if (ServicePlayerOnline.mediaPlayer.isPlaying()) {
 
             notification();
-
-
         }
     }
 
@@ -177,8 +145,7 @@ public class ActivityPlayerOnline extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
-
-
+        G.notificationManager.cancelAll();
         int result = G.audioManager.requestAudioFocus(ActivityPlayerOnline.this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
 
         imgBlur = (ImageView) findViewById(R.id.imgBlur);
@@ -197,11 +164,6 @@ public class ActivityPlayerOnline extends AppCompatActivity
         txtLikeMusic = (TextView) findViewById(R.id.txtLikeMusic);
         imgFavorite = (ImageView) findViewById(R.id.imgFavoriteMusic);
         imgDownload = (ImageView) findViewById(R.id.imgDownload);
-
-        if (seekBarPlayer != null) {
-
-            seekBarPlayer.setOnSeekBarChangeListener(this);
-        }
 
         imgRepeat.setEnabled(false);
         imgPrev.setEnabled(false);
@@ -257,6 +219,36 @@ public class ActivityPlayerOnline extends AppCompatActivity
 
         Picasso.with(G.context).load(urlBigImage).into(imgMain);
 
+        if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+            // Play
+
+            final Intent intent = new Intent(this, ServicePlayerOnline.class);
+            if (ServicePlayerOnline.mediaPlayer != null && ServicePlayerOnline.mediaPlayer.isPlaying()) {
+                stopService(intent);
+                if (isRepeat) {
+                    isRepeat = false;
+                }
+            }
+
+            intent.putExtra("URL_MP3_64", urlMp3_64);
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    startService(intent);
+                }
+            });
+
+            thread.start();
+
+            imgRepeat.setEnabled(true);
+            imgPrev.setEnabled(true);
+            imgPlay.setEnabled(true);
+            imgNext.setEnabled(true);
+            imgDownload.setEnabled(true);
+            imgPlay.setImageResource(R.mipmap.pause);
+
+        }
+
         Runnable runBlur = new Runnable() {
             @Override
             public void run() {
@@ -271,37 +263,17 @@ public class ActivityPlayerOnline extends AppCompatActivity
                 }
             }
         };
-        G.HANDLER.postDelayed(runBlur, 2500);
-
-
-        if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-            // Play
-
-            final Intent intent = new Intent(this, ServicePlayerOnline.class);
-            if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-                stopService(intent);
-                if (isRepeat) {
-                    isRepeat = false;
-                }
-            }
-//
-            new DoPlayMusic().execute();
-
-            imgRepeat.setEnabled(true);
-            imgPrev.setEnabled(true);
-            imgPlay.setEnabled(true);
-            imgNext.setEnabled(true);
-            imgDownload.setEnabled(true);
-            imgPlay.setImageResource(R.mipmap.pause);
-
-
-        }
+        G.HANDLER.postDelayed(runBlur, 4000);
 
         imgPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mediaPlayer.isPlaying()) {
-                    mediaPlayer.pause();
+
+                ServicePlayerOnline.isStopTime = false;
+                isStopTime = false;
+
+                if (ServicePlayerOnline.mediaPlayer.isPlaying()) {
+                    ServicePlayerOnline.mediaPlayer.pause();
                     imgPlay.setImageResource(R.mipmap.play);
                     imgPrev.setEnabled(false);
                     imgNext.setEnabled(false);
@@ -321,10 +293,11 @@ public class ActivityPlayerOnline extends AppCompatActivity
 
                         return;
                     }
-                    mediaPlayer.start();
+                    ServicePlayerOnline.mediaPlayer.start();
                     imgPlay.setImageResource(R.mipmap.pause);
                     imgPrev.setEnabled(true);
                     imgNext.setEnabled(true);
+                    ServicePlayerOnline.update_seekBar_timer();
 
                 }
             }
@@ -334,15 +307,15 @@ public class ActivityPlayerOnline extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
-                int totalTime = mediaPlayer.getDuration();
-                int currentTime = mediaPlayer.getCurrentPosition();
+                int totalTime = ServicePlayerOnline.mediaPlayer.getDuration();
+                int currentTime = ServicePlayerOnline.mediaPlayer.getCurrentPosition();
 
                 if (currentTime + 5000 >= totalTime) {
 
-                    mediaPlayer.seekTo(totalTime);
+                    ServicePlayerOnline.mediaPlayer.seekTo(totalTime);
 
                 } else {
-                    mediaPlayer.seekTo(currentTime + 5000);
+                    ServicePlayerOnline.mediaPlayer.seekTo(currentTime + 5000);
                 }
 
             }
@@ -351,15 +324,15 @@ public class ActivityPlayerOnline extends AppCompatActivity
         imgPrev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int currentTime = mediaPlayer.getCurrentPosition();
+                int currentTime = ServicePlayerOnline.mediaPlayer.getCurrentPosition();
 
                 if (currentTime - 5000 >= 0) {
 
-                    mediaPlayer.seekTo(currentTime - 5000);
+                    ServicePlayerOnline.mediaPlayer.seekTo(currentTime - 5000);
 
                 } else {
 
-                    mediaPlayer.seekTo(0);
+                    ServicePlayerOnline.mediaPlayer.seekTo(0);
                 }
             }
         });
@@ -551,6 +524,11 @@ public class ActivityPlayerOnline extends AppCompatActivity
             }
         });
 
+        if (seekBarPlayer != null) {
+
+            seekBarPlayer.setOnSeekBarChangeListener(this);
+        }
+
     }
 
     private void clickLike() {
@@ -558,9 +536,6 @@ public class ActivityPlayerOnline extends AppCompatActivity
         txtLikeMusic.setText("" + cLike);
 
     }
-
-
-    //seekBar change listener
 
     private void isState() {
 
@@ -606,6 +581,9 @@ public class ActivityPlayerOnline extends AppCompatActivity
 
 
     }
+
+
+    //seekBar change listener
 
     private void checkFavoriteAndLike() {
 
@@ -670,8 +648,12 @@ public class ActivityPlayerOnline extends AppCompatActivity
         }
     }
 
+
     public void onBufferingUpdate(int percent) {
-        seekBarPlayer.setSecondaryProgress(percent);
+        if (seekBarPlayer != null) {
+
+            seekBarPlayer.setSecondaryProgress(percent);
+        }
     }
 
     @Override
@@ -687,9 +669,29 @@ public class ActivityPlayerOnline extends AppCompatActivity
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
 
-        int totalTime = mediaPlayer.getDuration();
+        int totalTime = ServicePlayerOnline.mediaPlayer.getDuration();
         int curentProgressSeekBar = Helper.progressToTimer(seekBar.getProgress(), totalTime);
-        mediaPlayer.seekTo(curentProgressSeekBar);
+        ServicePlayerOnline.mediaPlayer.seekTo(curentProgressSeekBar);
+
+    }
+
+
+    public boolean onCompletion() {
+
+
+        if (!isRepeat) {
+            seekBarPlayer.setProgress(0);
+            txtCurrentTime.setText("00:00");
+
+
+            return false;
+
+        } else {
+            isComplete = true;
+            seekBarPlayer.setProgress(0);
+            txtCurrentTime.setText("00:00");
+            return true;
+        }
 
     }
 
@@ -706,6 +708,7 @@ public class ActivityPlayerOnline extends AppCompatActivity
             //  ServicePlayerOnline.mediaPlayer.stop();
         }
     }
+
 
     private void sendVisit() {
 
@@ -801,7 +804,7 @@ public class ActivityPlayerOnline extends AppCompatActivity
                 intent.putExtra("TABLE", table);
                 intent.putExtra("LICK", cLike);
                 intent.putExtra("RESUME", true);
-                final PendingIntent pIntent = PendingIntent.getActivity(G.context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                final PendingIntent pIntent = PendingIntent.getActivity(ActivityPlayerOnline.this, 0, intent, 0);
 
                 Intent buttonPlayIntent = new Intent(ActivityPlayerOnline.this, NotificationPlayButtonHandler.class);
                 PendingIntent buttonPlayPendingIntent = PendingIntent.getBroadcast(ActivityPlayerOnline.this, 0, buttonPlayIntent, 0);
@@ -847,6 +850,17 @@ public class ActivityPlayerOnline extends AppCompatActivity
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+
+            Intent intent = new Intent(this, ActivityMain.class);
+            startActivity(intent);
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     /**
      * Called when user clicks the "play/pause" button on the on-going system Notification.
      */
@@ -859,67 +873,8 @@ public class ActivityPlayerOnline extends AppCompatActivity
             Intent intent1 = new Intent(G.currentActivity, ActivityMain.class);
             G.currentActivity.startActivity(intent1);
             G.notificationManager.cancel(0);
-            mediaPlayer.stop();
+            ServicePlayerOnline.mediaPlayer.stop();
             MyToast.makeText(context, "پخش موزیک متوقف شد", Toast.LENGTH_SHORT).show();
-
-        }
-    }
-
-    public class DoPlayMusic extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            mediaPlayer = new MediaPlayer();
-            if (urlMp3_64 != null) {
-                try {
-
-                    mediaPlayer.reset();
-                    mediaPlayer.setDataSource(urlMp3_64);
-                    mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-
-                }
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            playMusic();
-            mediaPlayer.setOnBufferingUpdateListener(ActivityPlayerOnline.this);
-            mediaPlayer.setOnCompletionListener(ActivityPlayerOnline.this);
-        }
-    }
-
-    public static void playMusic() {
-//
-        if (mediaPlayer != null) {
-
-            Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        mediaPlayer.prepare();
-                        mediaPlayer.start();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-            thread.start();
-
-
-
-
-
-
-            if (mediaPlayer.isPlaying()) {
-                update_seekBar_timer();
-            }
 
         }
     }

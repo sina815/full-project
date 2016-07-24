@@ -100,7 +100,10 @@ public class ActivityDetailNews extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbarNews);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() !=null){
+
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         collapse = (CollapsingToolbarLayout) findViewById(R.id.collapse);
         assert collapse != null;

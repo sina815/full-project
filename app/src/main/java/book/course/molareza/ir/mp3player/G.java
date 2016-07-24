@@ -61,7 +61,7 @@ public class G extends Application {
 
 
     private static String url = "http://musicbaz.molareza.ir";
-//        private static String url = "http://192.168.1.38";
+//    private static String url = "http://192.168.1.38";
     public static final String URL_IRANI = url + "/musicbazan/irani.php";
     public static final String URL_KHAREJI = url + "/musicbazan/khareji.php";
     public static final String URL_Clip = url + "/musicbazan/clip.php";

@@ -126,6 +126,7 @@ public class AdapterMusicIrani extends RecyclerView.Adapter<AdapterMusicIrani.Vi
                     intent.putExtra("TABLE", item.getTable());
                     intent.putExtra("LIKE", item.getLike());
                     G.currentActivity.startActivity(intent);
+                    G.currentActivity.finish();
                 }
             });
 

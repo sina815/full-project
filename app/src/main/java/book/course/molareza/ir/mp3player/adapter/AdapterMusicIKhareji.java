@@ -107,7 +107,6 @@ public class AdapterMusicIKhareji extends RecyclerView.Adapter<AdapterMusicIKhar
                 @Override
                 public void onClick(View v) {
                     StructMusicKhareji item = items.get(getPosition());
-
                     Intent intent = new Intent(G.currentActivity, ActivityPlayerOnline.class);
                     intent.putExtra("URL_BIG_IMAGE", item.getBigimage());
                     intent.putExtra("URL_TH_IMAGE", item.getThumbnile());
@@ -120,6 +119,7 @@ public class AdapterMusicIKhareji extends RecyclerView.Adapter<AdapterMusicIKhar
                     intent.putExtra("TABLE", item.getTable());
                     intent.putExtra("LIKE", item.getLike());
                     G.currentActivity.startActivity(intent);
+                    G.currentActivity.finish();
                 }
             });
 
